@@ -1,5 +1,5 @@
 import 'package:coca_cola/login_screen.dart';
-import 'package:coca_cola/reg_screen1.dart';
+import 'package:coca_cola/registation/reg_screen1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +13,12 @@ class GetstartedScreen extends StatefulWidget {
 }
 
 class _GetstartedScreenState extends State<GetstartedScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,40 +42,6 @@ class _GetstartedScreenState extends State<GetstartedScreen> {
                 SvgPicture.asset(
                   "assets/images/cc1.svg",
                 ),
-                // Stack(
-                //   alignment: Alignment.center,
-                //   children: [
-                //     SvgPicture.asset("assets/images/getstart.svg"),
-                //     Positioned(
-                //       bottom: 40,
-                //       child: Column(
-                //         children: [
-                //           Text(
-                //             'Welcome to the \nCoca-Cola Internship',
-                //             textAlign: TextAlign.center,
-                //             style: GoogleFonts.ibmPlexSerif(
-                //               color: Colors.black,
-                //               fontSize: 24,
-                //               fontWeight: FontWeight.w600,
-                //             ),
-                //           ),
-                //           SizedBox(
-                //             height: 10,
-                //           ),
-                //           Text(
-                //             'Join us to kick-start your career in\nthe beverage industry',
-                //             textAlign: TextAlign.center,
-                //             style: GoogleFonts.ibmPlexSans(
-                //               color: Colors.black,
-                //               fontSize: 18,
-                //               fontWeight: FontWeight.w400,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 InkWell(
                   onTap: () {
                     Navigator.push(

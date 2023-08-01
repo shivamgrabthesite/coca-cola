@@ -19,7 +19,6 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height;
-    var width = size.width;
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -69,12 +68,18 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(child: Image.asset("assets/images/calendar.png")),
+                          Center(
+                              child: Image.asset(
+                            "assets/images/s1.png",
+                          )),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Text(
                             'Welcome to the \nCoca-Cola Internship',
                             style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
-                              fontSize: 20,
+                              fontSize: 22,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -94,12 +99,18 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(child: Image.asset("assets/images/map.png")),
+                          Center(
+                              child: Image.asset(
+                            "assets/images/s2.png",
+                          )),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Text(
                             'Welcome to the \nCoca-Cola Internship',
                             style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
-                              fontSize: 24,
+                              fontSize: 22,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -119,18 +130,24 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // SizedBox(
+                          //   height: height / 12,
+                          // ),
+                          Center(
+                              child: Image.asset(
+                            "assets/images/s3.png",
+                          )),
+                          // SizedBox(
+                          //   height: height / 10,
+                          // ),
                           SizedBox(
-                            height: height / 10,
-                          ),
-                          Center(child: Image.asset("assets/images/video.png")),
-                          SizedBox(
-                            height: height / 20,
+                            height: 8,
                           ),
                           Text(
                             'Welcome to the \nCoca-Cola Internship',
                             style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
-                              fontSize: 24,
+                              fontSize: 22,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -166,16 +183,13 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                         controller.nextPage(
                             duration: Duration(milliseconds: 500), curve: Curves.ease);
                         if (controller.page! == 2) {
-                          // Navigator.of(context).push(MaterialPageRoute(
-                          //   builder: (context) {
-                          //     return QuestionScreen();
-                          //   },
-                          // ));
-                          PageTransition(
-                              type: PageTransitionType.fade,
-                              curve: Curves.decelerate,
-                              duration: Duration(seconds: 1),
-                              child: QuestionScreen());
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  curve: Curves.decelerate,
+                                  duration: Duration(seconds: 1),
+                                  child: QuestionScreen()));
                         }
                       },
                       child: SvgPicture.asset(

@@ -5,6 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'apis/market_api.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -14,6 +17,33 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
+  List priCustomerName = [];
+  List address = [];
+  List customerGccId = [];
+  List<String> marketData = [];
+  String? data;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    data = prefs.getString("token")!;
+
+    MarketApi.getData(data!).then((value) {
+      setState(() {
+        for (var i = 0; i < value!.data.length; i++) {
+          marketData.add(value.data[i].marketArea);
+        }
+        print("list of data-----" + marketData.toString());
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,7 +103,12 @@ class _TaskScreenState extends State<TaskScreen> {
                                 type: PageTransitionType.fade,
                                 curve: Curves.decelerate,
                                 duration: Duration(seconds: 1),
-                                child: ShopPic())),
+                                child: ShopPic(
+                                  address: "P01265 PADMARAO NAGAR_BOIGUDA",
+                                  channel: "Grocery - S&B",
+                                  customerGccId: "G000012245",
+                                  priCustomerName: "VIJAY KIRANA GEN.STORES",
+                                ))),
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -120,7 +155,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                 height: 5,
                               ),
                               Text(
-                                'MarketArea1',
+                                marketData[index],
                                 style: GoogleFonts.ibmPlexSerif(
                                   color: Color(0xFF222B45),
                                   fontSize: 16,
@@ -146,7 +181,7 @@ class _TaskScreenState extends State<TaskScreen> {
                     separatorBuilder: (context, index) => SizedBox(
                           height: 10,
                         ),
-                    itemCount: 10)
+                    itemCount: marketData.length)
               ],
             ),
           ),

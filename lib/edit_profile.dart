@@ -28,7 +28,11 @@ class _EditProfileState extends State<EditProfile> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset("assets/images/ccsmall.svg"),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: SvgPicture.asset("assets/images/backbtn.svg")),
                     Spacer(),
                     Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
@@ -38,7 +42,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 40,
                       backgroundImage: NetworkImage(
                           "https://s.yimg.com/ny/api/res/1.2/dfso95r7vP1yT9qL.g10pg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://media.zenfs.com/en/gobankingrates_644/2afc0ebc2a13c7132a21889e2bb0c0b9"),

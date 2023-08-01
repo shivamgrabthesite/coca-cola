@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'package:coca_cola/widgets/bottom_bar.dart';
+import 'package:coca_cola/week_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+
+import 'apis/clg_data.dart';
 
 class WaitingScreen extends StatefulWidget {
   const WaitingScreen({super.key});
@@ -14,11 +16,13 @@ class WaitingScreen extends StatefulWidget {
 
 class _WaitingScreenState extends State<WaitingScreen> with TickerProviderStateMixin {
   late final GifController controller;
+  List<String> clgList = [];
 
   @override
   void initState() {
     super.initState();
     controller = GifController(vsync: this);
+    // getData();
     Timer(Duration(milliseconds: 7000), () {
       Navigator.pushReplacement(
           context,
@@ -26,15 +30,25 @@ class _WaitingScreenState extends State<WaitingScreen> with TickerProviderStateM
               type: PageTransitionType.fade,
               curve: Curves.decelerate,
               duration: Duration(seconds: 1),
-              child: BottomBar()));
+              child: WeekScreen(
+                  // clgList: clgList,
+                  )));
+    });
+  }
+
+  getData() {
+    ClgData.getData().then((value) {
+      for (var i = 0; i < value!.data.length; i++) {
+        clgList.add(value.data[i].instituteName);
+      }
     });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,7 +64,8 @@ class _WaitingScreenState extends State<WaitingScreen> with TickerProviderStateM
                 Gif(
                   controller: controller,
                   image: AssetImage("assets/images/reg3.gif"),
-                  autostart: Autostart.once,
+                  autostart: Autostart.loop,
+                  useCache: true,
                 ),
                 SizedBox(
                   height: 10,

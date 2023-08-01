@@ -5,19 +5,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
-class OTPScreen extends StatefulWidget {
-  const OTPScreen({super.key});
+class MobileOtp extends StatefulWidget {
+  const MobileOtp({super.key});
 
   @override
-  State<OTPScreen> createState() => _OTPScreenState();
+  State<MobileOtp> createState() => _MobileOtpState();
 }
 
-class _OTPScreenState extends State<OTPScreen> {
+class _MobileOtpState extends State<MobileOtp> {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var width = size.width;
-    var height = size.height;
     return SafeArea(
       child: Scaffold(
         body: Padding(

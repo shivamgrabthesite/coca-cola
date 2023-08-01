@@ -80,27 +80,102 @@ class _Onboard0State extends State<Onboard0> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Welcome to the \nCoca-Cola Internship',
+                                  style: GoogleFonts.ibmPlexSerif(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Unleash your potential and gain real-world experience',
+                                style: GoogleFonts.ibmPlexSans(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Image.asset(
-                                "assets/images/ob111.png",
+                                "assets/images/w1.png",
                                 fit: BoxFit.contain,
                               ),
                             ],
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                "assets/images/ob333.png",
-                                fit: BoxFit.contain,
+                              Text(
+                                'Explore Endless Possibilities',
+                                style: GoogleFonts.ibmPlexSerif(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Discover Coca-Cola stores near your university',
+                                style: GoogleFonts.ibmPlexSans(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/w2.png",
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ],
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                "assets/images/ob222.png",
-                                fit: BoxFit.contain,
+                              Text(
+                                'Start Your \nCoca-Cola Adventure',
+                                style: GoogleFonts.ibmPlexSerif(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'UMake a lasting impact and build your career',
+                                style: GoogleFonts.ibmPlexSans(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                              ),
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/w3.png",
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ],
                           ),

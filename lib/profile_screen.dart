@@ -1,10 +1,13 @@
 import 'package:coca_cola/edit_profile.dart';
+import 'package:coca_cola/getstarted_screen.dart';
 import 'package:coca_cola/privacy_policy.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
+import 'leaderboard_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,7 +18,16 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var width = size.width;
+    var height = size.height;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -28,6 +40,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     SvgPicture.asset("assets/images/ccsmall.svg"),
                     Spacer(),
+                    GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.fade,
+                                curve: Curves.decelerate,
+                                duration: Duration(seconds: 1),
+                                child: LeaderboardScreen())),
+                        child: Image.asset("assets/images/d1.png")),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
@@ -36,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 40,
                       backgroundImage: NetworkImage(
                           "https://s.yimg.com/ny/api/res/1.2/dfso95r7vP1yT9qL.g10pg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://media.zenfs.com/en/gobankingrates_644/2afc0ebc2a13c7132a21889e2bb0c0b9"),
@@ -68,15 +92,128 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: width / 2.3,
+                      height: 70,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 20,
+                            blurStyle: BlurStyle.outer,
+                            color: Colors.black.withOpacity(0.1),
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(
+                              left: 20,
+                              top: 8,
+                            ),
+                            child: Icon(
+                              IconlyLight.document,
+                              size: 26,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '55',
+                                style: GoogleFonts.ibmPlexSans(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                'Tasks',
+                                style: GoogleFonts.ibmPlexSansArabic(
+                                  color: Color(0xFF9098A3),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      width: width / 2.3,
+                      height: 70,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 20,
+                            blurStyle: BlurStyle.outer,
+                            color: Colors.black.withOpacity(0.1),
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Icon(IconlyLight.graph, size: 28),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '#2',
+                                style: GoogleFonts.ibmPlexSans(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                'Leaderboard',
+                                style: GoogleFonts.ibmPlexSansArabic(
+                                  color: Color(0xFF9098A3),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 GestureDetector(
                   onTap: () {
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        curve: Curves.decelerate,
-                        duration: Duration(seconds: 1),
-                        child: EditProfile());
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: EditProfile()));
                   },
                   child: Row(
                     children: [
@@ -98,11 +235,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        curve: Curves.decelerate,
-                        duration: Duration(seconds: 1),
-                        child: PrivacyPolicy());
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: PrivacyPolicy()));
                   },
                   child: Row(
                     children: [
@@ -188,19 +327,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Sign Out',
-                    style: GoogleFonts.ibmPlexSerif(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: GetstartedScreen()));
+                  },
+                  child: Center(
+                    child: Container(
+                      width: 230,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
+                      child: Center(
+                        child: Text(
+                          'Sign Out',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.ibmPlexSerif(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

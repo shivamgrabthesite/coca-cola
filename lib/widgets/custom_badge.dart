@@ -16,11 +16,13 @@ class _CustomBadgeState extends State<CustomBadge> {
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(50),
-      onTap: () => PageTransition(
-          type: PageTransitionType.fade,
-          curve: Curves.decelerate,
-          duration: Duration(seconds: 1),
-          child: NotificationScreen()),
+      onTap: () => Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.fade,
+              curve: Curves.decelerate,
+              duration: Duration(seconds: 1),
+              child: NotificationScreen())),
       child: badges.Badge(
         position: badges.BadgePosition.custom(
           top: -10,

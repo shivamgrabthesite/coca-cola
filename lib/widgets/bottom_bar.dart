@@ -3,6 +3,8 @@ import 'package:coca_cola/profile_screen.dart';
 import 'package:coca_cola/starterkit_screen.dart';
 import 'package:coca_cola/task_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
@@ -15,71 +17,76 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMixin {
   late PersistentTabController _controller;
+  int index = 0;
 
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController(initialIndex: index);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark,
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(20),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.white12,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Colors.white12,
+              statusBarIconBrightness: Brightness.dark,
+            ),
+          ),
+        ),
         body: PersistentTabView(
           context,
           controller: _controller,
+          handleAndroidBackButtonPress: true,
           backgroundColor: Colors.white.withOpacity(.85),
-          screenTransitionAnimation: ScreenTransitionAnimation(
+          screenTransitionAnimation: const ScreenTransitionAnimation(
               animateTabTransition: true,
               curve: Curves.linear,
-              duration: Duration(milliseconds: 600)),
-          // itemAnimationProperties: ItemAnimationProperties(
-          //     duration: Duration(
-          //       milliseconds: 800,
-          //     ),
-          //     curve: Curves.decelerate),
-          onItemSelected: (value) {},
-          screens: const [
+              duration: Duration(milliseconds: 500)),
+          screens: [
             HomeScreen(),
             TaskScreen(),
             StarterkitScreen(),
             ProfileScreen(),
           ],
-          decoration: NavBarDecoration(border: Border(top: BorderSide(color: Colors.black))),
+          decoration: const NavBarDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.black,
+              ),
+            ),
+          ),
           items: [
             PersistentBottomNavBarItem(
-                icon: Icon(
-                  IconlyLight.home,
-                  color: Colors.black,
-                ),
+                icon: SvgPicture.asset("assets/images/Home.svg"),
                 activeColorPrimary: Colors.red,
                 inactiveColorPrimary: Colors.grey,
-                title: ""),
+                title: "HOME"),
             PersistentBottomNavBarItem(
-                icon: Icon(
-                  Icons.task_alt_rounded,
-                  color: Colors.black,
-                ),
+                icon: SvgPicture.asset("assets/images/Card.svg"),
                 activeColorPrimary: Colors.red,
                 inactiveColorPrimary: Colors.grey,
-                title: ""),
+                title: "TASK"),
             PersistentBottomNavBarItem(
-                icon: Icon(
-                  Icons.star_outline,
-                  color: Colors.black,
-                ),
+                icon: SvgPicture.asset("assets/images/Money.svg"),
                 activeColorPrimary: Colors.red,
                 inactiveColorPrimary: Colors.grey,
-                title: ""),
+                title: "STARTERKIT"),
             PersistentBottomNavBarItem(
-                icon: Icon(
+                icon: const Icon(
                   IconlyLight.profile,
                   color: Colors.black,
                 ),
                 activeColorPrimary: Colors.red,
                 inactiveColorPrimary: Colors.grey,
-                title: "")
+                title: "PROFILE")
           ],
           navBarStyle: NavBarStyle.style12,
         ),

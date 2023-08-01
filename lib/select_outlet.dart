@@ -1,18 +1,57 @@
-import 'package:coca_cola/shop_pic.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'package:coca_cola/shop_pic.dart';
+import 'package:coca_cola/widgets/custom_badge.dart';
+
+import 'apis/outlet_api.dart';
+import 'model/outlet_model.dart';
+
 class SelectOutlet extends StatefulWidget {
-  const SelectOutlet({super.key});
+  String? id;
+  SelectOutlet({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<SelectOutlet> createState() => _SelectOutletState();
 }
 
 class _SelectOutletState extends State<SelectOutlet> {
+  List priCustomerName = [];
+  List address = [];
+  List customerGccId = [];
+  List channel = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getOutlet();
+  }
+
+  getOutlet() {
+    print("id----" + widget.id!);
+    OutletApi.getData(widget.id!).then((value) {
+      setState(() {
+        for (var i = 0; i < value!.data.length; i++) {
+          priCustomerName.add(value.data[i].priCustomerName);
+          address.add(value.data[i].address);
+          customerGccId.add(value.data[i].customerGccId);
+          channel.add(value.data[i].imageChannal);
+        }
+      });
+
+      print(priCustomerName);
+      print(address);
+      print(customerGccId);
+      print(channel);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,11 +78,11 @@ class _SelectOutletState extends State<SelectOutlet> {
                         ),
                       ),
                     ),
-                    Spacer(),
-                    CustomBadge()
+                    const Spacer(),
+                    const CustomBadge()
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Text(
@@ -65,16 +104,26 @@ class _SelectOutletState extends State<SelectOutlet> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () => Navigator.push(context,
-                            PageTransition(type: PageTransitionType.fade, child: ShopPic())),
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: ShopPic(
+                              customerGccId: customerGccId[index],
+                              address: address[index],
+                              priCustomerName: priCustomerName[index],
+                              channel: channel[index],
+                            ),
+                          ),
+                        ),
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -84,11 +133,11 @@ class _SelectOutletState extends State<SelectOutlet> {
                               Row(
                                 children: [
                                   Image.asset("assets/images/reddot.png"),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
-                                    '10:00-13:00',
+                                    '11/06/2023',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.ibmPlexSerif(
                                       color: Color(0xFF8F9BB3),
@@ -96,15 +145,13 @@ class _SelectOutletState extends State<SelectOutlet> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  Spacer(),
-                                  SvgPicture.asset("assets/images/dot.svg")
                                 ],
                               ),
                               SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                'BALAJI KGS',
+                                priCustomerName[index],
                                 style: GoogleFonts.ibmPlexSerif(
                                   color: Color(0xFF222B45),
                                   fontSize: 16,
@@ -115,18 +162,21 @@ class _SelectOutletState extends State<SelectOutlet> {
                                 height: 5,
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    '015290 MIYAPUR',
-                                    style: GoogleFonts.ibmPlexSans(
-                                      color: Color(0xFF8F9BB3),
-                                      fontSize: 12.05,
-                                      fontWeight: FontWeight.w400,
+                                  Expanded(
+                                    child: Text(
+                                      address[index],
+                                      style: GoogleFonts.ibmPlexSans(
+                                        color: Color(0xFF8F9BB3),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
-                                  Spacer(),
+                                  // Spacer(),
                                   Text(
-                                    'G000001041',
+                                    customerGccId[index],
                                     style: GoogleFonts.ibmPlexSans(
                                       color: Color(0xFF8F9BB3),
                                       fontSize: 12.05,
@@ -143,7 +193,7 @@ class _SelectOutletState extends State<SelectOutlet> {
                     separatorBuilder: (context, index) => SizedBox(
                           height: 10,
                         ),
-                    itemCount: 10)
+                    itemCount: priCustomerName.length)
               ],
             ),
           ),

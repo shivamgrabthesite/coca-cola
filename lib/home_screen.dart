@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import 'apis/header_model_api.dart';
+import 'apis/market_api.dart';
+import 'apis/outlet_api.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,10 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime? _selectedDay;
   DateTime? _focusedDay;
+  String? data;
+  List<String> marketData = [];
+  List<String> outletData = [];
+  String headerData = '';
+
   Map<DateTime, List> events = {
-    DateTime.utc(2023, 7, 15): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
-    DateTime.utc(2023, 7, 18): ['Event 2', 'Event 3'],
-    DateTime.utc(2023, 7, 20): ['Event 4'],
+    DateTime.utc(2023, 8, 1): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
+    DateTime.utc(2023, 8, 3): ['Event 2', 'Event 3'],
+    DateTime.utc(2023, 8, 5): ['Event 4'],
   };
 
   List _listofDate(DateTime date) {
@@ -36,24 +46,57 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _selectedDay = DateTime.now();
     _focusedDay = DateTime.now();
+    getData();
+    getTime();
+  }
+
+  getTime() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    data = prefs.getString("token")!;
+    HeaderModelApi.getData(data!).then((value) {
+      setState(() {
+        headerData = value!.data.wishes;
+      });
+    });
+  }
+
+  Future getData() async {
+    marketData.clear();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    data = prefs.getString("token")!;
+
+    MarketApi.getData(data!).then((value) {
+      setState(() {
+        for (var i = 0; i < value!.data.length; i++) {
+          marketData.add(value.data[i].marketArea);
+        }
+        print("list of data-----" + marketData.toString());
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var width = size.width;
-    var height = size.height;
-    return SafeArea(
+    return RefreshIndicator(
+      onRefresh: () {
+        setState(() {});
+        return getData();
+      },
+      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      color: Colors.red,
       child: Scaffold(
           body: Padding(
         padding: const EdgeInsets.all(14.0),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: Column(
             children: [
               Row(
                 children: [
-                  Hero(tag: "homeScreen", child: SvgPicture.asset("assets/images/ccsmall.svg")),
+                  Hero(
+                    tag: "cocacola",
+                    child: SvgPicture.asset("assets/images/ccsmall.svg"),
+                  ),
                   Spacer(),
                   Align(alignment: Alignment.center, child: CustomBadge()),
                 ],
@@ -64,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Good Morning ☀',
+                  headerData,
                   style: GoogleFonts.ibmPlexSans(
                     color: Colors.black,
                     fontSize: 14,
@@ -138,13 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     outsideTextStyle: TextStyle(color: Colors.white),
                     selectedTextStyle: TextStyle(color: Colors.white),
                     weekendTextStyle: TextStyle(color: Colors.white),
-                    markerMargin: EdgeInsets.only(top: 5),
+                    markerMargin: EdgeInsets.only(top: 6, left: 1.5),
                     markerDecoration: BoxDecoration(
                         color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(50))),
-                    markersMaxCount: 5,
+                    markersMaxCount: 3,
                     canMarkersOverflow: true,
                     markerSize: 6,
-                    markerSizeScale: 1,
                     selectedDecoration:
                         BoxDecoration(color: Color(0xFFE61D2B), shape: BoxShape.circle),
                     todayDecoration: BoxDecoration(
@@ -153,65 +195,169 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 30,
               ),
-              ..._listofDate(_selectedDay!).map((e) => InkWell(
-                    onTap: () => PageTransition(
-                        type: PageTransitionType.fade,
-                        curve: Curves.decelerate,
-                        duration: Duration(seconds: 1),
-                        child: SelectOutlet()),
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset("assets/images/reddot.png"),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '10:00-13:00',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.ibmPlexSerif(
-                                  color: Color(0xFF8F9BB3),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Alex Volkov',
+                  style: GoogleFonts.ibmPlexSerif(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            print("data name--------" + marketData[index]);
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                curve: Curves.decelerate,
+                                duration: Duration(seconds: 1),
+                                child: SelectOutlet(
+                                  id: marketData[index],
                                 ),
                               ),
-                              Spacer(),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'MarketArea1',
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Color(0xFF222B45),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset("assets/images/reddot.png"),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '10:00-13:00',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.ibmPlexSerif(
+                                        color: Color(0xFF8F9BB3),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  marketData[index],
+                                  style: GoogleFonts.ibmPlexSerif(
+                                    color: Color(0xFF222B45),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Check the boarding',
+                                  style: GoogleFonts.ibmPlexSans(
+                                    color: Color(0xFF8F9BB3),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'Check the boarding',
-                            style: GoogleFonts.ibmPlexSans(
-                              color: Color(0xFF8F9BB3),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ))
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 10,
+                    );
+                  },
+                  itemCount: marketData.length)
+              // ..._listofDate(_selectedDay!).map(
+              //   (e) => Column(
+              //     children: [
+              //       InkWell(
+              //         onTap: () => Navigator.push(
+              //             context,
+              //             PageTransition(
+              //                 type: PageTransitionType.fade,
+              //                 curve: Curves.decelerate,
+              //                 duration: Duration(seconds: 1),
+              //                 child: SelectOutlet())),
+              //         child: Container(
+              //           padding: EdgeInsets.all(8),
+              //           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Row(
+              //                 children: [
+              //                   Image.asset("assets/images/reddot.png"),
+              //                   SizedBox(
+              //                     width: 5,
+              //                   ),
+              //                   Text(
+              //                     '10:00-13:00',
+              //                     textAlign: TextAlign.center,
+              //                     style: GoogleFonts.ibmPlexSerif(
+              //                       color: Color(0xFF8F9BB3),
+              //                       fontSize: 12,
+              //                       fontWeight: FontWeight.w400,
+              //                     ),
+              //                   ),
+              //                   Spacer(),
+              //                 ],
+              //               ),
+              //               SizedBox(
+              //                 height: 5,
+              //               ),
+              //               Text(
+              //                 'MarketArea1',
+              //                 style: GoogleFonts.ibmPlexSerif(
+              //                   color: Color(0xFF222B45),
+              //                   fontSize: 16,
+              //                   fontWeight: FontWeight.w500,
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 height: 5,
+              //               ),
+              //               Text(
+              //                 'Check the boarding',
+              //                 style: GoogleFonts.ibmPlexSans(
+              //                   color: Color(0xFF8F9BB3),
+              //                   fontSize: 12,
+              //                   fontWeight: FontWeight.w400,
+              //                 ),
+              //               )
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         height: 10,
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
