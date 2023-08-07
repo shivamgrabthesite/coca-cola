@@ -46,286 +46,289 @@ class _Onboard0State extends State<Onboard0> {
             backgroundColor: Colors.transparent,
             body: Padding(
               padding: const EdgeInsets.all(14.0),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.fade,
-                              curve: Curves.decelerate,
-                              duration: Duration(seconds: 1),
-                              child: GetstartedScreen())),
-                      child: Text(
-                        'Skip',
-                        style: GoogleFonts.ibmPlexSans(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.fade,
+                                curve: Curves.decelerate,
+                                duration: Duration(seconds: 1),
+                                child: GetstartedScreen())),
+                        child: Text(
+                          'Skip',
+                          style: GoogleFonts.ibmPlexSans(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    height: height / 1.4,
-                    child: PageView(
-                        controller: controller,
-                        physics: BouncingScrollPhysics(),
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Welcome to the \nCoca-Cola Internship',
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: height / 1.4,
+                      child: PageView(
+                          controller: controller,
+                          physics: BouncingScrollPhysics(),
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Welcome to the \nCoca-Cola Internship',
+                                    style: GoogleFonts.ibmPlexSerif(
+                                      color: Colors.black,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'Unleash your potential and gain real-world experience',
+                                  style: GoogleFonts.ibmPlexSans(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Image.asset(
+                                  "assets/images/w1.png",
+                                  fit: BoxFit.contain,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Explore Endless Possibilities',
                                   style: GoogleFonts.ibmPlexSerif(
                                     color: Colors.black,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Unleash your potential and gain real-world experience',
-                                style: GoogleFonts.ibmPlexSans(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                                SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Image.asset(
-                                "assets/images/w1.png",
-                                fit: BoxFit.contain,
-                              ),
-                            ],
+                                Text(
+                                  'Discover Coca-Cola stores near your university',
+                                  style: GoogleFonts.ibmPlexSans(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Center(
+                                  child: Image.asset(
+                                    "assets/images/w2.png",
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Start Your \nCoca-Cola Adventure',
+                                  style: GoogleFonts.ibmPlexSerif(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'UMake a lasting impact and build your career',
+                                  style: GoogleFonts.ibmPlexSans(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                Center(
+                                  child: Image.asset(
+                                    "assets/images/w3.png",
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     SizedBox(
+                            //       height: 30,
+                            //     ),
+                            //     Text(
+                            //       'Welcome to the \nCoca-Cola Internship',
+                            //       style: GoogleFonts.ibmPlexSerif(
+                            //         color: Colors.black,
+                            //         fontSize: 24,
+                            //         fontWeight: FontWeight.w600,
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       height: 10,
+                            //     ),
+                            //     Text(
+                            //       'Unleash your potential and gain real-world experience',
+                            //       style: GoogleFonts.ibmPlexSerif(
+                            //         color: Colors.black,
+                            //         fontSize: 14,
+                            //         fontWeight: FontWeight.w400,
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       height: height / 20,
+                            //     ),
+                            //     SvgPicture.asset(
+                            //       "assets/images/ob1.svg",
+                            //       fit: BoxFit.contain,
+                            //     ),
+                            //     // SvgPicture.asset(
+                            //     //   "assets/images/coca.svg",
+                            //     // )
+                            //   ],
+                            // ),
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Column(
+                            //       children: [
+                            //         Text(
+                            //           'Explore Endless Possibilities',
+                            //           style: GoogleFonts.ibmPlexSerif(
+                            //             color: Colors.black,
+                            //             fontSize: 24,
+                            //             fontWeight: FontWeight.w600,
+                            //           ),
+                            //         ),
+                            //         SizedBox(
+                            //           height: 10,
+                            //         ),
+                            //         Text(
+                            //           'Discover Coca-Cola stores near your university',
+                            //           style: GoogleFonts.ibmPlexSerif(
+                            //             color: Colors.black,
+                            //             fontSize: 14,
+                            //             fontWeight: FontWeight.w400,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //     SizedBox(
+                            //       height: height / 6,
+                            //     ),
+                            //     Center(
+                            //       child: SvgPicture.asset(
+                            //         "assets/images/ob2.svg",
+                            //         alignment: Alignment.center,
+                            //       ),
+                            //     ),
+                            //     // SvgPicture.asset(
+                            //     //   "assets/images/coca.svg",
+                            //     // )
+                            //   ],
+                            // ),
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Text(
+                            //       'Start Your \nCoca-Cola Adventure',
+                            //       style: GoogleFonts.ibmPlexSerif(
+                            //         color: Colors.black,
+                            //         fontSize: 24,
+                            //         fontWeight: FontWeight.w600,
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       height: 10,
+                            //     ),
+                            //     Text(
+                            //       'Make a lasting impact and build your career',
+                            //       style: GoogleFonts.ibmPlexSerif(
+                            //         color: Colors.black,
+                            //         fontSize: 14,
+                            //         fontWeight: FontWeight.w400,
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       height: height / 10,
+                            //     ),
+                            //     Center(
+                            //       child: SvgPicture.asset(
+                            //         "assets/images/ob3.svg",
+                            //         fit: BoxFit.contain,
+                            //       ),
+                            //     ),
+                            //     // SvgPicture.asset(
+                            //     //   "assets/images/coca.svg",
+                            //     // )
+                            //   ],
+                            // ),
+                          ]),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SmoothPageIndicator(
+                            controller: controller,
+                            count: 3,
+                            effect: const ExpandingDotsEffect(
+                                dotHeight: 10,
+                                dotWidth: 14,
+                                dotColor: Colors.white,
+                                activeDotColor: Colors.red)),
+                        GestureDetector(
+                          onTap: () {
+                            controller.nextPage(
+                                duration: Duration(milliseconds: 500), curve: Curves.ease);
+                            if (controller.page! == 2) {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      curve: Curves.decelerate,
+                                      duration: Duration(seconds: 1),
+                                      child: GetstartedScreen()));
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            "assets/images/nextbtn.svg",
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Explore Endless Possibilities',
-                                style: GoogleFonts.ibmPlexSerif(
-                                  color: Colors.black,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Discover Coca-Cola stores near your university',
-                                style: GoogleFonts.ibmPlexSans(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Center(
-                                child: Image.asset(
-                                  "assets/images/w2.png",
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Start Your \nCoca-Cola Adventure',
-                                style: GoogleFonts.ibmPlexSerif(
-                                  color: Colors.black,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'UMake a lasting impact and build your career',
-                                style: GoogleFonts.ibmPlexSans(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 40,
-                              ),
-                              Center(
-                                child: Image.asset(
-                                  "assets/images/w3.png",
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     SizedBox(
-                          //       height: 30,
-                          //     ),
-                          //     Text(
-                          //       'Welcome to the \nCoca-Cola Internship',
-                          //       style: GoogleFonts.ibmPlexSerif(
-                          //         color: Colors.black,
-                          //         fontSize: 24,
-                          //         fontWeight: FontWeight.w600,
-                          //       ),
-                          //     ),
-                          //     SizedBox(
-                          //       height: 10,
-                          //     ),
-                          //     Text(
-                          //       'Unleash your potential and gain real-world experience',
-                          //       style: GoogleFonts.ibmPlexSerif(
-                          //         color: Colors.black,
-                          //         fontSize: 14,
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //     SizedBox(
-                          //       height: height / 20,
-                          //     ),
-                          //     SvgPicture.asset(
-                          //       "assets/images/ob1.svg",
-                          //       fit: BoxFit.contain,
-                          //     ),
-                          //     // SvgPicture.asset(
-                          //     //   "assets/images/coca.svg",
-                          //     // )
-                          //   ],
-                          // ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Column(
-                          //       children: [
-                          //         Text(
-                          //           'Explore Endless Possibilities',
-                          //           style: GoogleFonts.ibmPlexSerif(
-                          //             color: Colors.black,
-                          //             fontSize: 24,
-                          //             fontWeight: FontWeight.w600,
-                          //           ),
-                          //         ),
-                          //         SizedBox(
-                          //           height: 10,
-                          //         ),
-                          //         Text(
-                          //           'Discover Coca-Cola stores near your university',
-                          //           style: GoogleFonts.ibmPlexSerif(
-                          //             color: Colors.black,
-                          //             fontSize: 14,
-                          //             fontWeight: FontWeight.w400,
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     SizedBox(
-                          //       height: height / 6,
-                          //     ),
-                          //     Center(
-                          //       child: SvgPicture.asset(
-                          //         "assets/images/ob2.svg",
-                          //         alignment: Alignment.center,
-                          //       ),
-                          //     ),
-                          //     // SvgPicture.asset(
-                          //     //   "assets/images/coca.svg",
-                          //     // )
-                          //   ],
-                          // ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     Text(
-                          //       'Start Your \nCoca-Cola Adventure',
-                          //       style: GoogleFonts.ibmPlexSerif(
-                          //         color: Colors.black,
-                          //         fontSize: 24,
-                          //         fontWeight: FontWeight.w600,
-                          //       ),
-                          //     ),
-                          //     SizedBox(
-                          //       height: 10,
-                          //     ),
-                          //     Text(
-                          //       'Make a lasting impact and build your career',
-                          //       style: GoogleFonts.ibmPlexSerif(
-                          //         color: Colors.black,
-                          //         fontSize: 14,
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //     SizedBox(
-                          //       height: height / 10,
-                          //     ),
-                          //     Center(
-                          //       child: SvgPicture.asset(
-                          //         "assets/images/ob3.svg",
-                          //         fit: BoxFit.contain,
-                          //       ),
-                          //     ),
-                          //     // SvgPicture.asset(
-                          //     //   "assets/images/coca.svg",
-                          //     // )
-                          //   ],
-                          // ),
-                        ]),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SmoothPageIndicator(
-                          controller: controller,
-                          count: 3,
-                          effect: const ExpandingDotsEffect(
-                              dotHeight: 10,
-                              dotWidth: 14,
-                              dotColor: Colors.white,
-                              activeDotColor: Colors.red)),
-                      GestureDetector(
-                        onTap: () {
-                          controller.nextPage(
-                              duration: Duration(milliseconds: 500), curve: Curves.ease);
-                          if (controller.page! == 2) {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.fade,
-                                    curve: Curves.decelerate,
-                                    duration: Duration(seconds: 1),
-                                    child: GetstartedScreen()));
-                          }
-                        },
-                        child: SvgPicture.asset(
-                          "assets/images/nextbtn.svg",
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

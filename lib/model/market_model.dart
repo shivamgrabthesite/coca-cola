@@ -10,7 +10,7 @@ String marketModelToJson(MarketModel data) => json.encode(data.toJson());
 
 class MarketModel {
   bool success;
-  List<Datum> data;
+  List<dynamic> data;
 
   MarketModel({
     required this.success,
@@ -19,35 +19,36 @@ class MarketModel {
 
   factory MarketModel.fromJson(Map<String, dynamic> json) => MarketModel(
         success: json["success"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<dynamic>.from(json["data"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x)),
       };
 }
 
-class Datum {
+class DatumClass {
+  String area;
+  DateTime date;
   String id;
-  String week;
-  String marketArea;
 
-  Datum({
+  DatumClass({
+    required this.area,
+    required this.date,
     required this.id,
-    required this.week,
-    required this.marketArea,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["_id"],
-        week: json["Week "],
-        marketArea: json["Market Area"],
+  factory DatumClass.fromJson(Map<String, dynamic> json) => DatumClass(
+        area: json["area"],
+        date: DateTime.parse(json["date"]),
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "Week ": week,
-        "Market Area": marketArea,
+        "area": area,
+        "date":
+            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        "id": id,
       };
 }

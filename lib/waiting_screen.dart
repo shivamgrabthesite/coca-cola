@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:coca_cola/login_screen.dart';
 import 'package:coca_cola/week_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
@@ -30,9 +31,7 @@ class _WaitingScreenState extends State<WaitingScreen> with TickerProviderStateM
               type: PageTransitionType.fade,
               curve: Curves.decelerate,
               duration: Duration(seconds: 1),
-              child: WeekScreen(
-                  // clgList: clgList,
-                  )));
+              child: LoginScreen()));
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:coca_cola/home_screen.dart';
 import 'package:coca_cola/widgets/bottom_bar.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
@@ -84,13 +85,13 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         PageTransition(
                             type: PageTransitionType.fade,
                             curve: Curves.decelerate,
                             duration: Duration(seconds: 1),
-                            child: BottomBar()));
+                            child: HomeScreen()));
                   },
                   child: Center(
                     child: Container(

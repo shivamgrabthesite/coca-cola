@@ -11,7 +11,7 @@ String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 class LoginModel {
   bool success;
   String message;
-  String data;
+  Data data;
 
   LoginModel({
     required this.success,
@@ -22,12 +22,52 @@ class LoginModel {
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         success: json["success"],
         message: json["message"],
-        data: json["data"],
+        data: Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
-        "data": data,
+        "data": data.toJson(),
+      };
+}
+
+class Data {
+  User user;
+  String token;
+
+  Data({
+    required this.user,
+    required this.token,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        user: User.fromJson(json["user"]),
+        token: json["token"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "user": user.toJson(),
+        "token": token,
+      };
+}
+
+class User {
+  String week;
+  String collegeName;
+
+  User({
+    required this.week,
+    required this.collegeName,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        week: json["week"],
+        collegeName: json["college_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "week": week,
+        "college_name": collegeName,
       };
 }

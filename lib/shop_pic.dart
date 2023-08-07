@@ -34,7 +34,7 @@ class _ShopPicState extends State<ShopPic> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getImage();
+    // getImage();
     getId();
   }
 
@@ -42,18 +42,19 @@ class _ShopPicState extends State<ShopPic> {
     ImagelinkApi.getData(widget.channel!).then((value) {
       setState(() {
         imgId = value!.data.id;
+        imglink = value.data.imageLink;
       });
     });
   }
 
-  Future<String> getImage() async {
-    ImagelinkApi.getData(widget.channel!).then((value) {
-      setState(() {
-        imglink = value!.data.imageLink;
-      });
-    });
-    return await imglink;
-  }
+  // Future<String> getImage() async {
+  //   ImagelinkApi.getData(widget.channel!).then((value) {
+  //     setState(() {
+  //       imglink = value!.data.imageLink;
+  //     });
+  //   });
+  //   return imglink;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +182,13 @@ class _ShopPicState extends State<ShopPic> {
                 ),
                 // FutureBuilder(
                 //   future: getImage(),
-                //   initialData: "Loading",
                 //   builder: (context, snapshot) {
                 //     if (snapshot.hasData) {
                 //       return Image.network(
                 //         snapshot.data.toString(),
                 //       );
                 //     } else {
-                //       return Center(
+                //       return const Center(
                 //           child: CircularProgressIndicator(
                 //         color: Colors.red,
                 //       ));

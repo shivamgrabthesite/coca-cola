@@ -9,7 +9,6 @@ import 'package:table_calendar/table_calendar.dart';
 
 import 'apis/header_model_api.dart';
 import 'apis/market_api.dart';
-import 'apis/outlet_api.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,9 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime? _selectedDay;
   DateTime? _focusedDay;
   String? data;
-  List<String> marketData = [];
+  List<String> marketName = [];
   List<String> outletData = [];
   String headerData = '';
+  String id = '';
+  String clgName = '';
+  String week = '';
 
   Map<DateTime, List> events = {
     DateTime.utc(2023, 8, 1): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
@@ -61,17 +63,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future getData() async {
-    marketData.clear();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    data = prefs.getString("token")!;
+    marketName.clear();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    data = prefs.getString("logintoken")!;
+    clgName = prefs.getString("clgName")!;
+    week = prefs.getString("week")!;
+    print("logintoken----------" + data.toString());
 
     MarketApi.getData(data!).then((value) {
-      setState(() {
-        for (var i = 0; i < value!.data.length; i++) {
-          marketData.add(value.data[i].marketArea);
-        }
-        print("list of data-----" + marketData.toString());
-      });
+      for (var i = 0; i < value!.data.length; i++) {
+        setState(() {
+          marketName.add(value.data[i][i]["area"]);
+          id = value.data[i][i]["id"];
+        });
+      }
+      print("list of data-----" + marketName.toString());
+      print("mid--------" + id);
     });
   }
 
@@ -200,10 +207,10 @@ class _HomeScreenState extends State<HomeScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Alex Volkov',
+                  clgName + "_week#" + week,
                   style: GoogleFonts.ibmPlexSerif(
                     color: Colors.black,
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -219,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            print("data name--------" + marketData[index]);
+                            print("data name--------" + marketName[index]);
                             Navigator.push(
                               context,
                               PageTransition(
@@ -227,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 curve: Curves.decelerate,
                                 duration: Duration(seconds: 1),
                                 child: SelectOutlet(
-                                  id: marketData[index],
+                                  id: id,
                                 ),
                               ),
                             );
@@ -260,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 5,
                                 ),
                                 Text(
-                                  marketData[index],
+                                  marketName[index],
                                   style: GoogleFonts.ibmPlexSerif(
                                     color: Color(0xFF222B45),
                                     fontSize: 16,
@@ -290,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     );
                   },
-                  itemCount: marketData.length)
+                  itemCount: marketName.length)
               // ..._listofDate(_selectedDay!).map(
               //   (e) => Column(
               //     children: [

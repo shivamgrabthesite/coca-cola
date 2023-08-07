@@ -10,6 +10,8 @@ import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../login_screen.dart';
+
 class RegScreen2 extends StatefulWidget {
   const RegScreen2({super.key});
 
@@ -33,6 +35,12 @@ class _RegScreen2State extends State<RegScreen2> {
         Fluttertoast.showToast(
           msg: "enter both password same",
         );
+      } else if (isCheck == false) {
+        Fluttertoast.showToast(
+          msg: "please agree terms and conditions",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
       } else {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         data = prefs.getString("token")!;
@@ -55,7 +63,6 @@ class _RegScreen2State extends State<RegScreen2> {
                 curve: Curves.decelerate,
                 duration: Duration(seconds: 1),
                 child: WaitingScreen()));
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg.toString())));
       }
     } else {
       Fluttertoast.showToast(
@@ -290,6 +297,7 @@ class _RegScreen2State extends State<RegScreen2> {
                         shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(5)),
                       ),
                       const Text.rich(
+                        softWrap: true,
                         TextSpan(
                           children: [
                             TextSpan(

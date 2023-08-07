@@ -1,16 +1,18 @@
+import 'package:http/http.dart' as http;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:coca_cola/widgets/bottom_bar.dart';
-import 'apis/clg_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'apis/set_clg_name.dart';
+import 'constant/api.dart';
+import 'model/clg_data_model.dart';
 
 class WeekScreen extends StatefulWidget {
-  // List<String> clgList;
   WeekScreen({
     Key? key,
-    // required this.clgList,
   }) : super(key: key);
 
   @override
@@ -27,23 +29,66 @@ class _WeekScreenState extends State<WeekScreen> {
   ];
   final TextEditingController textEditingController = TextEditingController();
   String? selectedValue;
-  List<String> clgList = [];
+  List clgList = [];
+  var url;
   @override
   void initState() {
     super.initState();
-    // print(widget.clgList);
-    // getData();
+    getData();
+    // getList();
   }
 
-  getData() {
-    ClgData.getData().then((value) {
-      setState(() {
-        for (var i = 0; i < value!.data.length; i++) {
-          clgList.add(value.data[i].instituteName);
+  getData({String? search}) async {
+    try {
+      url = Uri.parse(apiPath + "search-college?input=$search");
+      print("url--------" + url.toString());
+      var response = await http.get(url);
+      print("status code----" + response.statusCode.toString());
+      // return response.body;
+      if (response.statusCode == 200) {
+        ClgDataModel getdata = clgDataModelFromJson(response.body);
+
+        for (var i = 0; i < getdata.data.length; i++) {
+          setState(() {
+            clgList.add(getdata.data[i].instituteName);
+          });
         }
-      });
+      } else {
+        print("-------------no data found---------");
+      }
+    } catch (e) {
+      print('Error while making API request: $e');
+    }
+  }
+
+  // getData() {
+  //   ClgData.getData().then((value) {
+  //     setState(() {
+  //       for (var i = 0; i < value!.data.length; i++) {
+  //         clgList.add(value.data[i].instituteName);
+  //       }
+  //     });
+  //   });
+  // }
+
+  setClgName() async {
+    var pref = await SharedPreferences.getInstance();
+    var token = pref.getString("logintoken");
+    SetClgName.setData(selectedValue!, token!).then((value) {
+      print("selected clg---------" + selectedValue.toString());
     });
   }
+
+  // Future<void> getList() async {
+  //   String jsonString = await rootBundle.loadString('assets/json/clgList.json');
+  //   Map<String, dynamic> jsonData = json.decode(jsonString);
+  //   ClgDataModel clgDataModel = ClgDataModel.fromJson(jsonData);
+  //   setState(() {
+  //     for (var i = 0; i < clgDataModel.data.length; i++) {
+  //       clgList.add(clgDataModel.data[i].instituteName);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +162,9 @@ class _WeekScreenState extends State<WeekScreen> {
                 //     },
                 //     itemCount: clgList.length),
                 DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
+                  child: DropdownButton2(
                     isExpanded: true,
+                    autofocus: true,
                     iconStyleData: IconStyleData(
                       icon: SvgPicture.asset("assets/images/Arrow.svg"),
                     ),
@@ -130,9 +176,9 @@ class _WeekScreenState extends State<WeekScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    items: items
+                    items: clgList
                         .map((item) => DropdownMenuItem(
-                              value: item,
+                              value: item.toString(),
                               child: Row(
                                 children: [
                                   // SvgPicture.asset("assets/images/Arrow.svg"),
@@ -141,7 +187,7 @@ class _WeekScreenState extends State<WeekScreen> {
                                   // ),
                                   Expanded(
                                     child: Text(
-                                      item,
+                                      item.toString(),
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF4A4F4A),
                                         fontSize: 16,
@@ -173,7 +219,7 @@ class _WeekScreenState extends State<WeekScreen> {
                     value: selectedValue,
                     onChanged: (value) {
                       setState(() {
-                        selectedValue = value!;
+                        selectedValue = value!.toString();
                       });
                     },
                     buttonStyleData: ButtonStyleData(
@@ -192,7 +238,7 @@ class _WeekScreenState extends State<WeekScreen> {
                           borderRadius: BorderRadius.circular(10),
                         )),
                     menuItemStyleData: MenuItemStyleData(
-                      height: 50,
+                      height: 60,
                     ),
                     dropdownSearchData: DropdownSearchData(
                       searchController: textEditingController,
@@ -209,6 +255,16 @@ class _WeekScreenState extends State<WeekScreen> {
                           expands: true,
                           maxLines: null,
                           controller: textEditingController,
+                          onChanged: (value) {
+                            setState(() {
+                              textEditingController.text = value.toUpperCase();
+                              textEditingController.selection = TextSelection.fromPosition(
+                                TextPosition(offset: textEditingController.text.length),
+                              );
+                              getData(search: value.toUpperCase().toString());
+                              // url.toString() + value.toString();
+                            });
+                          },
                           decoration: InputDecoration(
                             isDense: true,
                             contentPadding: const EdgeInsets.symmetric(
@@ -241,6 +297,7 @@ class _WeekScreenState extends State<WeekScreen> {
                   tag: "cocacola",
                   child: GestureDetector(
                     onTap: () {
+                      setClgName();
                       Navigator.push(
                           context,
                           PageTransition(

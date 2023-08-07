@@ -13,6 +13,7 @@ import 'package:coca_cola/profile_screen.dart';
 import 'package:coca_cola/question_screen.dart';
 import 'package:coca_cola/registation/mobile_verify.dart';
 import 'package:coca_cola/registation/reg_screen1.dart';
+import 'package:coca_cola/registation/reg_screen2.dart';
 import 'package:coca_cola/waiting_screen.dart';
 import 'package:coca_cola/select_outlet.dart';
 import 'package:coca_cola/shop_pic.dart';

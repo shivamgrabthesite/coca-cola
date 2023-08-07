@@ -7,6 +7,7 @@ import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'apis/fetch_task_api.dart';
 import 'apis/market_api.dart';
 
 class TaskScreen extends StatefulWidget {
@@ -17,11 +18,8 @@ class TaskScreen extends StatefulWidget {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  List priCustomerName = [];
-  List address = [];
-  List customerGccId = [];
-  List<String> marketData = [];
-  String? data;
+  List marketData = [];
+  List status = [];
 
   @override
   void initState() {
@@ -31,15 +29,17 @@ class _TaskScreenState extends State<TaskScreen> {
   }
 
   getData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    data = prefs.getString("token")!;
-
-    MarketApi.getData(data!).then((value) {
+    marketData.clear();
+    status.clear();
+    FetchTaskApi.getData().then((value) {
+      // print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value!.data.length; i++) {
-          marketData.add(value.data[i].marketArea);
+          marketData.add(value.data[i].market.asmName);
+          status.add(value.data[i].status);
         }
-        print("list of data-----" + marketData.toString());
+        print("data----" + marketData.toString());
+        print("status----" + status.toString());
       });
     });
   }
@@ -47,142 +47,152 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset("assets/images/ccsmall.svg"),
-                    Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Alex Volkov',
-                      style: GoogleFonts.ibmPlexSans(
+      child: RefreshIndicator(
+        onRefresh: () {
+          setState(() {});
+          return getData();
+        },
+        color: Colors.red,
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset("assets/images/ccsmall.svg"),
+                      Spacer(),
+                      Align(alignment: Alignment.center, child: CustomBadge()),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Alex Volkov',
+                        style: GoogleFonts.ibmPlexSans(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Spacer(),
+                      Icon(IconlyLight.filter)
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Let's see your tasks",
+                      style: GoogleFonts.ibmPlexSerif(
                         color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Spacer(),
-                    Icon(IconlyLight.filter)
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Let's see your tasks",
-                    style: GoogleFonts.ibmPlexSerif(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.fade,
-                                curve: Curves.decelerate,
-                                duration: Duration(seconds: 1),
-                                child: ShopPic(
-                                  address: "P01265 PADMARAO NAGAR_BOIGUDA",
-                                  channel: "Grocery - S&B",
-                                  customerGccId: "G000012245",
-                                  priCustomerName: "VIJAY KIRANA GEN.STORES",
-                                ))),
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset("assets/images/reddot.png"),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '10:00-13:00',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.ibmPlexSerif(
-                                      color: Color(0xFF8F9BB3),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () => Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  curve: Curves.decelerate,
+                                  duration: Duration(seconds: 1),
+                                  child: ShopPic(
+                                    address: "P01265 PADMARAO NAGAR_BOIGUDA",
+                                    channel: "Grocery - S&B",
+                                    customerGccId: "G000012245",
+                                    priCustomerName: "VIJAY KIRANA GEN.STORES",
+                                  ))),
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset("assets/images/reddot.png"),
+                                    SizedBox(
+                                      width: 5,
                                     ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFFE61D2B),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Text(
-                                      'Pending',
+                                    Text(
+                                      '10:00-13:00',
+                                      textAlign: TextAlign.center,
                                       style: GoogleFonts.ibmPlexSerif(
-                                        color: Colors.white,
-                                        fontSize: 7,
-                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xFF8F9BB3),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  SvgPicture.asset("assets/images/dot.svg")
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                marketData[index],
-                                style: GoogleFonts.ibmPlexSerif(
-                                  color: Color(0xFF222B45),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                                    Spacer(),
+                                    Container(
+                                      padding: EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFE61D2B),
+                                          borderRadius: BorderRadius.circular(5)),
+                                      child: Text(
+                                        "pending",
+                                        // status[index],
+                                        style: GoogleFonts.ibmPlexSerif(
+                                          color: Colors.white,
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    SvgPicture.asset("assets/images/dot.svg")
+                                  ],
                                 ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Check the boarding',
-                                style: GoogleFonts.ibmPlexSans(
-                                  color: Color(0xFF8F9BB3),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                                SizedBox(
+                                  height: 5,
                                 ),
-                              )
-                            ],
+                                Text(
+                                  "SRI LAKSHMI GANAPATHI FANCY & GENER",
+                                  // marketData[index],
+                                  style: GoogleFonts.ibmPlexSerif(
+                                    color: Color(0xFF222B45),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Check the boarding',
+                                  style: GoogleFonts.ibmPlexSans(
+                                    color: Color(0xFF8F9BB3),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(
-                          height: 10,
-                        ),
-                    itemCount: marketData.length)
-              ],
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                            height: 10,
+                          ),
+                      itemCount: 1)
+                ],
+              ),
             ),
           ),
         ),

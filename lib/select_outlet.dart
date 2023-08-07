@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'package:coca_cola/shop_pic.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/outlet_api.dart';
 import 'model/outlet_model.dart';
@@ -26,16 +27,18 @@ class _SelectOutletState extends State<SelectOutlet> {
   List address = [];
   List customerGccId = [];
   List channel = [];
-
+  String loginToken = '';
   @override
   void initState() {
     super.initState();
     getOutlet();
   }
 
-  getOutlet() {
+  getOutlet() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loginToken = prefs.getString("logintoken")!;
     print("id----" + widget.id!);
-    OutletApi.getData(widget.id!).then((value) {
+    OutletApi.getData(widget.id!, loginToken).then((value) {
       setState(() {
         for (var i = 0; i < value!.data.length; i++) {
           priCustomerName.add(value.data[i].priCustomerName);

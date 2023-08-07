@@ -4,18 +4,21 @@ import 'package:http/http.dart' as http;
 import '../model/outlet_model.dart';
 
 class OutletApi {
-  static Future<OutetModel?> getData(String marketName) async {
+  static Future<OutetModel?> getData(String mid, String token) async {
     try {
       final url = Uri.parse(apiPath + "market/outlets");
-      print("market area name-----" + marketName);
+      print("market area name-----" + mid);
       Map<String, dynamic> requestBody = {
-        "Market_Area": "Market Area 7",
+        "mid": mid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(
         url,
         body: jsonencode,
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + token,
+        },
       );
       print("status code----" + response.statusCode.toString());
       if (response.statusCode == 200) {
