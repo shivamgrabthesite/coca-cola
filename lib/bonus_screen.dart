@@ -278,12 +278,14 @@ class _BonusScreenState extends State<BonusScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -370,12 +372,14 @@ class _BonusScreenState extends State<BonusScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -541,12 +545,12 @@ class _BonusScreenState extends State<BonusScreen> {
                   // setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  first1.clear();
+                  // first1.clear();
                 } else {
                   // setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  first2.clear();
+                  // first2.clear();
                 }
               },
               child: Center(
@@ -652,12 +656,14 @@ class _BonusScreenState extends State<BonusScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -744,12 +750,14 @@ class _BonusScreenState extends State<BonusScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -939,12 +947,12 @@ class _BonusScreenState extends State<BonusScreen> {
                   // setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  second1.clear();
+                  // second1.clear();
                 } else {
                   // setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  second2.clear();
+                  // second2.clear();
                 }
               },
               child: Center(
@@ -1050,12 +1058,14 @@ class _BonusScreenState extends State<BonusScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -1142,12 +1152,14 @@ class _BonusScreenState extends State<BonusScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -1339,7 +1351,7 @@ class _BonusScreenState extends State<BonusScreen> {
                   // setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  third1.clear();
+                  // third1.clear();
                 } else {
                   // setCustom();
                   Navigator.push(
@@ -1361,7 +1373,7 @@ class _BonusScreenState extends State<BonusScreen> {
                       color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
                   child: Center(
                     child: Text(
-                      "Next",
+                      "Submit",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.ibmPlexSerif(
                         color: Colors.white,

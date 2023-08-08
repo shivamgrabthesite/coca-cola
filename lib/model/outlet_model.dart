@@ -1,23 +1,23 @@
 // To parse this JSON data, do
 //
-//     final outetModel = outetModelFromJson(jsonString);
+//     final outletModel = outletModelFromJson(jsonString);
 
 import 'dart:convert';
 
-OutetModel outetModelFromJson(String str) => OutetModel.fromJson(json.decode(str));
+OutletModel outletModelFromJson(String str) => OutletModel.fromJson(json.decode(str));
 
-String outetModelToJson(OutetModel data) => json.encode(data.toJson());
+String outletModelToJson(OutletModel data) => json.encode(data.toJson());
 
-class OutetModel {
+class OutletModel {
   bool success;
   List<Datum> data;
 
-  OutetModel({
+  OutletModel({
     required this.success,
     required this.data,
   });
 
-  factory OutetModel.fromJson(Map<String, dynamic> json) => OutetModel(
+  factory OutletModel.fromJson(Map<String, dynamic> json) => OutletModel(
         success: json["success"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );

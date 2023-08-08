@@ -20,34 +20,31 @@ class WeekScreen extends StatefulWidget {
 }
 
 class _WeekScreenState extends State<WeekScreen> {
-  final List<String> items = [
-    "Indian Institute of Technology Kanpur",
-    "University of Delhi",
-    "Tata Institute of Fundamental Research",
-    'Indian Institute of Science',
-    'Manipal Academy of Higher Education'
-  ];
+  // final List<String> items = [
+  //   "Indian Institute of Technology Kanpur",
+  //   "University of Delhi",
+  //   "Tata Institute of Fundamental Research",
+  //   'Indian Institute of Science',
+  //   'Manipal Academy of Higher Education'
+  // ];
   final TextEditingController textEditingController = TextEditingController();
   String? selectedValue;
   List clgList = [];
-  var url;
   @override
   void initState() {
     super.initState();
     getData();
-    // getList();
   }
 
-  getData({String? search}) async {
+  getData({String search = ''}) async {
     try {
-      url = Uri.parse(apiPath + "search-college?input=$search");
+      var url = Uri.parse(apiPath + "search-college?input=$search");
       print("url--------" + url.toString());
       var response = await http.get(url);
       print("status code----" + response.statusCode.toString());
       // return response.body;
       if (response.statusCode == 200) {
         ClgDataModel getdata = clgDataModelFromJson(response.body);
-
         for (var i = 0; i < getdata.data.length; i++) {
           setState(() {
             clgList.add(getdata.data[i].instituteName);
@@ -261,7 +258,7 @@ class _WeekScreenState extends State<WeekScreen> {
                               textEditingController.selection = TextSelection.fromPosition(
                                 TextPosition(offset: textEditingController.text.length),
                               );
-                              getData(search: value.toUpperCase().toString());
+                              getData(search: textEditingController.text.toUpperCase().toString());
                               // url.toString() + value.toString();
                             });
                           },

@@ -10,7 +10,7 @@ String marketModelToJson(MarketModel data) => json.encode(data.toJson());
 
 class MarketModel {
   bool success;
-  List<dynamic> data;
+  List<Datum> data;
 
   MarketModel({
     required this.success,
@@ -19,36 +19,103 @@ class MarketModel {
 
   factory MarketModel.fromJson(Map<String, dynamic> json) => MarketModel(
         success: json["success"],
-        data: List<dynamic>.from(json["data"].map((x) => x)),
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x)),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
-class DatumClass {
+class Datum {
+  List<Day>? monday;
+  int? count;
+  List<Day>? tuesday;
+  int? tuesdayCount;
+  List<Day>? wednesday;
+  int? wednesdayCount;
+  List<Day>? thursday;
+  int? thursdayCount;
+  List<Day>? friday;
+  int? fridayCount;
+  List<Day>? saturday;
+  int? saturdayCount;
+
+  Datum({
+    this.monday,
+    this.count,
+    this.tuesday,
+    this.tuesdayCount,
+    this.wednesday,
+    this.wednesdayCount,
+    this.thursday,
+    this.thursdayCount,
+    this.friday,
+    this.fridayCount,
+    this.saturday,
+    this.saturdayCount,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        monday: json["monday"] == null
+            ? []
+            : List<Day>.from(json["monday"]!.map((x) => Day.fromJson(x))),
+        count: json["count"],
+        tuesday: json["tuesday"] == null
+            ? []
+            : List<Day>.from(json["tuesday"]!.map((x) => Day.fromJson(x))),
+        tuesdayCount: json["tuesdayCount"],
+        wednesday: json["Wednesday"] == null
+            ? []
+            : List<Day>.from(json["Wednesday"]!.map((x) => Day.fromJson(x))),
+        wednesdayCount: json["WednesdayCount"],
+        thursday: json["Thursday"] == null
+            ? []
+            : List<Day>.from(json["Thursday"]!.map((x) => Day.fromJson(x))),
+        thursdayCount: json["ThursdayCount"],
+        friday: json["Friday"] == null
+            ? []
+            : List<Day>.from(json["Friday"]!.map((x) => Day.fromJson(x))),
+        fridayCount: json["FridayCount"],
+        saturday: json["saturday"] == null
+            ? []
+            : List<Day>.from(json["saturday"]!.map((x) => Day.fromJson(x))),
+        saturdayCount: json["saturdayCount"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "monday": monday == null ? [] : List<dynamic>.from(monday!.map((x) => x.toJson())),
+        "count": count,
+        "tuesday": tuesday == null ? [] : List<dynamic>.from(tuesday!.map((x) => x.toJson())),
+        "tuesdayCount": tuesdayCount,
+        "Wednesday": wednesday == null ? [] : List<dynamic>.from(wednesday!.map((x) => x.toJson())),
+        "WednesdayCount": wednesdayCount,
+        "Thursday": thursday == null ? [] : List<dynamic>.from(thursday!.map((x) => x.toJson())),
+        "ThursdayCount": thursdayCount,
+        "Friday": friday == null ? [] : List<dynamic>.from(friday!.map((x) => x.toJson())),
+        "FridayCount": fridayCount,
+        "saturday": saturday == null ? [] : List<dynamic>.from(saturday!.map((x) => x.toJson())),
+        "saturdayCount": saturdayCount,
+      };
+}
+
+class Day {
   String area;
-  DateTime date;
   String id;
 
-  DatumClass({
+  Day({
     required this.area,
-    required this.date,
     required this.id,
   });
 
-  factory DatumClass.fromJson(Map<String, dynamic> json) => DatumClass(
+  factory Day.fromJson(Map<String, dynamic> json) => Day(
         area: json["area"],
-        date: DateTime.parse(json["date"]),
         id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
         "area": area,
-        "date":
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
         "id": id,
       };
 }

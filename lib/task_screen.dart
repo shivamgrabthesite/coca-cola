@@ -20,6 +20,7 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   List marketData = [];
   List status = [];
+  String? data;
 
   @override
   void initState() {
@@ -31,12 +32,17 @@ class _TaskScreenState extends State<TaskScreen> {
   getData() async {
     marketData.clear();
     status.clear();
-    FetchTaskApi.getData().then((value) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      data = prefs.getString("logintoken")!;
+    });
+    FetchTaskApi.getData(data!).then((value) {
       // print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value!.data.length; i++) {
           marketData.add(value.data[i].market.asmName);
           status.add(value.data[i].status);
+          print("market data---------" + marketData.toString());
         }
         print("data----" + marketData.toString());
         print("status----" + status.toString());
@@ -141,11 +147,15 @@ class _TaskScreenState extends State<TaskScreen> {
                                     Container(
                                       padding: EdgeInsets.all(4),
                                       decoration: BoxDecoration(
-                                          color: Color(0xFFE61D2B),
+                                          color: status[index] == "pending"
+                                              ? Colors.blue
+                                              : status[index] == "compeleted"
+                                                  ? Colors.green
+                                                  : Colors.red,
                                           borderRadius: BorderRadius.circular(5)),
                                       child: Text(
-                                        "pending",
-                                        // status[index],
+                                        // "pending",
+                                        status[index],
                                         style: GoogleFonts.ibmPlexSerif(
                                           color: Colors.white,
                                           fontSize: 7,
@@ -163,8 +173,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                   height: 5,
                                 ),
                                 Text(
-                                  "SRI LAKSHMI GANAPATHI FANCY & GENER",
-                                  // marketData[index],
+                                  marketData[index],
                                   style: GoogleFonts.ibmPlexSerif(
                                     color: Color(0xFF222B45),
                                     fontSize: 16,
@@ -190,7 +199,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       separatorBuilder: (context, index) => SizedBox(
                             height: 10,
                           ),
-                      itemCount: 1)
+                      itemCount: marketData.length)
                 ],
               ),
             ),

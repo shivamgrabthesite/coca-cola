@@ -13,6 +13,30 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:coca_cola/transaction_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 
+import 'apis/population apis/cooler_api.dart';
+import 'apis/population apis/cooler_available.dart';
+import 'apis/population apis/cooler_custom.dart';
+import 'apis/population apis/cooler_not_avaliable.dart';
+import 'apis/population apis/dps_api.dart';
+import 'apis/population apis/dps_available.dart';
+import 'apis/population apis/dps_custom.dart';
+import 'apis/population apis/dps_not_available.dart';
+import 'apis/population apis/oneway_vision_api.dart';
+import 'apis/population apis/oneway_vision_available.dart';
+import 'apis/population apis/oneway_vision_custom.dart';
+import 'apis/population apis/oneway_vision_not_available.dart';
+import 'apis/population apis/standee_api.dart';
+import 'apis/population apis/standee_available.dart';
+import 'apis/population apis/standee_custom.dart';
+import 'apis/population apis/standee_not_available.dart';
+import 'apis/population apis/vertical_signage_api.dart';
+import 'apis/population apis/vertical_signage_available.dart';
+import 'apis/population apis/vertical_signage_custom.dart';
+import 'apis/population apis/vertical_signage_not_available.dart';
+import 'apis/population apis/vinyl_branding_api.dart';
+import 'apis/population apis/vinyl_branding_available.dart';
+import 'apis/population apis/vinyl_branding_custom.dart';
+import 'apis/population apis/vinyl_branding_not_available.dart';
 import 'apis/population_api.dart';
 import 'model/population_model.dart';
 
@@ -28,18 +52,18 @@ class PopulationScreen extends StatefulWidget {
 }
 
 class _PopulationScreenState extends State<PopulationScreen> {
-  TextEditingController first1 = TextEditingController();
-  TextEditingController first2 = TextEditingController();
-  TextEditingController second1 = TextEditingController();
-  TextEditingController second2 = TextEditingController();
-  TextEditingController third1 = TextEditingController();
-  TextEditingController third2 = TextEditingController();
-  TextEditingController four1 = TextEditingController();
-  TextEditingController four2 = TextEditingController();
-  TextEditingController five1 = TextEditingController();
-  TextEditingController five2 = TextEditingController();
-  TextEditingController six1 = TextEditingController();
-  TextEditingController six2 = TextEditingController();
+  TextEditingController dps1 = TextEditingController();
+  TextEditingController dps2 = TextEditingController();
+  TextEditingController cooler1 = TextEditingController();
+  TextEditingController cooler2 = TextEditingController();
+  TextEditingController standee1 = TextEditingController();
+  TextEditingController standee2 = TextEditingController();
+  TextEditingController vertical1 = TextEditingController();
+  TextEditingController vertical2 = TextEditingController();
+  TextEditingController oneway1 = TextEditingController();
+  TextEditingController oneway2 = TextEditingController();
+  TextEditingController vinyl1 = TextEditingController();
+  TextEditingController vinyl2 = TextEditingController();
   int _currentPage = 0;
   int _currentPage2 = 0;
   late PageController controller;
@@ -62,7 +86,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   List<Widget> imgsUpload = [];
   File? _image;
   String imgName = '';
-  String pid = '';
+  String? dpsid, cooleid, standeeid, verticalid, onewayid, vinylid;
   String imgPath = "";
   List<XFile> _pickedImages = [];
   @override
@@ -110,10 +134,88 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
-  uploadImageApi() {
-    // CoolerUploadImgApi.setImage(pid, _image!).then((value) {
-    //   print("image upload response---------" + value.toString());
-    // });
+  coolerUploadImage() {
+    CoolerAvailable.setImage(cooleid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  dpsUploadImage() {
+    DPsAvailable.setImage(dpsid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  standeeUploadImage() {
+    StandeeAvailable.setImage(standeeid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  verticalUploadImage() {
+    VerticalSignageAvailable.setImage(verticalid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  onewayUploadImage() {
+    OnewayVisionAvailable.setImage(onewayid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  vinylUploadImage() {
+    VVinylBrandingAvailable.setImage(vinylid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  coolerNotAvailable() {
+    CoolerNotAvailableApi.setImage(cooleid!, _image!);
+  }
+
+  dpsNotAvailable() {
+    DpsNotAvailable.setImage(dpsid!, _image!);
+  }
+
+  standeeNotAvailable() {
+    StandeeNotAvailable.setImage(standeeid!, _image!);
+  }
+
+  verticalNotAvailable() {
+    VerticalSignageNotAvailable.setImage(verticalid!, _image!);
+  }
+
+  onewayNotAvailable() {
+    OnewayVisionNotAvailable.setImage(onewayid!, _image!);
+  }
+
+  vinylNotAvailable() {
+    VinylBrandingNotAvailable.setImage(vinylid!, _image!);
+  }
+
+  coolerCustom() {
+    CoolerCustom.setImage(cooleid!, cooler2.text, _image!);
+  }
+
+  standeeCustom() {
+    StandeeCustom.setImage(standeeid!, standee2.text, _image!);
+  }
+
+  dpsCustom() {
+    DpsCustom.setImage(dpsid!, dps2.text, _image!);
+  }
+
+  verticalCustom() {
+    VerticalSignageCustom.setImage(verticalid!, vertical2.text, _image!);
+  }
+
+  onewayCustom() {
+    OnewayVisionCustom.setImage(onewayid!, oneway2.text, _image!);
+  }
+
+  vinylCustom() {
+    VinylBrandingCustom.setImage(vinylid!, vinyl2.text, _image!);
   }
 
   getData() {
@@ -131,32 +233,42 @@ class _PopulationScreenState extends State<PopulationScreen> {
         }
       });
     });
-    // CoolerApi.getData().then((value) {
-    //   setState(() {
-    //     pid = value!.id;
-    //     print("idddd----------" + value.id);
-    //   });
-    // });
-  }
-
-  setCustom() {
-    // GroceryRackCustom.setImage(pid, remark2.text, _image!).then((value) {
-    //   print("custom res----" + value.toString());
-    // });
-  }
-
-  setAvailable() {
-    if (selectedOption!.contains('first1')) {
-      // GroceryRackUploadImg.setImage(pid, _image!).then((value) {
-      //   print("avauilable res----" + value.toString());
-      // });
-    }
-  }
-
-  setNotAvailable() {
-    // GroceryRackNotAvailable.setImage(pid, remark1.text, _image!).then((value) {
-    //   print("not avauilable res----" + value.toString());
-    // });
+    CoolerApi.getData().then((value) {
+      setState(() {
+        cooleid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    });
+    DpsApi.getData().then((value) {
+      setState(() {
+        dpsid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    });
+    StandeeApi.getData().then((value) {
+      setState(() {
+        standeeid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    });
+    VerticalSignageApi.getData().then((value) {
+      setState(() {
+        verticalid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    });
+    OnewayApi.getData().then((value) {
+      setState(() {
+        onewayid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    });
+    VinylBrandingApi.getData().then((value) {
+      setState(() {
+        vinylid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    });
   }
 
   @override
@@ -378,7 +490,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: first1,
+                          controller: dps1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -425,12 +537,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -551,7 +665,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: first2,
+                            controller: dps2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -592,16 +706,16 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   // setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("firat2")) {
+                } else if (selectedOption!.contains("first2")) {
                   // setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  first1.clear();
+                  // first1.clear();
                 } else {
                   // setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                  first2.clear();
+                  // first2.clear();
                 }
               },
               child: Center(
@@ -707,12 +821,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -752,7 +868,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: second1,
+                          controller: cooler1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -799,12 +915,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -925,7 +1043,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: second2,
+                            controller: cooler2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1103,12 +1221,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -1148,7 +1268,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: third1,
+                          controller: standee1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1195,12 +1315,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -1321,7 +1443,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: third2,
+                            controller: standee2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1499,12 +1621,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -1544,7 +1668,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: four1,
+                          controller: vertical1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1591,12 +1715,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -1717,7 +1843,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: four2,
+                            controller: vertical2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1895,12 +2021,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -1940,7 +2068,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: five1,
+                          controller: oneway1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1987,12 +2115,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -2113,7 +2243,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: five2,
+                            controller: oneway2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -2291,12 +2421,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -2336,7 +2468,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: six1,
+                          controller: vinyl1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -2383,12 +2515,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                _image == null ? 'Upload Image' : imgName,
-                                style: GoogleFonts.inter(
-                                  color: Color(0xFF929292),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Text(
+                                  _image == null ? 'Upload Image' : imgName,
+                                  style: GoogleFonts.inter(
+                                    color: Color(0xFF929292),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
@@ -2509,7 +2643,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: six2,
+                            controller: vinyl2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -2569,11 +2703,11 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     );
                   });
                 } else if (selectedOption!.contains("six1")) {
-                  setAvailable();
+                  // setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("six2")) {
-                  setNotAvailable();
+                  // setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // remark1.clear();

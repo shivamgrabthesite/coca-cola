@@ -672,17 +672,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else if (selectedOption!.contains("first1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
+                  // removeImage();
                 } else if (selectedOption!.contains("first2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  first1.clear();
+                  // removeImage();
+                  // first1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  first2.clear();
+                  // removeImage();
+                  // first2.clear();
                 }
               },
               child: Center(
@@ -1074,17 +1074,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else if (selectedOption!.contains("second1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
+                  // removeImage();
                 } else if (selectedOption!.contains("second2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  second1.clear();
+                  // removeImage();
+                  // second1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  second2.clear();
+                  // removeImage();
+                  // second2.clear();
                 }
               },
               child: Center(
@@ -1478,17 +1478,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else if (selectedOption!.contains("third1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
+                  // removeImage();
                 } else if (selectedOption!.contains("third2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  third1.clear();
+                  // removeImage();
+                  // third1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  third2.clear();
+                  // removeImage();
+                  // third2.clear();
                 }
               },
               child: Center(
@@ -1882,17 +1882,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else if (selectedOption!.contains("four1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
+                  // removeImage();
                 } else if (selectedOption!.contains("four2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  four1.clear();
+                  // removeImage();
+                  // four1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  removeImage();
-                  four2.clear();
+                  // removeImage();
+                  // four2.clear();
                 }
                 if (controller.page! == 3) {
                   Navigator.push(
@@ -1912,7 +1912,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
                   child: Center(
                     child: Text(
-                      "Next",
+                      "Submit",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.ibmPlexSerif(
                         color: Colors.white,

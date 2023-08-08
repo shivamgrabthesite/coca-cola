@@ -40,54 +40,56 @@ class _LoginScreenState extends State<LoginScreen> {
       emailStr = email.text.toString();
       passStr = password.text.toString();
     });
-    if (_key.currentState!.validate()) {
-      LoginApi.setData(emailStr!, passStr!).then((value) {
-        print(value!);
-        setState(() {
-          msg = value.message;
-          statusCode = value.success;
-          loginToken = value.data.token;
-          clgName = value.data.user.collegeName;
-          week = value.data.user.week;
-          print("cgname---------" + clgName);
-          pref.setString("logintoken", loginToken);
-          pref.setString("clgName", clgName);
-          pref.setString("week", week);
-        });
-      });
+    LoginApi.setData(emailStr!, passStr!).then((value) {
+      print(value!);
       setState(() {
-        if (statusCode == true) {
-          Fluttertoast.showToast(
-            msg: msg,
-          );
-          if (clgName == "") {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade,
-                    curve: Curves.decelerate,
-                    duration: Duration(seconds: 1),
-                    child: WeekScreen()));
-          } else {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade,
-                    curve: Curves.decelerate,
-                    duration: Duration(seconds: 1),
-                    child: BottomBar()));
-          }
-        } else {
-          Fluttertoast.showToast(
-            msg: "Invalid Credentials",
-          );
-        }
+        msg = value.message;
+        statusCode = value.success;
+        print("status----------" + statusCode.toString());
+        loginToken = value.data.token;
+        clgName = value.data.user.collegeName;
+        week = value.data.user.week;
+        print("cgname---------" + clgName);
+        pref.setString("logintoken", loginToken);
+        pref.setString("clgName", clgName);
+        pref.setString("week", week);
       });
-    } else {
-      Fluttertoast.showToast(
-        msg: "enter all details",
-      );
-    }
+    }).whenComplete(() {
+      if (_key.currentState!.validate()) {
+        setState(() {
+          if (statusCode == true) {
+            Fluttertoast.showToast(
+              msg: msg,
+            );
+            if (clgName == "") {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade,
+                      curve: Curves.decelerate,
+                      duration: Duration(seconds: 1),
+                      child: WeekScreen()));
+            } else {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade,
+                      curve: Curves.decelerate,
+                      duration: Duration(seconds: 1),
+                      child: BottomBar()));
+            }
+          } else {
+            Fluttertoast.showToast(
+              msg: "Invalid Credentials",
+            );
+          }
+        });
+      } else {
+        Fluttertoast.showToast(
+          msg: "enter all details",
+        );
+      }
+    });
   }
 
   @override

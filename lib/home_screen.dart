@@ -14,16 +14,15 @@ import 'apis/header_model_api.dart';
 import 'apis/market_api.dart';
 import 'constant/api.dart';
 
-class Event {
-  final String area;
-  final String id;
+// class Event {
+//   final String area;
 
-  Event(this.area, this.id);
-  @override
-  String toString() {
-    return '$area - $id';
-  }
-}
+//   Event(this.area);
+//   @override
+//   String toString() {
+//     return '$area';
+//   }
+// }
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,18 +31,34 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  CalendarFormat _calendarFormat = CalendarFormat.week;
-  DateTime _selectedDay = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  DateTime now = DateTime.now();
+  TabController? tabcontroller;
+  List<String> days = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
   String? data;
-  List<String> marketName = [];
-  List<String> outletData = [];
+  List mon = [];
+  List tue = [];
+  List wed = [];
+  List thu = [];
+  List fri = [];
+  List sat = [];
   String headerData = '';
-  String id = '';
+  List monid = [];
+  List tueid = [];
+  List wedid = [];
+  List thuid = [];
+  List fridi = [];
+  List sarid = [];
   String clgName = '';
   String week = '';
-  Map<DateTime, List<Event>> _events = {};
+  // Map<DateTime, List> _events = {};
 
   // Map<DateTime, List> events = {
   //   DateTime.utc(2023, 8, 1): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
@@ -58,15 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
   //     return [];
   //   }
   // }
+  // Map<String, List<Map<String, dynamic>>> dataByDay = {};
 
   @override
   void initState() {
     super.initState();
-    // _selectedDay = DateTime.now();
-    // _focusedDay = DateTime.now();
-
+    tabcontroller = TabController(length: days.length, vsync: this);
     getData();
-    getTime();
+    // organizeDataByDay();
   }
 
   getTime() async {
@@ -79,69 +93,61 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> getData() async {
-    marketName.clear();
+  Future getData() async {
+    mon.clear();
+    tue.clear();
+    wed.clear();
+    thu.clear();
+    fri.clear();
+    sat.clear();
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       data = prefs.getString("logintoken")!;
       clgName = prefs.getString("clgName")!;
       week = prefs.getString("week")!;
-      // print("logintoken----------" + data!.toString());
     });
 
-    final url = Uri.parse(apiPath + "market/");
-    var response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer " + data!,
-      },
-    );
-    // print('Token : ${data}');
-    print("status code----" + response.statusCode.toString());
-    //  response.body;
-    var jsonData = json.decode(response.body);
+    MarketApi.getData(data!).then((value) {
+      print("value----" + value!.data.toString());
+      print("lleng--------" + value.data.length.toString());
+      print("conut tue-----" + value.data[1].tuesdayCount.toString());
 
-    var dataz = jsonData['data'];
-    _events.clear();
-
-    for (var i = 0; i < dataz.length; i++) {
-      var eventsList = <Event>[];
-      var event = Event(dataz[i][i]['area'], dataz[i][i]['id']);
-      eventsList.add(event);
-      // for (var eventJson in dataz[i]) {
-      //   var event = Event(eventJson['area'], eventJson['id']);
-      //   eventsList.add(event);
-      // }
-      var date = DateTime.parse(dataz[i][i]['date']);
-      _events[date] = eventsList;
-      setState(() {});
-      print('Parsed data: $dataz');
-      print('Updated _events: $_events');
-      print("eventsList------" + eventsList.toString());
-    }
+      setState(() {
+        for (var j = 0; j < value.data[0].count!; j++) {
+          mon.add(value.data[0].monday![j].area);
+          monid.add(value.data[0].monday![j].id);
+        }
+        for (var k = 0; k < value.data[1].tuesdayCount!; k++) {
+          tue.add(value.data[1].tuesday![k].area);
+          tueid.add(value.data[1].tuesday![k].id);
+        }
+        for (var k = 0; k < value.data[2].wednesdayCount!; k++) {
+          wed.add(value.data[2].wednesday![k].area);
+          wedid.add(value.data[2].wednesday![k].id);
+        }
+        for (var k = 0; k < value.data[3].thursdayCount!; k++) {
+          thu.add(value.data[3].thursday![k].area);
+          thuid.add(value.data[3].thursday![k].id);
+        }
+        for (var k = 0; k < value.data[4].fridayCount!; k++) {
+          fri.add(value.data[4].friday![k].area);
+          fridi.add(value.data[4].friday![k].id);
+        }
+        for (var k = 0; k < value.data[5].saturdayCount!; k++) {
+          sat.add(value.data[5].saturday![k].area);
+          sarid.add(value.data[5].saturday![k].id);
+        }
+      });
+    }).whenComplete(() {
+      setState(() {
+        print("mon------" + mon.toString());
+        print("tue------" + tue.toString());
+        print("wed------" + wed.toString());
+        print("id------" + monid.toString());
+      });
+    });
   }
-
-  // List _getEventsForDay(DateTime day) {
-  //   var events = _events[day];
-  //   print("eventsssss-------" + events.toString());
-  //   if (events != null) {
-  //     return events.map((event) => event.area).toList();
-  //   }
-  //   return [];
-  // }
-
-  List<Event> _getEventsForDay(DateTime day) {
-    return _events[day] ?? [];
-  }
-
-  //  List _listofDate(DateTime date) {
-  //   if (events[date] != null) {
-  //     return events[date]!;
-  //   } else {
-  //     return [];
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +181,20 @@ class _HomeScreenState extends State<HomeScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
+                  clgName + "\nWEEK " + week,
+                  style: GoogleFonts.ibmPlexSerif(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
                   headerData,
                   style: GoogleFonts.ibmPlexSans(
                     color: Colors.black,
@@ -182,6 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -197,177 +220,665 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
+              TabBar(
+                controller: tabcontroller,
+                isScrollable: true,
+                onTap: (value) {
+                  setState(() {});
+                },
+                tabs: days.map((day) => Tab(text: day)).toList(),
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.black,
+              ),
+              SizedBox(
+                height: 20,
+              ),
               Container(
-                padding: const EdgeInsets.all(8),
-                decoration:
-                    BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
-                child: TableCalendar(
-                  availableGestures: AvailableGestures.horizontalSwipe,
-                  firstDay: DateTime.utc(2010, 10, 16),
-                  lastDay: DateTime.utc(2030, 3, 14),
-                  focusedDay: _focusedDay!,
-                  calendarFormat: _calendarFormat,
-                  onFormatChanged: (format) {
-                    setState(() {
-                      _calendarFormat = format;
-                    });
-                  },
-                  onCalendarCreated: (pageController) {
-                    _getEventsForDay(_focusedDay!);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                    });
-                  },
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  eventLoader: (day) => _getEventsForDay(day),
-                  daysOfWeekStyle: const DaysOfWeekStyle(
-                      weekdayStyle: TextStyle(color: Colors.white),
-                      weekendStyle: TextStyle(color: Colors.white)),
-                  headerStyle: const HeaderStyle(
-                      formatButtonVisible: false,
-                      titleTextStyle: TextStyle(color: Colors.white),
-                      titleCentered: true,
-                      leftChevronVisible: true,
-                      leftChevronIcon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: Colors.white,
-                      ),
-                      rightChevronIcon: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                      )),
-                  calendarStyle: const CalendarStyle(
-                    defaultTextStyle: TextStyle(color: Colors.white),
-                    todayTextStyle: TextStyle(color: Colors.white),
-                    outsideTextStyle: TextStyle(color: Colors.white),
-                    selectedTextStyle: TextStyle(color: Colors.white),
-                    weekendTextStyle: TextStyle(color: Colors.white),
-                    markerMargin: EdgeInsets.only(top: 6, left: 1.5),
-                    markerDecoration: BoxDecoration(
-                        color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(50))),
-                    markersMaxCount: 3,
-                    canMarkersOverflow: true,
-                    markerSize: 6,
-                    selectedDecoration:
-                        BoxDecoration(color: Color(0xFFE61D2B), shape: BoxShape.circle),
-                    todayDecoration: BoxDecoration(
-                        color: Color.fromARGB(0, 131, 131, 131), shape: BoxShape.circle),
-                  ),
+                height: 500,
+                child: TabBarView(
+                  controller: tabcontroller,
+                  children: tabcontroller!.index == 0
+                      ? days
+                          .map(
+                            (e) => ListView.builder(
+                              itemCount: mon.length,
+                              itemBuilder: (context, index) => Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          curve: Curves.decelerate,
+                                          duration: Duration(seconds: 1),
+                                          child: SelectOutlet(
+                                            id: monid[index],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration:
+                                          BoxDecoration(border: Border.all(color: Colors.black)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Image.asset("assets/images/reddot.png"),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                '10:00-13:00',
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.ibmPlexSerif(
+                                                  color: Color(0xFF8F9BB3),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            mon[index],
+                                            style: GoogleFonts.ibmPlexSerif(
+                                              color: Color(0xFF222B45),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            'Check the boarding',
+                                            style: GoogleFonts.ibmPlexSans(
+                                              color: Color(0xFF8F9BB3),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList()
+                      : tabcontroller!.index == 1
+                          ? days
+                              .map(
+                                (e) => ListView.builder(
+                                  itemCount: tue.length,
+                                  itemBuilder: (context, index) => Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType.fade,
+                                              curve: Curves.decelerate,
+                                              duration: Duration(seconds: 1),
+                                              child: SelectOutlet(
+                                                id: tueid[index],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.black)),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Image.asset("assets/images/reddot.png"),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    '10:00-13:00',
+                                                    textAlign: TextAlign.center,
+                                                    style: GoogleFonts.ibmPlexSerif(
+                                                      color: Color(0xFF8F9BB3),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                tue[index],
+                                                style: GoogleFonts.ibmPlexSerif(
+                                                  color: Color(0xFF222B45),
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                'Check the boarding',
+                                                style: GoogleFonts.ibmPlexSans(
+                                                  color: Color(0xFF8F9BB3),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList()
+                          : tabcontroller!.index == 2
+                              ? days
+                                  .map(
+                                    (e) => ListView.builder(
+                                      itemCount: wed.length,
+                                      itemBuilder: (context, index) => Column(
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  type: PageTransitionType.fade,
+                                                  curve: Curves.decelerate,
+                                                  duration: Duration(seconds: 1),
+                                                  child: SelectOutlet(
+                                                    id: wedid[index],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: Colors.black)),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Image.asset("assets/images/reddot.png"),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        '10:00-13:00',
+                                                        textAlign: TextAlign.center,
+                                                        style: GoogleFonts.ibmPlexSerif(
+                                                          color: Color(0xFF8F9BB3),
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    wed[index],
+                                                    style: GoogleFonts.ibmPlexSerif(
+                                                      color: Color(0xFF222B45),
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    'Check the boarding',
+                                                    style: GoogleFonts.ibmPlexSans(
+                                                      color: Color(0xFF8F9BB3),
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                  .toList()
+                              : tabcontroller!.index == 3
+                                  ? days
+                                      .map(
+                                        (e) => ListView.builder(
+                                          itemCount: thu.length,
+                                          itemBuilder: (context, index) => Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType.fade,
+                                                      curve: Curves.decelerate,
+                                                      duration: Duration(seconds: 1),
+                                                      child: SelectOutlet(
+                                                        id: thuid[index],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(color: Colors.black)),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Image.asset("assets/images/reddot.png"),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            '10:00-13:00',
+                                                            textAlign: TextAlign.center,
+                                                            style: GoogleFonts.ibmPlexSerif(
+                                                              color: Color(0xFF8F9BB3),
+                                                              fontSize: 12,
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        thu[index],
+                                                        style: GoogleFonts.ibmPlexSerif(
+                                                          color: Color(0xFF222B45),
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        'Check the boarding',
+                                                        style: GoogleFonts.ibmPlexSans(
+                                                          color: Color(0xFF8F9BB3),
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w400,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                      .toList()
+                                  : tabcontroller!.index == 4
+                                      ? days
+                                          .map(
+                                            (e) => ListView.builder(
+                                              itemCount: fri.length,
+                                              itemBuilder: (context, index) => Column(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          type: PageTransitionType.fade,
+                                                          curve: Curves.decelerate,
+                                                          duration: Duration(seconds: 1),
+                                                          child: SelectOutlet(
+                                                            id: fridi[index],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(8),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: Colors.black)),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Image.asset(
+                                                                  "assets/images/reddot.png"),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                '10:00-13:00',
+                                                                textAlign: TextAlign.center,
+                                                                style: GoogleFonts.ibmPlexSerif(
+                                                                  color: Color(0xFF8F9BB3),
+                                                                  fontSize: 12,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                              ),
+                                                              Spacer(),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            fri[index],
+                                                            style: GoogleFonts.ibmPlexSerif(
+                                                              color: Color(0xFF222B45),
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            'Check the boarding',
+                                                            style: GoogleFonts.ibmPlexSans(
+                                                              color: Color(0xFF8F9BB3),
+                                                              fontSize: 12,
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                          .toList()
+                                      : days
+                                          .map(
+                                            (e) => ListView.builder(
+                                              itemCount: sat.length,
+                                              itemBuilder: (context, index) => Column(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          type: PageTransitionType.fade,
+                                                          curve: Curves.decelerate,
+                                                          duration: Duration(seconds: 1),
+                                                          child: SelectOutlet(
+                                                            id: sarid[index],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(8),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(color: Colors.black)),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Image.asset(
+                                                                  "assets/images/reddot.png"),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                '10:00-13:00',
+                                                                textAlign: TextAlign.center,
+                                                                style: GoogleFonts.ibmPlexSerif(
+                                                                  color: Color(0xFF8F9BB3),
+                                                                  fontSize: 12,
+                                                                  fontWeight: FontWeight.w400,
+                                                                ),
+                                                              ),
+                                                              Spacer(),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            sat[index],
+                                                            style: GoogleFonts.ibmPlexSerif(
+                                                              color: Color(0xFF222B45),
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            'Check the boarding',
+                                                            style: GoogleFonts.ibmPlexSans(
+                                                              color: Color(0xFF8F9BB3),
+                                                              fontSize: 12,
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  clgName + "_week#" + week,
-                  style: GoogleFonts.ibmPlexSerif(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _getEventsForDay(_selectedDay).length,
-                  itemBuilder: (context, index) {
-                    final marketArea = _getEventsForDay(_selectedDay)[index];
-                    return ListTile(
-                      title: Text(marketArea.area),
-                    );
-                  })
+              // Container(
+              //   padding: const EdgeInsets.all(8),
+              //   decoration:
+              //       BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
+              //   child: TableCalendar(
+              //     availableGestures: AvailableGestures.horizontalSwipe,
+              //     firstDay: DateTime.utc(2010, 10, 16),
+              //     lastDay: DateTime.utc(2030, 3, 14),
+              //     focusedDay: _focusedDay,
+              //     calendarFormat: _calendarFormat,
+              //     onCalendarCreated: (pageController) {
+              //       // print("focusday-------" + _focusedDay.toString());
+              //       _getEventsForDay(_focusedDay);
+              //     },
+              //     onDaySelected: (selectedDay, focusedDay) {
+              //       setState(() {
+              //         _selectedDay = selectedDay;
+              //         _focusedDay = focusedDay;
+              //         print("selectedday-----" + _selectedDay.toString());
+              //         print("focusday-----" + _focusedDay.toString());
+              //       });
+              //     },
+              //     selectedDayPredicate: (day) {
+              //       return isSameDay(_selectedDay, day);
+              //     },
+              //     eventLoader: (day) {
+              //       return _getEventsForDay(day);
+              //     },
+              //     daysOfWeekStyle: const DaysOfWeekStyle(
+              //         weekdayStyle: TextStyle(color: Colors.white),
+              //         weekendStyle: TextStyle(color: Colors.white)),
+              //     headerStyle: const HeaderStyle(
+              //         formatButtonVisible: false,
+              //         titleTextStyle: TextStyle(color: Colors.white),
+              //         titleCentered: true,
+              //         leftChevronVisible: true,
+              //         leftChevronIcon: Icon(
+              //           Icons.arrow_back_ios_new_rounded,
+              //           color: Colors.white,
+              //         ),
+              //         rightChevronIcon: Icon(
+              //           Icons.arrow_forward_ios_rounded,
+              //           color: Colors.white,
+              //         )),
+              //     calendarStyle: const CalendarStyle(
+              //       defaultTextStyle: TextStyle(color: Colors.white),
+              //       todayTextStyle: TextStyle(color: Colors.white),
+              //       outsideTextStyle: TextStyle(color: Colors.white),
+              //       selectedTextStyle: TextStyle(color: Colors.white),
+              //       weekendTextStyle: TextStyle(color: Colors.white),
+              //       markerMargin: EdgeInsets.only(top: 6, left: 1.5),
+              //       markerDecoration: BoxDecoration(
+              //         color: Colors.red,
+              //         borderRadius: BorderRadius.all(Radius.circular(50)),
+              //       ),
+              //       markersMaxCount: 3,
+              //       canMarkersOverflow: true,
+              //       markerSize: 6,
+              //       selectedDecoration:
+              //           BoxDecoration(color: Color(0xFFE61D2B), shape: BoxShape.circle),
+              //       todayDecoration: BoxDecoration(
+              //           color: Color.fromARGB(0, 131, 131, 131), shape: BoxShape.circle),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Text(
+              //     clgName + "_week#" + week,
+              //     style: GoogleFonts.ibmPlexSerif(
+              //       color: Colors.black,
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.w600,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              // ListView.builder(
+              //     shrinkWrap: true,
+              //     itemCount: _getEventsForDay(_selectedDay).length,
+              //     itemBuilder: (context, index) {
+              //       final marketArea = _getEventsForDay(_selectedDay)[index];
+              //       return ListTile(
+              //         title: Text(marketArea),
+              //       );
+              //     })
               // ListView.separated(
               //     shrinkWrap: true,
               //     physics: NeverScrollableScrollPhysics(),
               //     itemBuilder: (context, index) {
-              //       final event = _getEventsForDay(_selectedDay!)[index];
-              //       return Column(
-              //         children: [
-              //           InkWell(
-              //             onTap: () {
-              //               print("data name--------" + marketName[index]);
-              //               Navigator.push(
-              //                 context,
-              //                 PageTransition(
-              //                   type: PageTransitionType.fade,
-              //                   curve: Curves.decelerate,
-              //                   duration: Duration(seconds: 1),
-              //                   child: SelectOutlet(
-              //                     id: id,
-              //                   ),
-              //                 ),
-              //               );
-              //             },
-              //             child: Container(
-              //               padding: EdgeInsets.all(8),
-              //               decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-              //               child: Column(
-              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              // var event = _getEventsForDay(_selectedDay)[index];
+              // print("inllist------------" + event);
+              //   return Column(
+              //     children: [
+              //       InkWell(
+              //         onTap: () {
+              //           print("data name--------" + marketName[index]);
+              //           Navigator.push(
+              //             context,
+              //             PageTransition(
+              //               type: PageTransitionType.fade,
+              //               curve: Curves.decelerate,
+              //               duration: Duration(seconds: 1),
+              //               child: SelectOutlet(
+              //                 id: id,
+              //               ),
+              //             ),
+              //           );
+              //         },
+              //         child: Container(
+              //           padding: EdgeInsets.all(8),
+              //           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Row(
               //                 children: [
-              //                   Row(
-              //                     children: [
-              //                       Image.asset("assets/images/reddot.png"),
-              //                       SizedBox(
-              //                         width: 5,
-              //                       ),
-              //                       Text(
-              //                         '10:00-13:00',
-              //                         textAlign: TextAlign.center,
-              //                         style: GoogleFonts.ibmPlexSerif(
-              //                           color: Color(0xFF8F9BB3),
-              //                           fontSize: 12,
-              //                           fontWeight: FontWeight.w400,
-              //                         ),
-              //                       ),
-              //                       Spacer(),
-              //                     ],
-              //                   ),
+              //                   Image.asset("assets/images/reddot.png"),
               //                   SizedBox(
-              //                     height: 5,
+              //                     width: 5,
               //                   ),
               //                   Text(
-              //                     event.area.toString(),
+              //                     '10:00-13:00',
+              //                     textAlign: TextAlign.center,
               //                     style: GoogleFonts.ibmPlexSerif(
-              //                       color: Color(0xFF222B45),
-              //                       fontSize: 16,
-              //                       fontWeight: FontWeight.w500,
-              //                     ),
-              //                   ),
-              //                   SizedBox(
-              //                     height: 5,
-              //                   ),
-              //                   Text(
-              //                     'Check the boarding',
-              //                     style: GoogleFonts.ibmPlexSans(
               //                       color: Color(0xFF8F9BB3),
               //                       fontSize: 12,
               //                       fontWeight: FontWeight.w400,
               //                     ),
-              //                   )
+              //                   ),
+              //                   Spacer(),
               //                 ],
               //               ),
-              //             ),
+              //               SizedBox(
+              //                 height: 5,
+              //               ),
+              //               Text(
+              //                 _getEventsForDay(_selectedDay)[index],
+              //                 style: GoogleFonts.ibmPlexSerif(
+              //                   color: Color(0xFF222B45),
+              //                   fontSize: 16,
+              //                   fontWeight: FontWeight.w500,
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 height: 5,
+              //               ),
+              //               Text(
+              //                 'Check the boarding',
+              //                 style: GoogleFonts.ibmPlexSans(
+              //                   color: Color(0xFF8F9BB3),
+              //                   fontSize: 12,
+              //                   fontWeight: FontWeight.w400,
+              //                 ),
+              //               )
+              //             ],
               //           ),
-              //         ],
-              //       );
-              //     },
-              //     separatorBuilder: (context, index) {
-              //       return SizedBox(
-              //         height: 10,
-              //       );
-              //     },
-              //     itemCount: _getEventsForDay(_selectedDay!).length),
-              // ..._getEventsForDay(_selectedDay!).map((e) {
+              //         ),
+              //       ),
+              //     ],
+              //   );
+              // },
+              // separatorBuilder: (context, index) {
+              //   return SizedBox(
+              //     height: 10,
+              //   );
+              // },
+              // itemCount: _events.length),
+              // ..._getEventsForDay(_selectedDay).map((e) {
               //   return Column(
               //     children: [
               //       InkWell(
@@ -406,7 +917,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //                 height: 5,
               //               ),
               //               Text(
-              //                 e.area,
+              //                 e.toString(),
               //                 style: GoogleFonts.ibmPlexSerif(
               //                   color: Color(0xFF222B45),
               //                   fontSize: 16,
@@ -441,3 +952,28 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+List<Map<String, dynamic>> apiData = [
+  {
+    "success": true,
+    "data": [
+      {
+        "monday": [
+          {"area": "Market Area 1", "id": "64c24df6abf3850f1bdc7d0a"},
+          {"area": "Market Area 1", "id": "64c24df6abf3850f1bdc7d0a"}
+        ],
+        "count": 2
+      },
+      {
+        "tuesday": [
+          {"area": "Market Area 7", "id": "64c24df6abf3850f1bdc7d10"}
+        ],
+        "tuesdayCount": 1
+      },
+      {"Wednesday": [], "WednesdayCount": 0},
+      {"Thursday": [], "ThursdayCount": 0},
+      {"Friday": [], "FridayCount": 0},
+      {"saturday": [], "saturdayCount": 0}
+    ]
+  }
+];

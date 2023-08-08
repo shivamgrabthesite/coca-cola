@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../model/outlet_model.dart';
 
 class OutletApi {
-  static Future<OutetModel?> getData(String mid, String token) async {
+  static Future<OutletModel?> getData(String mid, String token) async {
     try {
       final url = Uri.parse(apiPath + "market/outlets");
       print("market area name-----" + mid);
@@ -22,7 +22,7 @@ class OutletApi {
       );
       print("status code----" + response.statusCode.toString());
       if (response.statusCode == 200) {
-        OutetModel getdata = outetModelFromJson(response.body);
+        OutletModel getdata = outletModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:coca_cola/constant/api.dart';
+import 'package:coca_cola/model/oneway_vision_model.dart';
 import 'package:coca_cola/model/vertical_signage_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../../model/cooler_model.dart';
 
 class OnewayApi {
-  static Future<VerticalSignageModel?> getData() async {
+  static Future<OnewayVisionModel?> getData() async {
     try {
       final url = Uri.parse(apiPath + "task/oneway_vision");
       Map<String, dynamic> requestBody = {
@@ -23,7 +24,7 @@ class OnewayApi {
       // return response.body;
 
       if (response.statusCode == 201) {
-        VerticalSignageModel getdata = verticalSignageModelFromJson(response.body);
+        OnewayVisionModel getdata = onewayVisionModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

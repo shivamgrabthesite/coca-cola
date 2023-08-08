@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'leaderboard_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -330,7 +331,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 50,
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    var prefs = await SharedPreferences.getInstance();
+                    setState(() {
+                      prefs.remove("logintoken");
+                    });
                     Navigator.push(
                         context,
                         PageTransition(

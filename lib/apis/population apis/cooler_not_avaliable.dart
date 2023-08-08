@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-class CoolerUploadImgApi {
+class CoolerNotAvailableApi {
   static Future setImage(String pid, File imgPath) async {
     try {
       print("pid in api------" + pid);

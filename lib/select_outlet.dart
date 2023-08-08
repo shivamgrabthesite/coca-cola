@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/outlet_api.dart';
 import 'model/outlet_model.dart';
+import 'outlet_detail.dart';
 
 class SelectOutlet extends StatefulWidget {
   String? id;
@@ -28,6 +29,7 @@ class _SelectOutletState extends State<SelectOutlet> {
   List customerGccId = [];
   List channel = [];
   String loginToken = '';
+  List id = [];
   @override
   void initState() {
     super.initState();
@@ -39,19 +41,16 @@ class _SelectOutletState extends State<SelectOutlet> {
     loginToken = prefs.getString("logintoken")!;
     print("id----" + widget.id!);
     OutletApi.getData(widget.id!, loginToken).then((value) {
+      print("json-------" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value!.data.length; i++) {
           priCustomerName.add(value.data[i].priCustomerName);
           address.add(value.data[i].address);
           customerGccId.add(value.data[i].customerGccId);
           channel.add(value.data[i].imageChannal);
+          id.add(value.data[i].id);
         }
       });
-
-      print(priCustomerName);
-      print(address);
-      print(customerGccId);
-      print(channel);
     });
   }
 
@@ -107,7 +106,7 @@ class _SelectOutletState extends State<SelectOutlet> {
                     ),
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 ListView.separated(
@@ -118,14 +117,17 @@ class _SelectOutletState extends State<SelectOutlet> {
                         onTap: () => Navigator.push(
                           context,
                           PageTransition(
-                            type: PageTransitionType.fade,
-                            child: ShopPic(
-                              customerGccId: customerGccId[index],
-                              address: address[index],
-                              priCustomerName: priCustomerName[index],
-                              channel: channel[index],
-                            ),
-                          ),
+                              type: PageTransitionType.fade,
+                              child: OutletDetail(
+                                id: id[index],
+                              )
+                              // child: ShopPic(
+                              //   customerGccId: customerGccId[index],
+                              //   address: address[index],
+                              //   priCustomerName: priCustomerName[index],
+                              //   channel: channel[index],
+                              // ),
+                              ),
                         ),
                         child: Container(
                           padding: EdgeInsets.all(8),
