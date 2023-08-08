@@ -31,29 +31,33 @@ class PriceCommunicationModel {
 
 class Datum {
   String title;
-  List<First> first;
-  List<First> second;
-  List<First> third;
+  First first;
+  First second;
+  First third;
+  First four;
 
   Datum({
     required this.title,
     required this.first,
     required this.second,
     required this.third,
+    required this.four,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         title: json["title"],
-        first: List<First>.from(json["first"].map((x) => First.fromJson(x))),
-        second: List<First>.from(json["second"].map((x) => First.fromJson(x))),
-        third: List<First>.from(json["third"].map((x) => First.fromJson(x))),
+        first: First.fromJson(json["first"]),
+        second: First.fromJson(json["second"]),
+        third: First.fromJson(json["third"]),
+        four: First.fromJson(json["four"]),
       );
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "first": List<dynamic>.from(first.map((x) => x.toJson())),
-        "second": List<dynamic>.from(second.map((x) => x.toJson())),
-        "third": List<dynamic>.from(third.map((x) => x.toJson())),
+        "first": first.toJson(),
+        "second": second.toJson(),
+        "third": third.toJson(),
+        "four": four.toJson(),
       };
 }
 

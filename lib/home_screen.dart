@@ -1,14 +1,29 @@
+import 'dart:convert';
+
 import 'package:coca_cola/select_outlet.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
-
+import 'package:http/http.dart' as http;
 import 'apis/header_model_api.dart';
 import 'apis/market_api.dart';
+import 'constant/api.dart';
+
+class Event {
+  final String area;
+  final String id;
+
+  Event(this.area, this.id);
+  @override
+  String toString() {
+    return '$area - $id';
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,8 +34,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
-  DateTime? _selectedDay;
-  DateTime? _focusedDay;
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
   String? data;
   List<String> marketName = [];
   List<String> outletData = [];
@@ -28,26 +43,28 @@ class _HomeScreenState extends State<HomeScreen> {
   String id = '';
   String clgName = '';
   String week = '';
+  Map<DateTime, List<Event>> _events = {};
 
-  Map<DateTime, List> events = {
-    DateTime.utc(2023, 8, 1): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
-    DateTime.utc(2023, 8, 3): ['Event 2', 'Event 3'],
-    DateTime.utc(2023, 8, 5): ['Event 4'],
-  };
+  // Map<DateTime, List> events = {
+  //   DateTime.utc(2023, 8, 1): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
+  //   DateTime.utc(2023, 8, 3): ['Event 2', 'Event 3'],
+  //   DateTime.utc(2023, 8, 5): ['Event 4'],
+  // };
 
-  List _listofDate(DateTime date) {
-    if (events[date] != null) {
-      return events[date]!;
-    } else {
-      return [];
-    }
-  }
+  // List _listofDate(DateTime date) {
+  //   if (events[date] != null) {
+  //     return events[date]!;
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = DateTime.now();
-    _focusedDay = DateTime.now();
+    // _selectedDay = DateTime.now();
+    // _focusedDay = DateTime.now();
+
     getData();
     getTime();
   }
@@ -62,25 +79,69 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future getData() async {
+  Future<void> getData() async {
     marketName.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    data = prefs.getString("logintoken")!;
-    clgName = prefs.getString("clgName")!;
-    week = prefs.getString("week")!;
-    print("logintoken----------" + data.toString());
-
-    MarketApi.getData(data!).then((value) {
-      for (var i = 0; i < value!.data.length; i++) {
-        setState(() {
-          marketName.add(value.data[i][i]["area"]);
-          id = value.data[i][i]["id"];
-        });
-      }
-      print("list of data-----" + marketName.toString());
-      print("mid--------" + id);
+    setState(() {
+      data = prefs.getString("logintoken")!;
+      clgName = prefs.getString("clgName")!;
+      week = prefs.getString("week")!;
+      // print("logintoken----------" + data!.toString());
     });
+
+    final url = Uri.parse(apiPath + "market/");
+    var response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + data!,
+      },
+    );
+    // print('Token : ${data}');
+    print("status code----" + response.statusCode.toString());
+    //  response.body;
+    var jsonData = json.decode(response.body);
+
+    var dataz = jsonData['data'];
+    _events.clear();
+
+    for (var i = 0; i < dataz.length; i++) {
+      var eventsList = <Event>[];
+      var event = Event(dataz[i][i]['area'], dataz[i][i]['id']);
+      eventsList.add(event);
+      // for (var eventJson in dataz[i]) {
+      //   var event = Event(eventJson['area'], eventJson['id']);
+      //   eventsList.add(event);
+      // }
+      var date = DateTime.parse(dataz[i][i]['date']);
+      _events[date] = eventsList;
+      setState(() {});
+      print('Parsed data: $dataz');
+      print('Updated _events: $_events');
+      print("eventsList------" + eventsList.toString());
+    }
   }
+
+  // List _getEventsForDay(DateTime day) {
+  //   var events = _events[day];
+  //   print("eventsssss-------" + events.toString());
+  //   if (events != null) {
+  //     return events.map((event) => event.area).toList();
+  //   }
+  //   return [];
+  // }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return _events[day] ?? [];
+  }
+
+  //  List _listofDate(DateTime date) {
+  //   if (events[date] != null) {
+  //     return events[date]!;
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   },
                   onCalendarCreated: (pageController) {
-                    _listofDate(_focusedDay!);
+                    _getEventsForDay(_focusedDay!);
                   },
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
@@ -163,9 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);
                   },
-                  eventLoader: (day) {
-                    return _listofDate(day);
-                  },
+                  eventLoader: (day) => _getEventsForDay(day),
                   daysOfWeekStyle: const DaysOfWeekStyle(
                       weekdayStyle: TextStyle(color: Colors.white),
                       weekendStyle: TextStyle(color: Colors.white)),
@@ -218,97 +277,107 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
-              ListView.separated(
+              ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: _getEventsForDay(_selectedDay).length,
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            print("data name--------" + marketName[index]);
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                curve: Curves.decelerate,
-                                duration: Duration(seconds: 1),
-                                child: SelectOutlet(
-                                  id: id,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image.asset("assets/images/reddot.png"),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      '10:00-13:00',
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.ibmPlexSerif(
-                                        color: Color(0xFF8F9BB3),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  marketName[index],
-                                  style: GoogleFonts.ibmPlexSerif(
-                                    color: Color(0xFF222B45),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  'Check the boarding',
-                                  style: GoogleFonts.ibmPlexSans(
-                                    color: Color(0xFF8F9BB3),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                    final marketArea = _getEventsForDay(_selectedDay)[index];
+                    return ListTile(
+                      title: Text(marketArea.area),
                     );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      height: 10,
-                    );
-                  },
-                  itemCount: marketName.length)
-              // ..._listofDate(_selectedDay!).map(
-              //   (e) => Column(
+                  })
+              // ListView.separated(
+              //     shrinkWrap: true,
+              //     physics: NeverScrollableScrollPhysics(),
+              //     itemBuilder: (context, index) {
+              //       final event = _getEventsForDay(_selectedDay!)[index];
+              //       return Column(
+              //         children: [
+              //           InkWell(
+              //             onTap: () {
+              //               print("data name--------" + marketName[index]);
+              //               Navigator.push(
+              //                 context,
+              //                 PageTransition(
+              //                   type: PageTransitionType.fade,
+              //                   curve: Curves.decelerate,
+              //                   duration: Duration(seconds: 1),
+              //                   child: SelectOutlet(
+              //                     id: id,
+              //                   ),
+              //                 ),
+              //               );
+              //             },
+              //             child: Container(
+              //               padding: EdgeInsets.all(8),
+              //               decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              //               child: Column(
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   Row(
+              //                     children: [
+              //                       Image.asset("assets/images/reddot.png"),
+              //                       SizedBox(
+              //                         width: 5,
+              //                       ),
+              //                       Text(
+              //                         '10:00-13:00',
+              //                         textAlign: TextAlign.center,
+              //                         style: GoogleFonts.ibmPlexSerif(
+              //                           color: Color(0xFF8F9BB3),
+              //                           fontSize: 12,
+              //                           fontWeight: FontWeight.w400,
+              //                         ),
+              //                       ),
+              //                       Spacer(),
+              //                     ],
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text(
+              //                     event.area.toString(),
+              //                     style: GoogleFonts.ibmPlexSerif(
+              //                       color: Color(0xFF222B45),
+              //                       fontSize: 16,
+              //                       fontWeight: FontWeight.w500,
+              //                     ),
+              //                   ),
+              //                   SizedBox(
+              //                     height: 5,
+              //                   ),
+              //                   Text(
+              //                     'Check the boarding',
+              //                     style: GoogleFonts.ibmPlexSans(
+              //                       color: Color(0xFF8F9BB3),
+              //                       fontSize: 12,
+              //                       fontWeight: FontWeight.w400,
+              //                     ),
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       );
+              //     },
+              //     separatorBuilder: (context, index) {
+              //       return SizedBox(
+              //         height: 10,
+              //       );
+              //     },
+              //     itemCount: _getEventsForDay(_selectedDay!).length),
+              // ..._getEventsForDay(_selectedDay!).map((e) {
+              //   return Column(
               //     children: [
               //       InkWell(
-              //         onTap: () => Navigator.push(
-              //             context,
-              //             PageTransition(
-              //                 type: PageTransitionType.fade,
-              //                 curve: Curves.decelerate,
-              //                 duration: Duration(seconds: 1),
-              //                 child: SelectOutlet())),
+              //         // onTap: () => Navigator.push(
+              //         //     context,
+              //         //     PageTransition(
+              //         //         type: PageTransitionType.fade,
+              //         //         curve: Curves.decelerate,
+              //         //         duration: Duration(seconds: 1),
+              //         //         child: SelectOutlet())),
               //         child: Container(
               //           padding: EdgeInsets.all(8),
               //           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -337,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //                 height: 5,
               //               ),
               //               Text(
-              //                 'MarketArea1',
+              //                 e.area,
               //                 style: GoogleFonts.ibmPlexSerif(
               //                   color: Color(0xFF222B45),
               //                   fontSize: 16,
@@ -363,8 +432,8 @@ class _HomeScreenState extends State<HomeScreen> {
               //         height: 10,
               //       )
               //     ],
-              //   ),
-              // ),
+              //   );
+              // }),
             ],
           ),
         ),

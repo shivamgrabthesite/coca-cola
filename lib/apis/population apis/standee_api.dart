@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:coca_cola/constant/api.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/cooler_model.dart';
-import '../model/standee_model.dart';
+import '../../model/cooler_model.dart';
+import '../../model/standee_model.dart';
 
 class StandeeApi {
   static Future<StandeeModel?> getData() async {

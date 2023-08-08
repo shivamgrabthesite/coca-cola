@@ -24,6 +24,12 @@ class PriceCommunicationScreen extends StatefulWidget {
 }
 
 class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
+  TextEditingController first1 = TextEditingController();
+  TextEditingController first2 = TextEditingController();
+  TextEditingController second1 = TextEditingController();
+  TextEditingController second2 = TextEditingController();
+  TextEditingController third1 = TextEditingController();
+  TextEditingController third2 = TextEditingController();
   int _currentPage = 0;
   late PageController controller;
   String? selectedOption;
@@ -62,8 +68,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   Future _getImage() async {
     var image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      preferredCameraDevice: CameraDevice.rear,
+      source: ImageSource.camera,
     );
     imgName = image!.name;
 
@@ -78,15 +83,15 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   getData() {
     PriceCommunicationApi.getData("64c6cf53cfd3911994c43484", "3").then((value) {
-      setState(() {
-        print(value);
-        for (var i = 0; i < value!.data.length; i++) {
+      // print(value);
+      for (var i = 0; i < value!.data.length; i++) {
+        setState(() {
           title = value.data[i].title;
-          first.add(value.data[i].first[i]);
-          second.add(value.data[i].second[i]);
-          third.add(value.data[i].third[i]);
-        }
-      });
+          first.add(value.data[i].first);
+          second.add(value.data[i].second);
+          third.add(value.data[i].third);
+        });
+      }
     });
   }
 
@@ -176,7 +181,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   height: 30,
                 ),
                 ExpandablePageView(
-                  physics: BouncingScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   controller: controller,
                   onPageChanged: (value) {},
                   // itemCount: 3,
@@ -319,6 +324,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
+                          controller: first1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -331,6 +337,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(color: Colors.black))),
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Container(
                         height: 90,
@@ -418,9 +427,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                imgsUpload.add(uploadImage(width));
-                                              });
+                                              // setState(() {
+                                              //   imgsUpload.add(uploadImage(width));
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -449,11 +458,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              setState.call(() {
-                                                if (imgsUpload.length > 1) {
-                                                  imgsUpload.removeAt(index);
-                                                }
-                                              });
+                                              // setState.call(() {
+                                              //   if (imgsUpload.length > 1) {
+                                              //     imgsUpload.removeAt(index);
+                                              //   }
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -488,6 +497,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
+                            controller: first2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -518,16 +528,26 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty) {
+                if (selectedOption!.isEmpty || _image == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                  // ScaffoldMessenger.of(context)
-                  //     .showSnackBar(SnackBar(content: Text("select one option")));
-                } else {
+                } else if (selectedOption!.contains("first1")) {
+                  // setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                } else if (selectedOption!.contains("first2")) {
+                  // setNotAvailable();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                  first1.clear();
+                } else {
+                  // setCustom();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                  first2.clear();
                 }
               },
               child: Center(
@@ -678,6 +698,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
+                          controller: second1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -690,6 +711,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(color: Colors.black))),
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Container(
                         height: 90,
@@ -777,9 +801,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                imgsUpload.add(uploadImage(width));
-                                              });
+                                              // setState(() {
+                                              //   imgsUpload.add(uploadImage(width));
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -808,11 +832,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              setState.call(() {
-                                                if (imgsUpload.length > 1) {
-                                                  imgsUpload.removeAt(index);
-                                                }
-                                              });
+                                              // setState.call(() {
+                                              //   if (imgsUpload.length > 1) {
+                                              //     imgsUpload.removeAt(index);
+                                              //   }
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -847,6 +871,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
+                            controller: second2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -901,7 +926,27 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                if (selectedOption!.isEmpty || _image == null) {
+                  setState(() {
+                    Fluttertoast.showToast(
+                      msg: "select one option",
+                    );
+                  });
+                } else if (selectedOption!.contains("second1")) {
+                  // setAvailable();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                } else if (selectedOption!.contains("second2")) {
+                  // setNotAvailable();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                  second1.clear();
+                } else {
+                  // setCustom();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                  second2.clear();
+                }
               },
               child: Center(
                 child: Container(
@@ -1051,6 +1096,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
+                          controller: third1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1063,6 +1109,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide(color: Colors.black))),
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Container(
                         height: 90,
@@ -1150,9 +1199,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                imgsUpload.add(uploadImage(width));
-                                              });
+                                              // setState(() {
+                                              //   imgsUpload.add(uploadImage(width));
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1182,11 +1231,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              setState.call(() {
-                                                if (imgsUpload.length > 1) {
-                                                  imgsUpload.removeAt(index);
-                                                }
-                                              });
+                                              // setState.call(() {
+                                              //   if (imgsUpload.length > 1) {
+                                              //     imgsUpload.removeAt(index);
+                                              //   }
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1221,6 +1270,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
+                            controller: third2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1276,8 +1326,23 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                if (controller.page! == 3) {
+                if (selectedOption!.isEmpty || _image == null) {
+                  setState(() {
+                    Fluttertoast.showToast(
+                      msg: "select one option",
+                    );
+                  });
+                } else if (selectedOption!.contains("third1")) {
+                  // setAvailable();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                } else if (selectedOption!.contains("third2")) {
+                  // setNotAvailable();
+                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  // removeImage();
+                  third1.clear();
+                } else {
+                  // setCustom();
                   Navigator.push(
                       context,
                       PageTransition(
@@ -1285,6 +1350,8 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
                           child: TransactionScreen()));
+                  // removeImage();
+                  third2.clear();
                 }
               },
               child: Center(

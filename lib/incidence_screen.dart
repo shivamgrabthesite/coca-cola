@@ -26,8 +26,14 @@ class IncidenceScreen extends StatefulWidget {
 }
 
 class _IncidenceScreenState extends State<IncidenceScreen> {
-  TextEditingController remark1 = TextEditingController();
-  TextEditingController remark2 = TextEditingController();
+  TextEditingController first1 = TextEditingController();
+  TextEditingController first2 = TextEditingController();
+  TextEditingController second1 = TextEditingController();
+  TextEditingController second2 = TextEditingController();
+  TextEditingController third1 = TextEditingController();
+  TextEditingController third2 = TextEditingController();
+  TextEditingController four1 = TextEditingController();
+  TextEditingController four2 = TextEditingController();
   int _currentPage = 0;
   late PageController controller;
   String? selectedOption;
@@ -45,15 +51,15 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   String imgTitle = '';
   // String? firstImg, secondImg;
   List<Widget> imgsUpload = [];
-  List<XFile> _pickedImages = [];
+  List gorceryList = [];
   XFile? imagesss;
   File? _image;
   String imgName = '';
   String pid = '';
   @override
   void initState() {
-    super.initState();
     controller = PageController(initialPage: _currentPage);
+    super.initState();
     getData();
   }
 
@@ -68,7 +74,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   Future _getImage() async {
     var image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     );
     imgName = image!.name;
 
@@ -100,13 +106,13 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     IncidenceApi.getData("64c6cf53cfd3911994c43484", "2").then((value) {
       print("incedence data---" + value!.data.toString());
       for (var i = 0; i < value.data.length; i++) {
-        // setState(() {
-        title = value.data[i].title;
-        first.add(value.data[i].first);
-        second.add(value.data[i].second);
-        third.add(value.data[i].third);
-        four.add(value.data[i].four);
-        // });
+        setState(() {
+          title = value.data[i].title;
+          first.add(value.data[i].first);
+          second.add(value.data[i].second);
+          third.add(value.data[i].third);
+          four.add(value.data[i].four);
+        });
       }
     });
 
@@ -119,19 +125,21 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   }
 
   setCustom() {
-    GroceryRackCustom.setImage(pid, remark2.text, _image!).then((value) {
+    GroceryRackCustom.setImage(pid, first2.text, _image!).then((value) {
       print("custom res----" + value.toString());
     });
   }
 
   setAvailable() {
-    GroceryRackUploadImg.setImage(pid, _image!).then((value) {
-      print("avauilable res----" + value.toString());
-    });
+    if (selectedOption!.contains('first1')) {
+      GroceryRackUploadImg.setImage(pid, _image!).then((value) {
+        print("avauilable res----" + value.toString());
+      });
+    }
   }
 
   setNotAvailable() {
-    GroceryRackNotAvailable.setImage(pid, remark1.text, _image!).then((value) {
+    GroceryRackNotAvailable.setImage(pid, first1.text, _image!).then((value) {
       print("not avauilable res----" + value.toString());
     });
   }
@@ -142,7 +150,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var height = size.height;
     var width = size.width;
 
-    if (imgsUpload.length == 0) {
+    if (imgsUpload.length < 1) {
       imgsUpload.add(uploadImage(width));
     }
     return SafeArea(
@@ -445,7 +453,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: remark1,
+                          controller: first1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -624,7 +632,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: remark2,
+                            controller: first2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -669,12 +677,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark1.clear();
+                  first1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark2.clear();
+                  first2.clear();
                 }
               },
               child: Center(
@@ -827,6 +835,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
+                          controller: second1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1001,6 +1010,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           ),
                           TextField(
                             maxLines: 2,
+                            controller: second2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1061,20 +1071,20 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("first1")) {
+                } else if (selectedOption!.contains("second1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                } else if (selectedOption!.contains("first2")) {
+                } else if (selectedOption!.contains("second2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark1.clear();
+                  second1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark2.clear();
+                  second2.clear();
                 }
               },
               child: Center(
@@ -1227,6 +1237,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
+                          controller: third1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1402,6 +1413,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           ),
                           TextField(
                             maxLines: 2,
+                            controller: third2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1463,20 +1475,20 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("first1")) {
+                } else if (selectedOption!.contains("third1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                } else if (selectedOption!.contains("first2")) {
+                } else if (selectedOption!.contains("third2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark1.clear();
+                  third1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark2.clear();
+                  third2.clear();
                 }
               },
               child: Center(
@@ -1629,6 +1641,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
+                          controller: four1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1804,6 +1817,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           ),
                           TextField(
                             maxLines: 2,
+                            controller: four2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1865,20 +1879,20 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("first1")) {
+                } else if (selectedOption!.contains("four1")) {
                   setAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                } else if (selectedOption!.contains("first2")) {
+                } else if (selectedOption!.contains("four2")) {
                   setNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark1.clear();
+                  four1.clear();
                 } else {
                   setCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   removeImage();
-                  remark2.clear();
+                  four2.clear();
                 }
                 if (controller.page! == 3) {
                   Navigator.push(
