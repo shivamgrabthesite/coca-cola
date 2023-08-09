@@ -3,10 +3,13 @@ import 'package:coca_cola/constant/api.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/reg2model.dart';
+import '../model/week_schedule_model.dart';
 
 class SetClgName {
   static Future setData(String clgName, String authorization) async {
     try {
+      print("in wekk-----" + authorization);
+      print("in wekk-----" + clgName);
       final url = Uri.parse(apiPath + "week-schedule");
       Map<String, dynamic> requestBody = {
         "college_name": clgName,
@@ -23,8 +26,8 @@ class SetClgName {
       print("map-------" + jsonencode);
       print("status code----" + response.statusCode.toString());
       // return response.body;
-      if (response.statusCode == 201) {
-        Reg2Model getdata = reg2ModelFromJson(response.body);
+      if (response.statusCode == 200) {
+        WeekScheduleModel getdata = weekScheduleModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

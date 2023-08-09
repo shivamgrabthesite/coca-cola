@@ -179,6 +179,8 @@ class _RegScreen2State extends State<RegScreen2> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "";
+                        } else if (value.length < 8) {
+                          return "";
                         }
                       },
                       decoration: InputDecoration(
@@ -236,6 +238,8 @@ class _RegScreen2State extends State<RegScreen2> {
                       obscureText: isObscure2,
                       validator: (value) {
                         if (value!.isEmpty) {
+                          return "";
+                        } else if (value.length < 8) {
                           return "";
                         }
                       },

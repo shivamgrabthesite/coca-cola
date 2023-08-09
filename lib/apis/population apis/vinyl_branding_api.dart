@@ -4,11 +4,11 @@ import 'package:coca_cola/model/vinyl_branding_model.dart';
 import 'package:http/http.dart' as http;
 
 class VinylBrandingApi {
-  static Future<VinylBrandingModel?> getData() async {
+  static Future<VinylBrandingModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/vinyl_branding");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

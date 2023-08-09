@@ -8,11 +8,11 @@ import '../../model/AmbientRackModel.dart';
 import '../../model/cooler_model.dart';
 
 class DpsApi {
-  static Future<DpsModel?> getData() async {
+  static Future<DpsModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/dps");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(
@@ -21,7 +21,7 @@ class DpsApi {
         headers: {'Content-Type': 'application/json'},
       );
       print("map-------" + jsonencode);
-      print("status code----" + response.statusCode.toString());
+      print("task code----" + response.body.toString());
       // return response.body;
 
       if (response.statusCode == 201) {

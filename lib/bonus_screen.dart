@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:coca_cola/apis/bonus/bonus_api.dart';
+import 'package:coca_cola/apis/bonus/counter_custom.dart';
+import 'package:coca_cola/apis/bonus_api.dart';
 import 'package:coca_cola/transaction_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -11,8 +12,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'apis/bonus/ambient_api.dart';
+import 'apis/bonus/ambient_available.dart';
+import 'apis/bonus/ambient_custom.dart';
+import 'apis/bonus/counter_available.dart';
+import 'apis/bonus/counter_not_availble.dart';
+import 'apis/bonus/counting_api.dart';
+import 'apis/bonus/slidein_api.dart';
+import 'apis/bonus/slidein_available.dart';
+import 'apis/bonus/slidein_custom.dart';
+import 'apis/bonus/slidein_not_available.dart';
+import 'apis/incindence apis/ambient_rack_not_available.dart';
 import 'model/bonus_model.dart';
 
 class BonusScreen extends StatefulWidget {
@@ -47,6 +60,10 @@ class _BonusScreenState extends State<BonusScreen> {
   List<Widget> imgsUpload = [];
   File? _image;
   String imgName = '';
+  String cid = '';
+  String aid = '';
+  String sid = '';
+  String tid = '';
   @override
   void initState() {
     super.initState();
@@ -80,7 +97,7 @@ class _BonusScreenState extends State<BonusScreen> {
     });
   }
 
-  getData() {
+  getData() async {
     BonusApi.getData("64c6cf53cfd3911994c43484", "4").then((value) {
       // print(value);
       for (var i = 0; i < value!.data.length; i++) {
@@ -92,15 +109,66 @@ class _BonusScreenState extends State<BonusScreen> {
         });
       }
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    tid = prefs.getString("tid").toString();
+
+    CounterApi.getData(tid).then((value) {
+      setState(() {
+        cid = value!.id;
+      });
+    });
+    AmbientApi.getData(tid).then((value) {
+      setState(() {
+        aid = value!.id;
+      });
+    });
+    SplideinApi.getData(tid).then((value) {
+      setState(() {
+        sid = value!.id;
+      });
+    });
   }
 
-  String pid = '';
-  String imgPath = "";
+  counterUploadImage() {
+    CounterAvailable.setImage(cid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
 
-  uploadImageApi() {
-    // CoolerUploadImgApi.setImage(pid, _image!).then((value) {
-    //   print("image upload response---------" + value);
-    // });
+  ambientUploadImage() {
+    AmbientAvailable.setImage(aid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  slideinUploadImage() {
+    SlideinAvailable.setImage(sid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  counterNotAvailable() {
+    CounterNotAvailable.setImage(cid!, first1.text, _image!);
+  }
+
+  ambeintNotAvailable() {
+    AmbientRackNotAvailable.setImage(aid!, second1.text, _image!);
+  }
+
+  slideinNotAvailable() {
+    SlideinNotAvailable.setImage(sid!, third1.text, _image!);
+  }
+
+  counterCustom() {
+    CounterCustom.setImage(cid!, first2.text, _image!);
+  }
+
+  ambientCustom() {
+    AmbientCustom.setImage(aid!, second2.text, _image!);
+  }
+
+  slideidCustom() {
+    SlideinCustom.setImage(sid!, third2.text, _image!);
   }
 
   @override
@@ -539,15 +607,18 @@ class _BonusScreenState extends State<BonusScreen> {
                   });
                 } else if (selectedOption!.contains("first1")) {
                   // setAvailable();
+                  counterUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("first2")) {
                   // setNotAvailable();
+                  counterNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
                 } else {
                   // setCustom();
+                  counterCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first2.clear();
@@ -941,15 +1012,18 @@ class _BonusScreenState extends State<BonusScreen> {
                   });
                 } else if (selectedOption!.contains("second1")) {
                   // setAvailable();
+                  ambientUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("second2")) {
                   // setNotAvailable();
+                  ambeintNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
                 } else {
                   // setCustom();
+                  ambientCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second2.clear();
@@ -1345,15 +1419,7 @@ class _BonusScreenState extends State<BonusScreen> {
                   });
                 } else if (selectedOption!.contains("third1")) {
                   // setAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                } else if (selectedOption!.contains("third2")) {
-                  // setNotAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // third1.clear();
-                } else {
-                  // setCustom();
+                  slideinUploadImage();
                   Navigator.push(
                       context,
                       PageTransition(
@@ -1362,7 +1428,30 @@ class _BonusScreenState extends State<BonusScreen> {
                           duration: Duration(seconds: 1),
                           child: TransactionScreen()));
                   // removeImage();
-                  third2.clear();
+                } else if (selectedOption!.contains("third2")) {
+                  // setNotAvailable();
+                  slideinNotAvailable();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
+                  // removeImage();
+                  // third1.clear();
+                } else {
+                  // setCustom();
+                  slideidCustom();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
+                  // removeImage();
+                  // third2.clear();
                 }
               },
               child: Center(

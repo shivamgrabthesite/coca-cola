@@ -6,11 +6,11 @@ import '../../model/CounterTopModel.dart';
 import '../../model/cooler_model.dart';
 
 class CounterTop {
-  static Future<CounterTopModel?> getData() async {
+  static Future<CounterTopModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/counter_top");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

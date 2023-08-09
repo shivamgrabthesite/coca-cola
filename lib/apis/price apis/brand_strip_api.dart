@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 import '../../model/brand_strip.dart';
 
 class BrandStripApi {
-  static Future<BrandStripModel?> getData() async {
+  static Future<BrandStripModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/brand_strip");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

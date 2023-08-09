@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     'friday',
     'saturday',
   ];
-  String? data;
+  // String data = '';
   List mon = [];
   List tue = [];
   List wed = [];
@@ -58,42 +58,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List sarid = [];
   String clgName = '';
   String week = '';
-  // Map<DateTime, List> _events = {};
-
-  // Map<DateTime, List> events = {
-  //   DateTime.utc(2023, 8, 1): ['Event 1', 'Event 2', 'Event 3', 'Event 2'],
-  //   DateTime.utc(2023, 8, 3): ['Event 2', 'Event 3'],
-  //   DateTime.utc(2023, 8, 5): ['Event 4'],
-  // };
-
-  // List _listofDate(DateTime date) {
-  //   if (events[date] != null) {
-  //     return events[date]!;
-  //   } else {
-  //     return [];
-  //   }
-  // }
-  // Map<String, List<Map<String, dynamic>>> dataByDay = {};
-
+  String flname = '';
   @override
   void initState() {
     super.initState();
     tabcontroller = TabController(length: days.length, vsync: this);
+    getPref();
     getData();
-    // organizeDataByDay();
   }
 
-  getTime() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    data = prefs.getString("token")!;
-    HeaderModelApi.getData(data!).then((value) {
-      setState(() {
-        headerData = value!.data.wishes;
-      });
-    });
+  // getTime() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   data = prefs.getString("token")!;
+  //   HeaderModelApi.getData(data!).then((value) {
+  //     setState(() {
+  //       headerData = value!.data.wishes;
+  //     });
+  //   });
+  // }
+  getPref() async {
+    print("clgname = = == = = = =" + clgName);
   }
 
   Future getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     mon.clear();
     tue.clear();
     wed.clear();
@@ -101,17 +89,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     fri.clear();
     sat.clear();
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      data = prefs.getString("logintoken")!;
-      clgName = prefs.getString("clgName")!;
-      week = prefs.getString("week")!;
-    });
+    var data = prefs.getString("logintoken");
+    clgName = prefs.getString("clgName").toString();
+    week = prefs.getString("week").toString();
+    flname = prefs.getString("flname").toString();
 
     MarketApi.getData(data!).then((value) {
       print("value----" + value!.data.toString());
-      print("lleng--------" + value.data.length.toString());
-      print("conut tue-----" + value.data[1].tuesdayCount.toString());
 
       setState(() {
         for (var j = 0; j < value.data[0].count!; j++) {
@@ -209,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Alex Volkov',
+                  flname,
                   style: GoogleFonts.ibmPlexSerif(
                     color: Colors.black,
                     fontSize: 24,
@@ -223,6 +207,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               TabBar(
                 controller: tabcontroller,
                 isScrollable: true,
+                physics: NeverScrollableScrollPhysics(),
                 onTap: (value) {
                   setState(() {});
                 },
@@ -254,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           curve: Curves.decelerate,
                                           duration: Duration(seconds: 1),
                                           child: SelectOutlet(
-                                            id: monid[index],
+                                            idz: monid[index],
                                           ),
                                         ),
                                       );
@@ -331,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               curve: Curves.decelerate,
                                               duration: Duration(seconds: 1),
                                               child: SelectOutlet(
-                                                id: tueid[index],
+                                                idz: tueid[index],
                                               ),
                                             ),
                                           );
@@ -408,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   curve: Curves.decelerate,
                                                   duration: Duration(seconds: 1),
                                                   child: SelectOutlet(
-                                                    id: wedid[index],
+                                                    idz: wedid[index],
                                                   ),
                                                 ),
                                               );
@@ -485,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       curve: Curves.decelerate,
                                                       duration: Duration(seconds: 1),
                                                       child: SelectOutlet(
-                                                        id: thuid[index],
+                                                        idz: thuid[index],
                                                       ),
                                                     ),
                                                   );
@@ -562,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           curve: Curves.decelerate,
                                                           duration: Duration(seconds: 1),
                                                           child: SelectOutlet(
-                                                            id: fridi[index],
+                                                            idz: fridi[index],
                                                           ),
                                                         ),
                                                       );
@@ -640,7 +625,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           curve: Curves.decelerate,
                                                           duration: Duration(seconds: 1),
                                                           child: SelectOutlet(
-                                                            id: sarid[index],
+                                                            idz: sarid[index],
                                                           ),
                                                         ),
                                                       );

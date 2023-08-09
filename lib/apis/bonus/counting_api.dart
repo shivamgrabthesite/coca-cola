@@ -1,30 +1,31 @@
 import 'dart:convert';
 import 'package:coca_cola/constant/api.dart';
+import 'package:coca_cola/model/vinyl_branding_model.dart';
 import 'package:http/http.dart' as http;
-import '../../model/bonus_model.dart';
-import '../../model/incidence_model.dart';
-import '../../model/price_communication_model.dart';
-import '../../model/questions_model.dart';
 
-class BonusApi {
-  static Future<BonusModel?> getData(String imgId, String step) async {
+import '../../model/brand_strip.dart';
+import '../../model/counter_brand_model.dart';
+import '../../model/price_strip_model.dart';
+
+class CounterApi {
+  static Future<CounterBrandModel?> getData(String tid) async {
     try {
-      final url = Uri.parse(apiPath + "market/send-questions");
+      final url = Uri.parse(apiPath + "task/counter_branding");
       Map<String, dynamic> requestBody = {
-        "image_id": imgId,
-        "step": step,
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
         body: jsonencode,
+        headers: {'Content-Type': 'application/json'},
       );
       print("map-------" + jsonencode);
       print("status code----" + response.statusCode.toString());
       // return response.body;
-      if (response.statusCode == 200) {
-        BonusModel getdata = bonusModelFromJson(response.body);
+
+      if (response.statusCode == 201) {
+        CounterBrandModel getdata = counterBrandModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

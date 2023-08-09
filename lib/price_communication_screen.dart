@@ -10,9 +10,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'apis/population apis/cooler_available.dart';
+import 'apis/price apis/brand_available.dart';
+import 'apis/price apis/brand_custom.dart';
+import 'apis/price apis/brand_not_available.dart';
+import 'apis/price apis/brand_strip_api.dart';
+import 'apis/price apis/pack_available.dart';
+import 'apis/price apis/pack_custom.dart';
+import 'apis/price apis/pack_cutout_api.dart';
+import 'apis/price apis/pack_not_availble.dart';
+import 'apis/price apis/price_custom.dart';
+import 'apis/price apis/price_strip_api.dart';
+import 'apis/price apis/price_strip_available.dart';
+import 'apis/price apis/price_strip_not_available.dart';
 import 'apis/price_communication_api.dart';
 import 'model/price_communication_model.dart';
 
@@ -48,6 +61,8 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   List<Widget> imgsUpload = [];
   File? _image;
   String imgName = '';
+  String brandid = '', priceid = '', packid = '';
+  String tid = '';
   @override
   void initState() {
     super.initState();
@@ -64,8 +79,6 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     }
   }
 
-  // String
-
   Future _getImage() async {
     var image = await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -81,7 +94,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     });
   }
 
-  getData() {
+  getData() async {
     PriceCommunicationApi.getData("64c6cf53cfd3911994c43484", "3").then((value) {
       // print(value);
       for (var i = 0; i < value!.data.length; i++) {
@@ -93,15 +106,66 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         });
       }
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    tid = prefs.getString("tid").toString();
+
+    BrandStripApi.getData(tid).then((value) {
+      setState(() {
+        brandid = value!.id;
+      });
+    });
+    PriceStripApi.getData(tid).then((value) {
+      setState(() {
+        priceid = value!.id;
+      });
+    });
+    PackCutoutApi.getData(tid).then((value) {
+      setState(() {
+        packid = value!.id;
+      });
+    });
   }
 
-  String pid = '';
-  String imgPath = "";
+  brandUploadImage() {
+    BrandAvailable.setImage(brandid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
 
-  uploadImageApi() {
-    // CoolerUploadImgApi.setImage(pid, _image!).then((value) {
-    //   print("image upload response---------" + value);
-    // });
+  priceUploadImage() {
+    PriceStripAvailable.setImage(priceid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  packUploadImage() {
+    PackAvailable.setImage(packid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  brandNotAvailable() {
+    BrandNotAvailable.setImage(brandid!, first1.text, _image!);
+  }
+
+  priceNotAvailable() {
+    PriceStripNotAvailable.setImage(priceid!, second1.text, _image!);
+  }
+
+  packNotAvailable() {
+    PackNotAvailable.setImage(packid!, third1.text, _image!);
+  }
+
+  brandCustom() {
+    BrandCustom.setImage(brandid!, first2.text, _image!);
+  }
+
+  priceCustom() {
+    PriceStripCustom.setImage(priceid!, second2.text, _image!);
+  }
+
+  packCustom() {
+    PackCustom.setImage(packid!, third2.text, _image!);
   }
 
   @override
@@ -540,15 +604,18 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   });
                 } else if (selectedOption!.contains("first1")) {
                   // setAvailable();
+                  brandUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("first2")) {
                   // setNotAvailable();
+                  brandNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
                 } else {
                   // setCustom();
+                  brandCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first2.clear();
@@ -942,15 +1009,18 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   });
                 } else if (selectedOption!.contains("second1")) {
                   // setAvailable();
+                  priceUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("second2")) {
                   // setNotAvailable();
+                  priceNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
                 } else {
                   // setCustom();
+                  priceCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second2.clear();
@@ -1346,15 +1416,30 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   });
                 } else if (selectedOption!.contains("third1")) {
                   // setAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  packUploadImage();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                   // removeImage();
                 } else if (selectedOption!.contains("third2")) {
                   // setNotAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  packNotAvailable();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
+                  packCustom();
                   Navigator.push(
                       context,
                       PageTransition(

@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 import '../../model/cooler_model.dart';
 
 class OnewayApi {
-  static Future<OnewayVisionModel?> getData() async {
+  static Future<OnewayVisionModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/oneway_vision");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

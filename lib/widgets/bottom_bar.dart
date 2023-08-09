@@ -46,7 +46,7 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
           controller: _controller,
           handleAndroidBackButtonPress: true,
           stateManagement: true,
-          // popAllScreensOnTapAnyTabs: ,
+          popAllScreensOnTapAnyTabs: true,
           backgroundColor: Colors.white.withOpacity(.85),
           screenTransitionAnimation: const ScreenTransitionAnimation(
               animateTabTransition: true,

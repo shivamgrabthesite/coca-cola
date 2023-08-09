@@ -7,11 +7,11 @@ import '../../model/AmbientRackModel.dart';
 import '../../model/cooler_model.dart';
 
 class AerialHanger {
-  static Future<AerialHangerModel?> getData() async {
+  static Future<AerialHangerModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/aerial_hanger");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

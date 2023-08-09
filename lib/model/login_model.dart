@@ -12,23 +12,27 @@ class LoginModel {
   bool success;
   String message;
   Data data;
+  UserData userData;
 
   LoginModel({
     required this.success,
     required this.message,
     required this.data,
+    required this.userData,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         success: json["success"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
+        userData: UserData.fromJson(json["user_data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
         "data": data.toJson(),
+        "user_data": userData.toJson(),
       };
 }
 
@@ -54,11 +58,11 @@ class Data {
 
 class User {
   String week;
-  String collegeName;
+  dynamic collegeName;
 
   User({
     required this.week,
-    required this.collegeName,
+    this.collegeName,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -69,5 +73,49 @@ class User {
   Map<String, dynamic> toJson() => {
         "week": week,
         "college_name": collegeName,
+      };
+}
+
+class UserData {
+  String password;
+  List<String> role;
+  bool verify;
+  String id;
+  String phoneNumber;
+  String firstName;
+  String lastName;
+  String userEmail;
+
+  UserData({
+    required this.password,
+    required this.role,
+    required this.verify,
+    required this.id,
+    required this.phoneNumber,
+    required this.firstName,
+    required this.lastName,
+    required this.userEmail,
+  });
+
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+        password: json["password"],
+        role: List<String>.from(json["role"].map((x) => x)),
+        verify: json["verify"],
+        id: json["_id"],
+        phoneNumber: json["phone_number"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        userEmail: json["user_email"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "password": password,
+        "role": List<dynamic>.from(role.map((x) => x)),
+        "verify": verify,
+        "_id": id,
+        "phone_number": phoneNumber,
+        "first_name": firstName,
+        "last_name": lastName,
+        "user_email": userEmail,
       };
 }

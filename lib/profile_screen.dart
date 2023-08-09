@@ -18,10 +18,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String email = '';
+  String name = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getData();
+  }
+
+  getData() async {
+    var pref = await SharedPreferences.getInstance();
+    setState(() {
+      email = pref.getString("useremail").toString();
+      name = pref.getString("flname").toString();
+    });
   }
 
   @override
@@ -66,28 +77,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       backgroundImage: NetworkImage(
                           "https://s.yimg.com/ny/api/res/1.2/dfso95r7vP1yT9qL.g10pg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://media.zenfs.com/en/gobankingrates_644/2afc0ebc2a13c7132a21889e2bb0c0b9"),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Alex Volkov',
-                            style: GoogleFonts.ibmPlexSans(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: GoogleFonts.ibmPlexSans(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          Text(
-                            'alex@gmail.com',
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
+                            Text(
+                              email,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.ibmPlexSerif(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -336,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     setState(() {
                       prefs.remove("logintoken");
                     });
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         PageTransition(
                             type: PageTransitionType.fade,

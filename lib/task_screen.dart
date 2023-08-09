@@ -20,6 +20,7 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   List marketData = [];
   List status = [];
+  List gccid = [];
   String? data;
 
   @override
@@ -36,12 +37,14 @@ class _TaskScreenState extends State<TaskScreen> {
     setState(() {
       data = prefs.getString("logintoken")!;
     });
+    print("uid--------" + data.toString());
     FetchTaskApi.getData(data!).then((value) {
-      // print("task data-----" + value!.data.toString());
+      print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value!.data.length; i++) {
-          marketData.add(value.data[i].market.asmName);
+          marketData.add(value.data[i].market.priCustomerName);
           status.add(value.data[i].status);
+          gccid.add(value.data[i].market.customerGccId);
           print("market data---------" + marketData.toString());
         }
         print("data----" + marketData.toString());
@@ -135,7 +138,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                       width: 5,
                                     ),
                                     Text(
-                                      '10:00-13:00',
+                                      'GCC ID: ' + gccid[index],
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.ibmPlexSerif(
                                         color: Color(0xFF8F9BB3),

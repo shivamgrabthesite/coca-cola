@@ -6,11 +6,11 @@ import '../../model/AmbientRackModel.dart';
 import '../../model/cooler_model.dart';
 
 class AmbientRack {
-  static Future<AmbientRackModel?> getData() async {
+  static Future<AmbientRackModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/ambient_rack");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

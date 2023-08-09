@@ -6,11 +6,11 @@ import '../../model/GroceryRackModel.dart';
 import '../../model/cooler_model.dart';
 
 class Grocaryrackpi {
-  static Future<GroceryRackModel?> getData() async {
+  static Future<GroceryRackModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/grocery_rack");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

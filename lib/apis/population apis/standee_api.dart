@@ -6,11 +6,11 @@ import '../../model/cooler_model.dart';
 import '../../model/standee_model.dart';
 
 class StandeeApi {
-  static Future<StandeeModel?> getData() async {
+  static Future<StandeeModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/standee");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

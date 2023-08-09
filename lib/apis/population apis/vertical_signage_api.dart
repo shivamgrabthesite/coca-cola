@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 import '../../model/cooler_model.dart';
 
 class VerticalSignageApi {
-  static Future<VerticalSignageModel?> getData() async {
+  static Future<VerticalSignageModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/vertical_signage");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid":tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

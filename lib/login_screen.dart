@@ -30,38 +30,53 @@ class _LoginScreenState extends State<LoginScreen> {
   String msg = '';
   bool? statusCode;
   String loginToken = '';
+  String emailtoken = '';
+  String fname = '';
+  String lname = '';
   String clgName = '';
   String week = '';
+  String id = '';
+
   var _key = GlobalKey<FormState>();
 
-  getData() async {
-    var pref = await SharedPreferences.getInstance();
+  getData() {
     setState(() {
       emailStr = email.text.toString();
       passStr = password.text.toString();
     });
-    LoginApi.setData(emailStr!, passStr!).then((value) {
+    LoginApi.setData(emailStr!, passStr!).then((value) async {
+      var pref = await SharedPreferences.getInstance();
       print(value!);
+
+      msg = value.message;
+      statusCode = value.success;
+      print("status----------" + statusCode.toString());
       setState(() {
-        msg = value.message;
-        statusCode = value.success;
-        print("status----------" + statusCode.toString());
-        loginToken = value.data.token;
-        clgName = value.data.user.collegeName;
-        week = value.data.user.week;
-        print("cgname---------" + clgName);
-        pref.setString("logintoken", loginToken);
-        pref.setString("clgName", clgName);
-        pref.setString("week", week);
+        loginToken = value.data.token.toString();
+        clgName = value.data.user.collegeName.toString();
+        week = value.data.user.week.toString();
+        emailtoken = value.userData.userEmail.toString();
+        fname = value.userData.firstName.toString();
+        lname = value.userData.lastName.toString();
+        id = value.userData.id.toString();
       });
+
+      print("login tojen------" + loginToken.toString());
+      print("cgname---------" + clgName);
+      print("week---------" + week);
+      print("email---------" + emailtoken);
+      pref.setString("logintoken", loginToken);
+      pref.setString("uidtoken", id);
+      pref.setString("clgName", clgName);
+      pref.setString("week", week);
+      pref.setString("useremail", emailtoken);
+      pref.setString("flname", fname + " " + lname);
     }).whenComplete(() {
       if (_key.currentState!.validate()) {
         setState(() {
           if (statusCode == true) {
-            Fluttertoast.showToast(
-              msg: msg,
-            );
-            if (clgName == "") {
+            Fluttertoast.showToast(msg: msg);
+            if (clgName == "null") {
               Navigator.push(
                   context,
                   PageTransition(
@@ -89,6 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
           msg: "enter all details",
         );
       }
+    }).onError((error, stackTrace) {
+      // Fluttertoast.showToast(
+      //   msg: error.toString(),
+      // );
     });
   }
 

@@ -6,11 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:coca_cola/widgets/custom_badge.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/outlet_detail_api.dart';
+import 'apis/task_api.dart';
 
 class OutletDetail extends StatefulWidget {
-  String? id;
+  String id = '';
   OutletDetail({
     Key? key,
     required this.id,
@@ -21,23 +23,26 @@ class OutletDetail extends StatefulWidget {
 }
 
 class _OutletDetailState extends State<OutletDetail> {
-  String? Customer_GCC_ID,
-      Pri_Customer_Name,
-      Channel,
-      RedOutletClass,
-      MarketArea,
-      Unit,
-      City,
-      CollegeName,
-      SMName,
-      ASMName,
-      STLName,
-      MGRName,
-      DistName,
-      Week,
-      Day,
-      mid,
-      uid;
+  String Customer_GCC_ID = '',
+      Pri_Customer_Name = '',
+      Channel = '',
+      RedOutletClass = '',
+      MarketArea = '',
+      Unit = '',
+      City = '',
+      CollegeName = '',
+      SMName = '',
+      ASMName = '',
+      STLName = '',
+      MGRName = '',
+      DistName = '',
+      Week = '',
+      Day = '',
+      mid = '',
+      uid = '',
+      MOBILE = '';
+  String flname = '';
+  String uidtoken = '', midtoken = '', oidtoken = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -45,29 +50,51 @@ class _OutletDetailState extends State<OutletDetail> {
     getData();
   }
 
-  getData() {
-    print("widget id ---------" + widget.id!);
-    OutletDetailApi.getData(widget.id!).then((value) {
+  setTask() async {
+    var prefs = await SharedPreferences.getInstance();
+    uidtoken = prefs.getString("uidtoken").toString();
+    midtoken = prefs.getString("midtoken").toString();
+    oidtoken = prefs.getString("oidtoken").toString();
+
+    print("uidtoken----" + uidtoken);
+    print("midtoken----" + midtoken);
+    print("oidtoken----" + oidtoken);
+
+    TaskApi.getData(uidtoken, midtoken, oidtoken).then((value) {
+      print("task response---------" + value!.data.id.toString());
+      prefs.setString("tid", value.data.id);
+    });
+  }
+
+  getData() async {
+    var pref = await SharedPreferences.getInstance();
+    setState(() {
+      flname = pref.getString("flname").toString();
+    });
+    print("widget id ---------" + widget.id);
+    OutletDetailApi.getData(widget.id).then((value) {
       print("data---------" + value!.data.asmName);
-      setState(() {
-        Customer_GCC_ID = value!.data.customerGccId;
-        Pri_Customer_Name = value!.data.priCustomerName;
-        Channel = value!.data.channel;
-        RedOutletClass = value!.data.redOutletClass;
-        MarketArea = value!.data.marketArea;
-        Unit = value!.data.unit;
-        City = value!.data.city;
-        CollegeName = value!.data.collegeName;
-        SMName = value!.data.smName;
-        ASMName = value!.data.asmName;
-        STLName = value!.data.stlName;
-        MGRName = value!.data.mgrName;
-        DistName = value!.data.distName;
-        Week = value!.data.week;
-        Day = value!.data.day;
-        mid = value!.data.mid;
-        uid = value!.data.uid;
-      });
+
+      Customer_GCC_ID = value.data.customerGccId;
+      Pri_Customer_Name = value.data.priCustomerName;
+      Channel = value.data.channel;
+      RedOutletClass = value.data.redOutletClass;
+      MarketArea = value.data.marketArea;
+      Unit = value.data.unit;
+      City = value.data.city;
+      CollegeName = value.data.collegeName;
+      SMName = value.data.smName;
+      ASMName = value.data.asmName;
+      STLName = value.data.stlName;
+      MGRName = value.data.mgrName;
+      DistName = value.data.distName;
+      Week = value.data.week;
+      Day = value.data.day;
+      mid = value.data.mid;
+      uid = value.data.uid;
+      MOBILE = value.data.mobileNumber;
+    }).whenComplete(() {
+      setState(() {});
     });
   }
 
@@ -86,9 +113,6 @@ class _OutletDetailState extends State<OutletDetail> {
                   SvgPicture.asset("assets/images/ccsmall.svg"),
                   Spacer(),
                   Align(alignment: Alignment.center, child: CustomBadge()),
-                  SizedBox(width: 5),
-                  GestureDetector(
-                      onTap: () {}, child: SvgPicture.asset("assets/images/profile.svg")),
                 ],
               ),
               SizedBox(
@@ -100,7 +124,7 @@ class _OutletDetailState extends State<OutletDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Alex Volkov',
+                        flname,
                         style: GoogleFonts.ibmPlexSans(
                           color: Colors.black,
                           fontSize: 14,
@@ -135,14 +159,12 @@ class _OutletDetailState extends State<OutletDetail> {
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Expanded(
-                        child: Text(
-                          Customer_GCC_ID!,
-                          style: GoogleFonts.ibmPlexSerif(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      child: Text(
+                        Customer_GCC_ID!,
+                        style: GoogleFonts.ibmPlexSerif(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -164,6 +186,7 @@ class _OutletDetailState extends State<OutletDetail> {
                         SizedBox(
                           width: 80,
                         ),
+                        Spacer(),
                         Expanded(
                           child: Text(
                             City!,
@@ -217,9 +240,10 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // SizedBox(
+                        //   width: 80,
+                        // ),
+                        Spacer(),
                         Expanded(
                           child: Text(
                             RedOutletClass!,
@@ -273,9 +297,10 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // SizedBox(
+                        //   width: 80,
+                        // ),
+                        Spacer(),
                         Expanded(
                           child: Text(
                             Unit!,
@@ -329,9 +354,10 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // SizedBox(
+                        //   width: 80,
+                        // ),
+                        Spacer(),
                         Expanded(
                           child: Text(
                             CollegeName!,
@@ -385,9 +411,10 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // SizedBox(
+                        //   width: 80,
+                        // ),
+                        Spacer(),
                         Expanded(
                           child: Text(
                             ASMName!,
@@ -441,9 +468,8 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // Siz
+                        Spacer(),
                         Expanded(
                           child: Text(
                             MGRName!,
@@ -497,9 +523,10 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // SizedBox(
+                        //   width: 80,
+                        // ),
+                        Spacer(),
                         Expanded(
                           child: Text(
                             Week!,
@@ -553,9 +580,8 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // SizedB
+                        Spacer(),
                         Expanded(
                           child: Text(
                             mid!,
@@ -609,9 +635,8 @@ class _OutletDetailState extends State<OutletDetail> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
+                        // Siz
+                        Spacer(),
                         Expanded(
                           child: Text(
                             Unit!,
@@ -650,6 +675,34 @@ class _OutletDetailState extends State<OutletDetail> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        MOBILE,
+                        style: GoogleFonts.ibmPlexSans(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Mobile Number',
+                        style: GoogleFonts.ibmPlexSans(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -658,6 +711,7 @@ class _OutletDetailState extends State<OutletDetail> {
               ),
               GestureDetector(
                 onTap: () {
+                  setTask();
                   Navigator.push(
                       context,
                       PageTransition(

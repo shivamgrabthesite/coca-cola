@@ -13,10 +13,10 @@ import 'model/outlet_model.dart';
 import 'outlet_detail.dart';
 
 class SelectOutlet extends StatefulWidget {
-  String? id;
+  String idz = '';
   SelectOutlet({
     Key? key,
-    required this.id,
+    required this.idz,
   }) : super(key: key);
 
   @override
@@ -39,19 +39,36 @@ class _SelectOutletState extends State<SelectOutlet> {
   getOutlet() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginToken = prefs.getString("logintoken")!;
-    print("id----" + widget.id!);
-    OutletApi.getData(widget.id!, loginToken).then((value) {
+    prefs.setString("midtoken", widget.idz!);
+    print("id----" + widget.idz!);
+    Future.delayed(Duration(milliseconds: 500));
+    OutletApi.getData(widget.idz!, loginToken).then((value) {
       print("json-------" + value!.data.toString());
-      setState(() {
-        for (var i = 0; i < value!.data.length; i++) {
+
+      for (var i = 0; i < value.data.length; i++) {
+        setState(() {
           priCustomerName.add(value.data[i].priCustomerName);
           address.add(value.data[i].address);
           customerGccId.add(value.data[i].customerGccId);
           channel.add(value.data[i].imageChannal);
           id.add(value.data[i].id);
-        }
-      });
+        });
+      }
+
+      print("idzzz----" + id.toString());
     });
+  }
+
+  getOid(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("oidtoken", id[index]);
+    Navigator.push(
+        context,
+        PageTransition(
+            type: PageTransitionType.fade,
+            child: OutletDetail(
+              id: id[index],
+            )));
   }
 
   @override
@@ -114,21 +131,9 @@ class _SelectOutletState extends State<SelectOutlet> {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.fade,
-                              child: OutletDetail(
-                                id: id[index],
-                              )
-                              // child: ShopPic(
-                              //   customerGccId: customerGccId[index],
-                              //   address: address[index],
-                              //   priCustomerName: priCustomerName[index],
-                              //   channel: channel[index],
-                              // ),
-                              ),
-                        ),
+                        onTap: () {
+                          getOid(index);
+                        },
                         child: Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(border: Border.all(color: Colors.black)),

@@ -1,4 +1,5 @@
 import 'package:coca_cola/login_screen.dart';
+import 'package:coca_cola/registation/email_verify.dart';
 import 'package:coca_cola/registation/reg_screen1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

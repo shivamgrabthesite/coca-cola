@@ -12,8 +12,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'apis/bonus/ambient_api.dart';
+import 'apis/bonus/ambient_available.dart';
+import 'apis/bonus/ambient_custom.dart';
+import 'apis/bonus/counter_available.dart';
+import 'apis/bonus/counter_custom.dart';
+import 'apis/bonus/counter_not_availble.dart';
+import 'apis/bonus/counting_api.dart';
 import 'apis/incidence_api.dart';
+import 'apis/incindence apis/aerial_hanger.dart';
+import 'apis/incindence apis/aerial_hanger_available.dart';
+import 'apis/incindence apis/aerial_hanger_custom.dart';
+import 'apis/incindence apis/aerial_hanger_not_available.dart';
+import 'apis/incindence apis/ambient_rack_not_available.dart';
 import 'apis/incindence apis/grocery_rack.dart';
 import 'apis/incindence apis/grocery_rack_custom.dart';
 import 'model/incidence_model.dart';
@@ -55,7 +68,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   XFile? imagesss;
   File? _image;
   String imgName = '';
-  String pid = '';
+  String groceryid = '';
+  String ambinetid = '';
+  String counterid = '';
+  String aerialid = '';
+  String tid = '';
   @override
   void initState() {
     controller = PageController(initialPage: _currentPage);
@@ -102,7 +119,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
   }
 
-  getData() {
+  getData() async {
     IncidenceApi.getData("64c6cf53cfd3911994c43484", "2").then((value) {
       print("incedence data---" + value!.data.toString());
       for (var i = 0; i < value.data.length; i++) {
@@ -115,31 +132,103 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         });
       }
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    tid = prefs.getString("tid").toString();
 
-    Grocaryrackpi.getData().then((value) {
+    Grocaryrackpi.getData(tid).then((value) {
       setState(() {
-        pid = value!.id;
+        groceryid = value!.id;
       });
-      print("grocary id -------" + pid);
+      // print("grocary id -------" + pid);
+    });
+    AmbientApi.getData(tid).then((value) {
+      setState(() {
+        ambinetid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    });
+    CounterApi.getData(tid).then((value) {
+      setState(() {
+        counterid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    });
+    AerialHanger.getData(tid).then((value) {
+      setState(() {
+        aerialid = value!.id;
+      });
+      // print("grocary id -------" + pid);
     });
   }
 
-  setCustom() {
-    GroceryRackCustom.setImage(pid, first2.text, _image!).then((value) {
+  groceryCustom() {
+    GroceryRackCustom.setImage(groceryid, first2.text, _image!).then((value) {
       print("custom res----" + value.toString());
     });
   }
 
-  setAvailable() {
-    if (selectedOption!.contains('first1')) {
-      GroceryRackUploadImg.setImage(pid, _image!).then((value) {
-        print("avauilable res----" + value.toString());
-      });
-    }
+  ambientCustom() {
+    AmbientCustom.setImage(ambinetid, first2.text, _image!).then((value) {
+      print("custom res----" + value.toString());
+    });
   }
 
-  setNotAvailable() {
-    GroceryRackNotAvailable.setImage(pid, first1.text, _image!).then((value) {
+  counterCustom() {
+    CounterCustom.setImage(counterid, first2.text, _image!).then((value) {
+      print("custom res----" + value.toString());
+    });
+  }
+
+  arialCustom() {
+    AerialHangerCustom.setImage(aerialid, first2.text, _image!).then((value) {
+      print("custom res----" + value.toString());
+    });
+  }
+
+  ambientAvailable() {
+    AmbientAvailable.setImage(ambinetid, _image!).then((value) {
+      print("avauilable res----" + value.toString());
+    });
+  }
+
+  groceryAvailable() {
+    GroceryRackUploadImg.setImage(groceryid, _image!).then((value) {
+      print("avauilable res----" + value.toString());
+    });
+  }
+
+  counterAvailable() {
+    CounterAvailable.setImage(counterid, _image!).then((value) {
+      print("avauilable res----" + value.toString());
+    });
+  }
+
+  aerialAvailable() {
+    AerialHangerAvailable.setImage(aerialid, _image!).then((value) {
+      print("avauilable res----" + value.toString());
+    });
+  }
+
+  groceryNotAvailable() {
+    GroceryRackNotAvailable.setImage(groceryid, first1.text, _image!).then((value) {
+      print("not avauilable res----" + value.toString());
+    });
+  }
+
+  ambientNotAvailable() {
+    AmbientRackNotAvailable.setImage(groceryid, first1.text, _image!).then((value) {
+      print("not avauilable res----" + value.toString());
+    });
+  }
+
+  counterNotAvailable() {
+    CounterNotAvailable.setImage(counterid, first1.text, _image!).then((value) {
+      print("not avauilable res----" + value.toString());
+    });
+  }
+
+  aerialNotAvailable() {
+    AerialHangerNotAvailable.setImage(groceryid, first1.text, _image!).then((value) {
       print("not avauilable res----" + value.toString());
     });
   }
@@ -670,16 +759,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                     );
                   });
                 } else if (selectedOption!.contains("first1")) {
-                  setAvailable();
+                  // setAvailable();
+                  groceryAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("first2")) {
-                  setNotAvailable();
+                  // setNotAvailable();
+                  groceryNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
                 } else {
-                  setCustom();
+                  // setCustom();
+                  groceryCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first2.clear();
@@ -940,9 +1032,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                imgsUpload.add(uploadImage(width));
-                                              });
+                                              // setState(() {
+                                              //   imgsUpload.add(uploadImage(width));
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -971,11 +1063,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              setState.call(() {
-                                                if (imgsUpload.length > 1) {
-                                                  imgsUpload.removeAt(index);
-                                                }
-                                              });
+                                              // setState.call(() {
+                                              //   if (imgsUpload.length > 1) {
+                                              //     imgsUpload.removeAt(index);
+                                              //   }
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1072,16 +1164,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                     );
                   });
                 } else if (selectedOption!.contains("second1")) {
-                  setAvailable();
+                  // setAvailable();
+                  ambientAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("second2")) {
-                  setNotAvailable();
+                  // setNotAvailable();
+                  ambientNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
                 } else {
-                  setCustom();
+                  // setCustom();
+                  ambientCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second2.clear();
@@ -1342,9 +1437,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                imgsUpload.add(uploadImage(width));
-                                              });
+                                              // setState(() {
+                                              //   imgsUpload.add(uploadImage(width));
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1374,11 +1469,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              setState.call(() {
-                                                if (imgsUpload.length > 1) {
-                                                  imgsUpload.removeAt(index);
-                                                }
-                                              });
+                                              // setState.call(() {
+                                              //   if (imgsUpload.length > 1) {
+                                              //     imgsUpload.removeAt(index);
+                                              //   }
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1476,16 +1571,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                     );
                   });
                 } else if (selectedOption!.contains("third1")) {
-                  setAvailable();
+                  // setAvailable();
+                  counterAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("third2")) {
-                  setNotAvailable();
+                  // setNotAvailable();
+                  counterNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
-                  setCustom();
+                  // setCustom();
+                  counterCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -1746,9 +1844,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                imgsUpload.add(uploadImage(width));
-                                              });
+                                              // setState(() {
+                                              //   imgsUpload.add(uploadImage(width));
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1778,11 +1876,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              setState.call(() {
-                                                if (imgsUpload.length > 1) {
-                                                  imgsUpload.removeAt(index);
-                                                }
-                                              });
+                                              // setState.call(() {
+                                              //   if (imgsUpload.length > 1) {
+                                              //     imgsUpload.removeAt(index);
+                                              //   }
+                                              // });
                                             },
                                             child: Center(
                                               child: Container(
@@ -1880,21 +1978,28 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                     );
                   });
                 } else if (selectedOption!.contains("four1")) {
-                  setAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
+                  // setAvailable();
+                  aerialAvailable();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                 } else if (selectedOption!.contains("four2")) {
-                  setNotAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // four1.clear();
+                  // setNotAvailable();
+                  aerialNotAvailable();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                 } else {
-                  setCustom();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // four2.clear();
-                }
-                if (controller.page! == 3) {
+                  // setCustom();
+                  arialCustom();
                   Navigator.push(
                       context,
                       PageTransition(

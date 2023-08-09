@@ -5,11 +5,11 @@ import 'package:http/http.dart' as http;
 import '../../model/cooler_model.dart';
 
 class CoolerApi {
-  static Future<CoolerModel?> getData() async {
+  static Future<CoolerModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/cooler");
       Map<String, dynamic> requestBody = {
-        "tid": "64c91c2beb0916e300de203a",
+        "tid": tid,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(
@@ -18,7 +18,7 @@ class CoolerApi {
         headers: {'Content-Type': 'application/json'},
       );
       print("map-------" + jsonencode);
-      print("status code----" + response.statusCode.toString());
+      print("task code----" + response.statusCode.toString());
       // return response.body;
 
       if (response.statusCode == 201) {

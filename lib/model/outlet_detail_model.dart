@@ -49,6 +49,7 @@ class Data {
   String day;
   String mid;
   String uid;
+  String mobileNumber;
 
   Data({
     required this.id,
@@ -70,6 +71,7 @@ class Data {
     required this.day,
     required this.mid,
     required this.uid,
+    required this.mobileNumber,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -92,6 +94,7 @@ class Data {
         day: json["Day"],
         mid: json["mid"],
         uid: json["uid"],
+        mobileNumber: json["mobile_number"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -114,5 +117,6 @@ class Data {
         "Day": day,
         "mid": mid,
         "uid": uid,
+        "mobile_number": mobileNumber,
       };
 }

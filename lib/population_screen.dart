@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:coca_cola/transaction_screen.dart';
@@ -89,6 +90,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   String? dpsid, cooleid, standeeid, verticalid, onewayid, vinylid;
   String imgPath = "";
   List<XFile> _pickedImages = [];
+  String tid = '';
   @override
   void initState() {
     super.initState();
@@ -171,27 +173,27 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   coolerNotAvailable() {
-    CoolerNotAvailableApi.setImage(cooleid!, _image!);
+    CoolerNotAvailableApi.setImage(cooleid!, cooler1.text, _image!);
   }
 
   dpsNotAvailable() {
-    DpsNotAvailable.setImage(dpsid!, _image!);
+    DpsNotAvailable.setImage(dpsid!, dps1.text, _image!);
   }
 
   standeeNotAvailable() {
-    StandeeNotAvailable.setImage(standeeid!, _image!);
+    StandeeNotAvailable.setImage(standeeid!, standee1.text, _image!);
   }
 
   verticalNotAvailable() {
-    VerticalSignageNotAvailable.setImage(verticalid!, _image!);
+    VerticalSignageNotAvailable.setImage(verticalid!, vertical1.text, _image!);
   }
 
   onewayNotAvailable() {
-    OnewayVisionNotAvailable.setImage(onewayid!, _image!);
+    OnewayVisionNotAvailable.setImage(onewayid!, oneway1.text, _image!);
   }
 
   vinylNotAvailable() {
-    VinylBrandingNotAvailable.setImage(vinylid!, _image!);
+    VinylBrandingNotAvailable.setImage(vinylid!, vinyl1.text, _image!);
   }
 
   coolerCustom() {
@@ -218,7 +220,8 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VinylBrandingCustom.setImage(vinylid!, vinyl2.text, _image!);
   }
 
-  getData() {
+  getData() async {
+    // var prefs = Shared
     PopulationApi.getData("64c6cf53cfd3911994c43484", "1").then((value) {
       setState(() {
         print(value);
@@ -233,37 +236,40 @@ class _PopulationScreenState extends State<PopulationScreen> {
         }
       });
     });
-    CoolerApi.getData().then((value) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    tid = prefs.getString("tid").toString();
+
+    CoolerApi.getData(tid).then((value) {
       setState(() {
         cooleid = value!.id;
         print("idddd----------" + value.id);
       });
     });
-    DpsApi.getData().then((value) {
+    DpsApi.getData(tid).then((value) {
       setState(() {
         dpsid = value!.id;
         print("idddd----------" + value.id);
       });
     });
-    StandeeApi.getData().then((value) {
+    StandeeApi.getData(tid).then((value) {
       setState(() {
         standeeid = value!.id;
         print("idddd----------" + value.id);
       });
     });
-    VerticalSignageApi.getData().then((value) {
+    VerticalSignageApi.getData(tid).then((value) {
       setState(() {
         verticalid = value!.id;
         print("idddd----------" + value.id);
       });
     });
-    OnewayApi.getData().then((value) {
+    OnewayApi.getData(tid).then((value) {
       setState(() {
         onewayid = value!.id;
         print("idddd----------" + value.id);
       });
     });
-    VinylBrandingApi.getData().then((value) {
+    VinylBrandingApi.getData(tid).then((value) {
       setState(() {
         vinylid = value!.id;
         print("idddd----------" + value.id);
@@ -349,7 +355,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   height: 30,
                 ),
                 ExpandablePageView(
-                  // physics: NeverScrollableScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   controller: controller,
                   children: [
                     firstColumn(width, context),
@@ -445,12 +451,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
-                            _image == null ? 'Upload Image' : imgName,
-                            style: GoogleFonts.inter(
-                              color: Color(0xFF929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
+                          Expanded(
+                            child: Text(
+                              _image == null ? 'Upload Image' : imgName,
+                              style: GoogleFonts.inter(
+                                color: Color(0xFF929292),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           )
                         ],
@@ -704,15 +712,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("first1")) {
                   // setAvailable();
+                  dpsUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("first2")) {
                   // setNotAvailable();
+                  dpsNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
                 } else {
                   // setCustom();
+                  dpsCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first2.clear();
@@ -1104,15 +1115,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("second1")) {
                   // setAvailable();
+                  coolerUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("second2")) {
                   // setNotAvailable();
+                  coolerNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
                 } else {
                   // setCustom();
+                  coolerCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second2.clear();
@@ -1504,15 +1518,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("third1")) {
                   // setAvailable();
+                  standeeUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("third2")) {
                   // setNotAvailable();
+                  standeeNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
+                  standeeCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -1904,15 +1921,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("four1")) {
                   // setAvailable();
+                  verticalUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("four2")) {
                   // setNotAvailable();
+                  verticalNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
+                  verticalCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -2304,15 +2324,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("five1")) {
                   // setAvailable();
+                  onewayUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("five2")) {
                   // setNotAvailable();
+                  onewayNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
+                  onewayCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -2704,14 +2727,33 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("six1")) {
                   // setAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  vinylUploadImage();
+                  if (controller.page! == 5) {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: TransactionScreen()));
+                  }
                   // removeImage();
                 } else if (selectedOption!.contains("six2")) {
                   // setNotAvailable();
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  vinylNotAvailable();
+                  if (controller.page! == 5) {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: TransactionScreen()));
+                  }
                   // removeImage();
                   // remark1.clear();
                 } else {
+                  vinylCustom();
                   // controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   if (controller.page! == 5) {
                     Navigator.push(

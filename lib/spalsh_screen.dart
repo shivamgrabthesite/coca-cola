@@ -15,33 +15,31 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late final GifController controller;
-  String? userToken;
+  String userToken = '';
   @override
   void initState() {
     super.initState();
     // controller = GifController(vsync: this);
     getData();
-  }
-
-  getData() async {
-    var prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userToken = prefs.getString("logintoken");
-      print("usertoken-------" + userToken!);
-    });
-    if (userToken != null) {
-      Timer(Duration(seconds: 7), () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => BottomBar(),
-        ));
-      });
-    } else {
+    if (userToken == '') {
       Timer(Duration(seconds: 7), () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => Onboard0(),
         ));
       });
+    } else {
+      Timer(Duration(seconds: 7), () {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => BottomBar(),
+        ));
+      });
     }
+  }
+
+  getData() async {
+    var prefs = await SharedPreferences.getInstance();
+    userToken = prefs.getString("logintoken")!;
+    print("usertoken-------" + userToken!);
   }
 
   @override

@@ -24,6 +24,7 @@ class LoginApi {
       // return response.body;
 
       if (response.statusCode == 200) {
+        print("logindata--------" + response.body);
         LoginModel getdata = loginModelFromJson(response.body);
         return getdata;
       } else {
