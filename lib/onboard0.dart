@@ -108,7 +108,7 @@ class _Onboard0State extends State<Onboard0> {
                                   height: 40,
                                 ),
                                 Image.asset(
-                                  "assets/images/w3.png",
+                                  "assets/images/w2.png",
                                   fit: BoxFit.contain,
                                 ),
                               ],
@@ -141,7 +141,7 @@ class _Onboard0State extends State<Onboard0> {
                                 ),
                                 Center(
                                   child: Image.asset(
-                                    "assets/images/w1.png",
+                                    "assets/images/w3.png",
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -175,7 +175,7 @@ class _Onboard0State extends State<Onboard0> {
                                 ),
                                 Center(
                                   child: Image.asset(
-                                    "assets/images/w2.png",
+                                    "assets/images/w1.png",
                                     fit: BoxFit.contain,
                                   ),
                                 ),
