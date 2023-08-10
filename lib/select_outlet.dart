@@ -13,9 +13,13 @@ import 'model/outlet_model.dart';
 import 'outlet_detail.dart';
 
 class SelectOutlet extends StatefulWidget {
+  String areaName = '';
+  String day = '';
   String idz = '';
   SelectOutlet({
     Key? key,
+    required this.areaName,
+    required this.day,
     required this.idz,
   }) : super(key: key);
 
@@ -40,10 +44,10 @@ class _SelectOutletState extends State<SelectOutlet> {
   getOutlet() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginToken = prefs.getString("logintoken")!;
-    prefs.setString("midtoken", widget.idz!);
-    print("id----" + widget.idz!);
+    prefs.setString("midtoken", widget.idz);
+    // print("id----" + widget.idz!);
     Future.delayed(Duration(milliseconds: 500));
-    OutletApi.getData(widget.idz!, loginToken).then((value) {
+    OutletApi.getData(widget.areaName, widget.day, loginToken).then((value) {
       print("json-------" + value!.data.toString());
 
       for (var i = 0; i < value.data.length; i++) {

@@ -225,6 +225,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ? days
                           .map(
                             (e) => ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               itemCount: mon.length,
                               itemBuilder: (context, index) => Column(
                                 children: [
@@ -238,6 +239,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           duration: Duration(seconds: 1),
                                           child: SelectOutlet(
                                             idz: monid[index],
+                                            areaName: mon[index],
+                                            day: "Monday",
                                           ),
                                         ),
                                       );
@@ -302,6 +305,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ? days
                               .map(
                                 (e) => ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: tue.length,
                                   itemBuilder: (context, index) => Column(
                                     children: [
@@ -315,6 +319,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               duration: Duration(seconds: 1),
                                               child: SelectOutlet(
                                                 idz: tueid[index],
+                                                areaName: tue[index],
+                                                day: "Tuesday",
                                               ),
                                             ),
                                           );
@@ -379,6 +385,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ? days
                                   .map(
                                     (e) => ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
                                       itemCount: wed.length,
                                       itemBuilder: (context, index) => Column(
                                         children: [
@@ -392,6 +399,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   duration: Duration(seconds: 1),
                                                   child: SelectOutlet(
                                                     idz: wedid[index],
+                                                    areaName: wed[index],
+                                                    day: "Wednesday",
                                                   ),
                                                 ),
                                               );
@@ -456,6 +465,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ? days
                                       .map(
                                         (e) => ListView.builder(
+                                          physics: NeverScrollableScrollPhysics(),
                                           itemCount: thu.length,
                                           itemBuilder: (context, index) => Column(
                                             children: [
@@ -469,6 +479,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       duration: Duration(seconds: 1),
                                                       child: SelectOutlet(
                                                         idz: thuid[index],
+                                                        areaName: thu[index],
+                                                        day: "Thursday",
                                                       ),
                                                     ),
                                                   );
@@ -533,6 +545,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ? days
                                           .map(
                                             (e) => ListView.builder(
+                                              physics: NeverScrollableScrollPhysics(),
                                               itemCount: fri.length,
                                               itemBuilder: (context, index) => Column(
                                                 children: [
@@ -546,6 +559,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           duration: Duration(seconds: 1),
                                                           child: SelectOutlet(
                                                             idz: fridi[index],
+                                                            areaName: fri[index],
+                                                            day: "Friday",
                                                           ),
                                                         ),
                                                       );
@@ -611,6 +626,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       : days
                                           .map(
                                             (e) => ListView.builder(
+                                              physics: NeverScrollableScrollPhysics(),
                                               itemCount: sat.length,
                                               itemBuilder: (context, index) => Column(
                                                 children: [
@@ -624,6 +640,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           duration: Duration(seconds: 1),
                                                           child: SelectOutlet(
                                                             idz: sarid[index],
+                                                            areaName: sat[index],
+                                                            day: "Saturday",
                                                           ),
                                                         ),
                                                       );

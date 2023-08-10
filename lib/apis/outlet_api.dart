@@ -4,12 +4,13 @@ import 'package:http/http.dart' as http;
 import '../model/outlet_model.dart';
 
 class OutletApi {
-  static Future<OutletModel?> getData(String mid, String token) async {
+  static Future<OutletModel?> getData(String areaName, String day, String token) async {
     try {
       final url = Uri.parse(apiPath + "market/outlets");
-      print("market area name-----" + mid);
+      // print("market area name-----" + mid);
       Map<String, dynamic> requestBody = {
-        "mid": mid,
+        "ring_of_magic_area": areaName,
+        "day": day,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

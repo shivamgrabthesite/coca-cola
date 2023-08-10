@@ -1,6 +1,7 @@
 import 'package:coca_cola/edit_profile.dart';
 import 'package:coca_cola/getstarted_screen.dart';
 import 'package:coca_cola/privacy_policy.dart';
+import 'package:coca_cola/spalsh_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -360,7 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             type: PageTransitionType.fade,
                             curve: Curves.decelerate,
                             duration: Duration(seconds: 1),
-                            child: GetstartedScreen()));
+                            child: SplashScreen()));
                   },
                   child: Center(
                     child: Container(

@@ -58,13 +58,13 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        monday: json["monday"] == null
+        monday: json["Monday"] == null
             ? []
-            : List<Day>.from(json["monday"]!.map((x) => Day.fromJson(x))),
+            : List<Day>.from(json["Monday"]!.map((x) => Day.fromJson(x))),
         count: json["count"],
-        tuesday: json["tuesday"] == null
+        tuesday: json["Tuesday"] == null
             ? []
-            : List<Day>.from(json["tuesday"]!.map((x) => Day.fromJson(x))),
+            : List<Day>.from(json["Tuesday"]!.map((x) => Day.fromJson(x))),
         tuesdayCount: json["tuesdayCount"],
         wednesday: json["Wednesday"] == null
             ? []
@@ -78,16 +78,16 @@ class Datum {
             ? []
             : List<Day>.from(json["Friday"]!.map((x) => Day.fromJson(x))),
         fridayCount: json["FridayCount"],
-        saturday: json["saturday"] == null
+        saturday: json["Saturday"] == null
             ? []
-            : List<Day>.from(json["saturday"]!.map((x) => Day.fromJson(x))),
+            : List<Day>.from(json["Saturday"]!.map((x) => Day.fromJson(x))),
         saturdayCount: json["saturdayCount"],
       );
 
   Map<String, dynamic> toJson() => {
-        "monday": monday == null ? [] : List<dynamic>.from(monday!.map((x) => x.toJson())),
+        "Monday": monday == null ? [] : List<dynamic>.from(monday!.map((x) => x.toJson())),
         "count": count,
-        "tuesday": tuesday == null ? [] : List<dynamic>.from(tuesday!.map((x) => x.toJson())),
+        "Tuesday": tuesday == null ? [] : List<dynamic>.from(tuesday!.map((x) => x.toJson())),
         "tuesdayCount": tuesdayCount,
         "Wednesday": wednesday == null ? [] : List<dynamic>.from(wednesday!.map((x) => x.toJson())),
         "WednesdayCount": wednesdayCount,
@@ -95,7 +95,7 @@ class Datum {
         "ThursdayCount": thursdayCount,
         "Friday": friday == null ? [] : List<dynamic>.from(friday!.map((x) => x.toJson())),
         "FridayCount": fridayCount,
-        "saturday": saturday == null ? [] : List<dynamic>.from(saturday!.map((x) => x.toJson())),
+        "Saturday": saturday == null ? [] : List<dynamic>.from(saturday!.map((x) => x.toJson())),
         "saturdayCount": saturdayCount,
       };
 }
