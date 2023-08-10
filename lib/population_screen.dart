@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:coca_cola/provider/population_provider.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -77,7 +78,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   String title = '';
   String imgTitle = '';
-  String? firstImg, secondImg;
+  // String? firstImg, secondImg;
   List<First> first = [];
   List<First> second = [];
   List<First> third = [];
@@ -86,11 +87,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
   List<First> six = [];
   List<Widget> imgsUpload = [];
   File? _image;
-  String imgName = '';
-  String? dpsid, cooleid, standeeid, verticalid, onewayid, vinylid;
+  String imgName = "";
   String imgPath = "";
-  List<XFile> _pickedImages = [];
+  String? dpsid, cooleid, standeeid, verticalid, onewayid, vinylid;
+  // List<XFile> _pickedImages = [];
   String tid = '';
+  String flname = '';
   @override
   void initState() {
     super.initState();
@@ -112,11 +114,6 @@ class _PopulationScreenState extends State<PopulationScreen> {
     var image = await ImagePicker().pickImage(
       source: ImageSource.camera,
     );
-    if (image != null) {
-      setState(() {
-        _pickedImages.add(image);
-      });
-    }
     imgName = image!.name;
 
     setState(() {
@@ -130,95 +127,11 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
-  removeImage() {
-    setState(() {
-      _image = null;
-    });
-  }
-
-  coolerUploadImage() {
-    CoolerAvailable.setImage(cooleid!, _image!).then((value) {
-      print("image upload response---------" + value.toString());
-    });
-  }
-
-  dpsUploadImage() {
-    DPsAvailable.setImage(dpsid!, _image!).then((value) {
-      print("image upload response---------" + value.toString());
-    });
-  }
-
-  standeeUploadImage() {
-    StandeeAvailable.setImage(standeeid!, _image!).then((value) {
-      print("image upload response---------" + value.toString());
-    });
-  }
-
-  verticalUploadImage() {
-    VerticalSignageAvailable.setImage(verticalid!, _image!).then((value) {
-      print("image upload response---------" + value.toString());
-    });
-  }
-
-  onewayUploadImage() {
-    OnewayVisionAvailable.setImage(onewayid!, _image!).then((value) {
-      print("image upload response---------" + value.toString());
-    });
-  }
-
-  vinylUploadImage() {
-    VVinylBrandingAvailable.setImage(vinylid!, _image!).then((value) {
-      print("image upload response---------" + value.toString());
-    });
-  }
-
-  coolerNotAvailable() {
-    CoolerNotAvailableApi.setImage(cooleid!, cooler1.text, _image!);
-  }
-
-  dpsNotAvailable() {
-    DpsNotAvailable.setImage(dpsid!, dps1.text, _image!);
-  }
-
-  standeeNotAvailable() {
-    StandeeNotAvailable.setImage(standeeid!, standee1.text, _image!);
-  }
-
-  verticalNotAvailable() {
-    VerticalSignageNotAvailable.setImage(verticalid!, vertical1.text, _image!);
-  }
-
-  onewayNotAvailable() {
-    OnewayVisionNotAvailable.setImage(onewayid!, oneway1.text, _image!);
-  }
-
-  vinylNotAvailable() {
-    VinylBrandingNotAvailable.setImage(vinylid!, vinyl1.text, _image!);
-  }
-
-  coolerCustom() {
-    CoolerCustom.setImage(cooleid!, cooler2.text, _image!);
-  }
-
-  standeeCustom() {
-    StandeeCustom.setImage(standeeid!, standee2.text, _image!);
-  }
-
-  dpsCustom() {
-    DpsCustom.setImage(dpsid!, dps2.text, _image!);
-  }
-
-  verticalCustom() {
-    VerticalSignageCustom.setImage(verticalid!, vertical2.text, _image!);
-  }
-
-  onewayCustom() {
-    OnewayVisionCustom.setImage(onewayid!, oneway2.text, _image!);
-  }
-
-  vinylCustom() {
-    VinylBrandingCustom.setImage(vinylid!, vinyl2.text, _image!);
-  }
+  // removeImage() {
+  //   setState(() {
+  //     _image = null;
+  //   });
+  // }
 
   getData() async {
     // var prefs = Shared
@@ -238,6 +151,8 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     tid = prefs.getString("tid").toString();
+    flname = prefs.getString("flname").toString();
+    print("tid----------" + tid);
 
     CoolerApi.getData(tid).then((value) {
       setState(() {
@@ -277,15 +192,117 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
+  coolerUploadImage() {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  dpsUploadImage() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    DPsAvailable.setImage(dpsid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  standeeUploadImage() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    StandeeAvailable.setImage(standeeid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  verticalUploadImage() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VerticalSignageAvailable.setImage(verticalid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  onewayUploadImage() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    OnewayVisionAvailable.setImage(onewayid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  vinylUploadImage() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VVinylBrandingAvailable.setImage(vinylid!, _image!).then((value) {
+      print("image upload response---------" + value.toString());
+    });
+  }
+
+  coolerNotAvailable() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    CoolerNotAvailableApi.setImage(cooleid!, cooler1.text, _image!);
+  }
+
+  dpsNotAvailable() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    DpsNotAvailable.setImage(dpsid!, dps1.text, _image!);
+  }
+
+  standeeNotAvailable() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    StandeeNotAvailable.setImage(standeeid!, standee1.text, _image!);
+  }
+
+  verticalNotAvailable() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VerticalSignageNotAvailable.setImage(verticalid!, vertical1.text, _image!);
+  }
+
+  onewayNotAvailable() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    OnewayVisionNotAvailable.setImage(onewayid!, oneway1.text, _image!);
+  }
+
+  vinylNotAvailable() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VinylBrandingNotAvailable.setImage(vinylid!, vinyl1.text, _image!);
+  }
+
+  coolerCustom() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    CoolerCustom.setImage(cooleid!, cooler2.text, _image!);
+  }
+
+  standeeCustom() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    StandeeCustom.setImage(standeeid!, standee2.text, _image!);
+  }
+
+  dpsCustom() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    DpsCustom.setImage(dpsid!, dps2.text, _image!);
+  }
+
+  verticalCustom() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VerticalSignageCustom.setImage(verticalid!, vertical2.text, _image!);
+  }
+
+  onewayCustom() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    OnewayVisionCustom.setImage(onewayid!, oneway2.text, _image!);
+  }
+
+  vinylCustom() {
+    // var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VinylBrandingCustom.setImage(vinylid!, vinyl2.text, _image!);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height;
     var width = size.width;
 
-    if (imgsUpload.length < 1) {
-      imgsUpload.add(uploadImage(width));
-    }
+    // if (imgsUpload.length < 1) {
+    //   imgsUpload.add(uploadImage(width));
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -319,7 +336,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Alex Volkov',
+                    flname,
                     style: GoogleFonts.ibmPlexSans(
                       color: Colors.black,
                       fontSize: 14,
@@ -375,6 +392,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column firstColumn(double width, BuildContext context) {
+    // var firstProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -431,6 +449,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     child: InkWell(
                       onTap: () {
                         _getImage();
+                        // firstProvider.dpsImage();
                       },
                       child: Column(
                         children: [
@@ -525,6 +544,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         child: InkWell(
                           onTap: () {
                             _getImage();
+                            // firstProvider.dpsImage();
                           },
                           child: Column(
                             children: [
@@ -591,83 +611,127 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          // ListView.separated(
+                          //     shrinkWrap: true,
+                          //     physics: NeverScrollableScrollPhysics(),
+                          //     itemBuilder: (context, index) => Row(
+                          //           children: [
+
+                          //             Spacer(),
+                          //             Column(
+                          //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //               children: [
+                          //                 GestureDetector(
+                          //                   onTap: () {
+                          //                     // setState(() {
+                          //                     //   imgsUpload.add(uploadImage(width));
+                          //                     // });
+                          //                   },
+                          //                   child: Center(
+                          //                     child: Container(
+                          //                       height: 40,
+                          //                       width: 40,
+                          //                       padding: EdgeInsets.all(4),
+                          //                       decoration: BoxDecoration(
+                          //                           color: Color(0xFFE61D2B),
+                          //                           shape: BoxShape.circle),
+                          //                       child: Center(
+                          //                         child: Text(
+                          //                           "+",
+                          //                           style: GoogleFonts.ibmPlexSerif(
+                          //                             color: Colors.white,
+                          //                             fontSize: 22,
+                          //                             fontWeight: FontWeight.w600,
+                          //                           ),
+                          //                         ),
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //                 // Spacer(),
+                          //                 SizedBox(
+                          //                   height: 5,
+                          //                 ),
+                          //                 GestureDetector(
+                          //                   onTap: () {
+                          //                     // setState.call(() {
+                          //                     //   if (imgsUpload.length > 1) {
+                          //                     //     imgsUpload.removeAt(index);
+                          //                     //   }
+                          //                     // });
+                          //                   },
+                          //                   child: Center(
+                          //                     child: Container(
+                          //                       height: 40,
+                          //                       width: 40,
+                          //                       padding: EdgeInsets.all(4),
+                          //                       decoration: BoxDecoration(
+                          //                           color: Color(0xFFE61D2B),
+                          //                           shape: BoxShape.circle),
+                          //                       child: Center(
+                          //                         child: Text(
+                          //                           "x",
+                          //                           style: TextStyle(
+                          //                             color: Colors.white,
+                          //                             fontSize: 18,
+                          //                           ),
+                          //                         ),
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           ],
+                          //         ),
+                          //     separatorBuilder: (context, index) => SizedBox(
+                          //           height: 10,
+                          //         ),
+                          //     itemCount: imgsUpload.length),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                _getImage();
+                                // firstProvider.dpsImage();
+                              },
+                              child: Column(
+                                children: [
+                                  _image == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(_image!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      _image == null ? 'Upload Image' : imgName,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -711,22 +775,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     );
                   });
                 } else if (selectedOption!.contains("first1")) {
-                  // setAvailable();
                   dpsUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
                 } else if (selectedOption!.contains("first2")) {
-                  // setNotAvailable();
                   dpsNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // first1.clear();
                 } else {
-                  // setCustom();
                   dpsCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // first2.clear();
                 }
               },
               child: Center(
@@ -756,6 +812,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column seocndColumn(double width, BuildContext context) {
+    // var secondProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -812,6 +869,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     child: InkWell(
                       onTap: () {
                         _getImage();
+                        // secondProvider.coolerImage();
                       },
                       child: Column(
                         children: [
@@ -906,6 +964,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         child: InkWell(
                           onTap: () {
                             _getImage();
+                            // secondProvider.coolerImage();
                           },
                           child: Column(
                             children: [
@@ -972,83 +1031,51 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                _getImage();
+                                // secondProvider.coolerImage();
+                              },
+                              child: Column(
+                                children: [
+                                  _image == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(_image!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      _image == null ? 'Upload Image' : imgName,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -1109,27 +1136,17 @@ class _PopulationScreenState extends State<PopulationScreen> {
               onTap: () {
                 if (selectedOption!.isEmpty || _image == null) {
                   setState(() {
-                    Fluttertoast.showToast(
-                      msg: "select one option",
-                    );
+                    Fluttertoast.showToast(msg: "select one option");
                   });
                 } else if (selectedOption!.contains("second1")) {
-                  // setAvailable();
                   coolerUploadImage();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
                 } else if (selectedOption!.contains("second2")) {
-                  // setNotAvailable();
                   coolerNotAvailable();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // second1.clear();
                 } else {
-                  // setCustom();
                   coolerCustom();
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // second2.clear();
                 }
               },
               child: Center(
@@ -1159,6 +1176,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column thirdColumn(double width, BuildContext context) {
+    // var thirdProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1215,6 +1233,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     child: InkWell(
                       onTap: () {
                         _getImage();
+                        // thirdProvider.standeeImage();
                       },
                       child: Column(
                         children: [
@@ -1309,6 +1328,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         child: InkWell(
                           onTap: () {
                             _getImage();
+                            // thirdProvider.standeeImage();
                           },
                           child: Column(
                             children: [
@@ -1375,83 +1395,51 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                _getImage();
+                                // thirdProvider.standeeImage();
+                              },
+                              child: Column(
+                                children: [
+                                  _image == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(_image!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      _image == null ? 'Upload Image' : imgName,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -1562,6 +1550,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column fourColumn(double width, BuildContext context) {
+    // var fourProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1618,6 +1607,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     child: InkWell(
                       onTap: () {
                         _getImage();
+                        // fourProvider.verticalImage();
                       },
                       child: Column(
                         children: [
@@ -1712,6 +1702,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         child: InkWell(
                           onTap: () {
                             _getImage();
+                            // fourProvider.verticalImage();
                           },
                           child: Column(
                             children: [
@@ -1778,83 +1769,51 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                _getImage();
+                                // fourProvider.verticalImage();
+                              },
+                              child: Column(
+                                children: [
+                                  _image == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(_image!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      _image == null ? 'Upload Image' : imgName,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -1965,6 +1924,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column fiveColumn(double width, BuildContext context) {
+    // var fiveProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2021,6 +1981,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     child: InkWell(
                       onTap: () {
                         _getImage();
+                        // fiveProvider.onewayImage();
                       },
                       child: Column(
                         children: [
@@ -2115,6 +2076,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         child: InkWell(
                           onTap: () {
                             _getImage();
+                            // fiveProvider.onewayImage();
                           },
                           child: Column(
                             children: [
@@ -2181,83 +2143,51 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                _getImage();
+                                // fiveProvider.onewayImage();
+                              },
+                              child: Column(
+                                children: [
+                                  _image == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(_image!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      _image == null ? 'Upload Image' : imgName,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -2368,6 +2298,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column sixColumn(double width, BuildContext context) {
+    // var sixProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2424,6 +2355,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                     child: InkWell(
                       onTap: () {
                         _getImage();
+                        // sixProvider.vinylImage();
                       },
                       child: Column(
                         children: [
@@ -2518,6 +2450,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         child: InkWell(
                           onTap: () {
                             _getImage();
+                            // sixProvider.vinylImage();
                           },
                           child: Column(
                             children: [
@@ -2584,83 +2517,51 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.4,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                _getImage();
+                                // sixProvider.vinylImage();
+                              },
+                              child: Column(
+                                children: [
+                                  _image == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(_image!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      _image == null ? 'Upload Image' : imgName,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -2789,49 +2690,6 @@ class _PopulationScreenState extends State<PopulationScreen> {
           ],
         ),
       ],
-    );
-  }
-
-  Container uploadImage(double width) {
-    return Container(
-      height: 90,
-      width: width / 1.4,
-      // margin: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
-      child: InkWell(
-        onTap: () {
-          _getImage();
-        },
-        child: Column(
-          children: [
-            _image == null
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Icon(
-                      IconlyLight.paper_upload,
-                      color: Colors.black,
-                      size: 40,
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
-                  ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              _image == null ? 'Upload Image' : imgName,
-              style: GoogleFonts.inter(
-                color: Color(0xFF929292),
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

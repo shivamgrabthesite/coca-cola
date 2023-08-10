@@ -55,7 +55,7 @@ class _TransactionScreenState extends State<TransactionScreen> with TickerProvid
                       ),
                     ),
                     Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(

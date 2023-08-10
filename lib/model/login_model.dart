@@ -58,11 +58,11 @@ class Data {
 
 class User {
   String week;
-  dynamic collegeName;
+  String collegeName;
 
   User({
     required this.week,
-    this.collegeName,
+    required this.collegeName,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -77,7 +77,6 @@ class User {
 }
 
 class UserData {
-  String password;
   List<String> role;
   bool verify;
   String id;
@@ -87,7 +86,6 @@ class UserData {
   String userEmail;
 
   UserData({
-    required this.password,
     required this.role,
     required this.verify,
     required this.id,
@@ -98,7 +96,6 @@ class UserData {
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        password: json["password"],
         role: List<String>.from(json["role"].map((x) => x)),
         verify: json["verify"],
         id: json["_id"],
@@ -109,7 +106,6 @@ class UserData {
       );
 
   Map<String, dynamic> toJson() => {
-        "password": password,
         "role": List<dynamic>.from(role.map((x) => x)),
         "verify": verify,
         "_id": id,

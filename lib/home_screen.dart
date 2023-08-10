@@ -35,12 +35,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   DateTime now = DateTime.now();
   TabController? tabcontroller;
   List<String> days = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ];
   // String data = '';
   List mon = [];
@@ -153,10 +153,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 children: [
                   Hero(
                     tag: "cocacola",
-                    child: SvgPicture.asset("assets/images/ccsmall.svg"),
+                    child: Image.asset("assets/images/ccsmall.png", height: 80),
                   ),
-                  Spacer(),
-                  Align(alignment: Alignment.center, child: CustomBadge()),
                 ],
               ),
               SizedBox(
@@ -207,7 +205,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               TabBar(
                 controller: tabcontroller,
                 isScrollable: true,
-                physics: NeverScrollableScrollPhysics(),
                 onTap: (value) {
                   setState(() {});
                 },
@@ -223,6 +220,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 height: 500,
                 child: TabBarView(
                   controller: tabcontroller,
+                  physics: NeverScrollableScrollPhysics(),
                   children: tabcontroller!.index == 0
                       ? days
                           .map(

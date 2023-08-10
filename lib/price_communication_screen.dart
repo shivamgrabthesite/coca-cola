@@ -63,6 +63,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   String imgName = '';
   String brandid = '', priceid = '', packid = '';
   String tid = '';
+  String flname = '';
   @override
   void initState() {
     super.initState();
@@ -108,6 +109,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     tid = prefs.getString("tid").toString();
+    flname = prefs.getString("flname").toString();
 
     BrandStripApi.getData(tid).then((value) {
       setState(() {
@@ -209,7 +211,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Alex Volkov',
+                    flname,
                     style: GoogleFonts.ibmPlexSans(
                       color: Colors.black,
                       fontSize: 14,

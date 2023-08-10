@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class StarterkitScreen extends StatefulWidget {
@@ -15,6 +16,21 @@ class StarterkitScreen extends StatefulWidget {
 
 class _StarterkitScreenState extends State<StarterkitScreen> {
   final controller = PageController(keepPage: true, viewportFraction: 1);
+  String flname = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      flname = prefs.getString("flname").toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -29,9 +45,9 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset("assets/images/ccsmall.svg"),
+                    Image.asset("assets/images/ccsmall.png", height: 80),
                     Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(
@@ -40,7 +56,7 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Alex Volkov',
+                    flname,
                     style: GoogleFonts.ibmPlexSans(
                       color: Colors.black,
                       fontSize: 14,

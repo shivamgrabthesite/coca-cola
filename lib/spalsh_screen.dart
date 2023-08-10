@@ -15,31 +15,38 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late final GifController controller;
-  String userToken = '';
+  bool? userToken;
   @override
   void initState() {
     super.initState();
     // controller = GifController(vsync: this);
     getData();
-    if (userToken == '') {
-      Timer(Duration(seconds: 7), () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Onboard0(),
-        ));
-      });
-    } else {
-      Timer(Duration(seconds: 7), () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => BottomBar(),
-        ));
-      });
-    }
   }
 
   getData() async {
+    print("usertoken-------");
     var prefs = await SharedPreferences.getInstance();
-    userToken = prefs.getString("logintoken")!;
-    print("usertoken-------" + userToken!);
+    userToken = prefs.getBool("loginstatus");
+    print("usertoken-------" + userToken.toString());
+
+    Timer(Duration(seconds: 7), () {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => userToken == null ? Onboard0() : BottomBar(),
+      ));
+    });
+    // if (userToken == '') {
+    //   Timer(Duration(seconds: 7), () {
+    //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //       builder: (context) =>userToken==''? Onboard0(): BottomBar(),
+    //     ));
+    //   });
+    // } else {
+    //   Timer(Duration(seconds: 7), () {
+    //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //       builder: (context) => BottomBar(),
+    //     ));
+    //   });
+    // }
   }
 
   @override

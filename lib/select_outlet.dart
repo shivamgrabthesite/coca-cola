@@ -30,6 +30,7 @@ class _SelectOutletState extends State<SelectOutlet> {
   List channel = [];
   String loginToken = '';
   List id = [];
+  String flname = '';
   @override
   void initState() {
     super.initState();
@@ -57,6 +58,7 @@ class _SelectOutletState extends State<SelectOutlet> {
 
       print("idzzz----" + id.toString());
     });
+    flname = prefs.getString("flname").toString();
   }
 
   getOid(int index) async {
@@ -105,7 +107,7 @@ class _SelectOutletState extends State<SelectOutlet> {
                   height: 30,
                 ),
                 Text(
-                  'Alex Volkov',
+                  flname,
                   style: GoogleFonts.ibmPlexSans(
                     color: Colors.black,
                     fontSize: 14,

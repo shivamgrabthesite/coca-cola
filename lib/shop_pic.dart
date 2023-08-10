@@ -113,70 +113,70 @@ class _ShopPicState extends State<ShopPic> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset("assets/images/reddot.png"),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '11/06/2023',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Color(0xFF8F9BB3),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        widget.priCustomerName!,
-                        style: GoogleFonts.ibmPlexSerif(
-                          color: Color(0xFF222B45),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              widget.address!,
-                              style: GoogleFonts.ibmPlexSans(
-                                color: Color(0xFF8F9BB3),
-                                fontSize: 12.05,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          // Spacer(),
-                          Text(
-                            widget.customerGccId!,
-                            style: GoogleFonts.ibmPlexSans(
-                              color: Color(0xFF8F9BB3),
-                              fontSize: 12.05,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                // Container(
+                //   margin: EdgeInsets.only(bottom: 10),
+                //   padding: EdgeInsets.all(8),
+                //   decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Image.asset("assets/images/reddot.png"),
+                //           SizedBox(
+                //             width: 5,
+                //           ),
+                //           Text(
+                //             '11/06/2023',
+                //             textAlign: TextAlign.center,
+                //             style: GoogleFonts.ibmPlexSerif(
+                //               color: Color(0xFF8F9BB3),
+                //               fontSize: 12,
+                //               fontWeight: FontWeight.w400,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //       SizedBox(
+                //         height: 5,
+                //       ),
+                //       Text(
+                //         widget.priCustomerName!,
+                //         style: GoogleFonts.ibmPlexSerif(
+                //           color: Color(0xFF222B45),
+                //           fontSize: 16,
+                //           fontWeight: FontWeight.w500,
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         height: 5,
+                //       ),
+                //       Row(
+                //         children: [
+                //           Expanded(
+                //             child: Text(
+                //               widget.address!,
+                //               style: GoogleFonts.ibmPlexSans(
+                //                 color: Color(0xFF8F9BB3),
+                //                 fontSize: 12.05,
+                //                 fontWeight: FontWeight.w400,
+                //               ),
+                //             ),
+                //           ),
+                //           // Spacer(),
+                //           Text(
+                //             widget.customerGccId!,
+                //             style: GoogleFonts.ibmPlexSans(
+                //               color: Color(0xFF8F9BB3),
+                //               fontSize: 12.05,
+                //               fontWeight: FontWeight.w400,
+                //             ),
+                //           )
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
                 SizedBox(
                   height: 30,
                 ),
@@ -246,21 +246,21 @@ class _ShopPicState extends State<ShopPic> {
                     Text('Price Communication'),
                   ],
                 ),
-                Row(
-                  children: [
-                    Radio(
-                      activeColor: Colors.red,
-                      value: 'Bonus',
-                      groupValue: _selectedOption,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedOption = value!;
-                        });
-                      },
-                    ),
-                    Text('Bonus'),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Radio(
+                //       activeColor: Colors.red,
+                //       value: 'Bonus',
+                //       groupValue: _selectedOption,
+                //       onChanged: (value) {
+                //         setState(() {
+                //           _selectedOption = value!;
+                //         });
+                //       },
+                //     ),
+                //     Text('Bonus'),
+                //   ],
+                // ),
                 SizedBox(
                   height: 30,
                 ),
@@ -284,14 +284,6 @@ class _ShopPicState extends State<ShopPic> {
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
                               child: IncidenceScreen()));
-                    } else if (_selectedOption == "Price Communication") {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.fade,
-                              curve: Curves.decelerate,
-                              duration: Duration(seconds: 1),
-                              child: PriceCommunicationScreen()));
                     } else {
                       Navigator.push(
                           context,
@@ -299,8 +291,17 @@ class _ShopPicState extends State<ShopPic> {
                               type: PageTransitionType.fade,
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
-                              child: BonusScreen()));
+                              child: PriceCommunicationScreen()));
                     }
+                    // else {
+                    //   Navigator.push(
+                    //       context,
+                    //       PageTransition(
+                    //           type: PageTransitionType.fade,
+                    //           curve: Curves.decelerate,
+                    //           duration: Duration(seconds: 1),
+                    //           child: BonusScreen()));
+                    // }
                   },
                   child: Center(
                     child: Container(

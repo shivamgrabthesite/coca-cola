@@ -22,6 +22,7 @@ class _TaskScreenState extends State<TaskScreen> {
   List status = [];
   List gccid = [];
   String? data;
+  String flname = '';
 
   @override
   void initState() {
@@ -36,15 +37,17 @@ class _TaskScreenState extends State<TaskScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       data = prefs.getString("logintoken")!;
+      flname = prefs.getString("flname").toString();
     });
     print("uid--------" + data.toString());
     FetchTaskApi.getData(data!).then((value) {
       print("task data-----" + value!.data.toString());
       setState(() {
-        for (var i = 0; i < value!.data.length; i++) {
+        for (var i = 0; i < value.data.length; i++) {
           marketData.add(value.data[i].market.priCustomerName);
           status.add(value.data[i].status);
           gccid.add(value.data[i].market.customerGccId);
+          prefs.setString("taskLength", value.data[i].market.priCustomerName.length.toString());
           print("market data---------" + marketData.toString());
         }
         print("data----" + marketData.toString());
@@ -72,9 +75,9 @@ class _TaskScreenState extends State<TaskScreen> {
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset("assets/images/ccsmall.svg"),
+                      Image.asset("assets/images/ccsmall.png", height: 80),
                       Spacer(),
-                      Align(alignment: Alignment.center, child: CustomBadge()),
+                      // Align(alignment: Alignment.center, child: CustomBadge()),
                     ],
                   ),
                   SizedBox(
@@ -83,7 +86,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   Row(
                     children: [
                       Text(
-                        'Alex Volkov',
+                        flname,
                         style: GoogleFonts.ibmPlexSans(
                           color: Colors.black,
                           fontSize: 14,

@@ -85,7 +85,7 @@ class _Onboard0State extends State<Onboard0> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'Welcome to the \nCoca-Cola Internship',
+                                    'Welcome to HCCBPL RING OF MAGIC',
                                     style: GoogleFonts.ibmPlexSerif(
                                       color: Colors.black,
                                       fontSize: 22,
@@ -97,7 +97,7 @@ class _Onboard0State extends State<Onboard0> {
                                   height: 10,
                                 ),
                                 Text(
-                                  'Unleash your potential and gain real-world experience',
+                                  'Step into a world of possibilities where learning meets adventure.',
                                   style: GoogleFonts.ibmPlexSans(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -105,10 +105,10 @@ class _Onboard0State extends State<Onboard0> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 40,
                                 ),
                                 Image.asset(
-                                  "assets/images/w1.png",
+                                  "assets/images/w3.png",
                                   fit: BoxFit.contain,
                                 ),
                               ],
@@ -129,7 +129,7 @@ class _Onboard0State extends State<Onboard0> {
                                   height: 10,
                                 ),
                                 Text(
-                                  'Discover Coca-Cola stores near your university',
+                                  'Discover the magic that lies ahead. Embark on a journey of exploration as you uncover Coca-Cola stores near your university. ',
                                   style: GoogleFonts.ibmPlexSans(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -141,7 +141,7 @@ class _Onboard0State extends State<Onboard0> {
                                 ),
                                 Center(
                                   child: Image.asset(
-                                    "assets/images/w2.png",
+                                    "assets/images/w1.png",
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -163,7 +163,7 @@ class _Onboard0State extends State<Onboard0> {
                                   height: 10,
                                 ),
                                 Text(
-                                  'UMake a lasting impact and build your career',
+                                  'Embrace innovation, leadership, and growth with our internship. From store interactions to understanding consumer dynamics, every step is a leap towards becoming a change-maker.',
                                   style: GoogleFonts.ibmPlexSans(
                                     color: Colors.black,
                                     fontSize: 14,
@@ -171,11 +171,11 @@ class _Onboard0State extends State<Onboard0> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 20,
                                 ),
                                 Center(
                                   child: Image.asset(
-                                    "assets/images/w3.png",
+                                    "assets/images/w2.png",
                                     fit: BoxFit.contain,
                                   ),
                                 ),

@@ -5,6 +5,7 @@ import 'package:coca_cola/incidence_screen.dart';
 import 'package:coca_cola/leaderboard_screen.dart';
 import 'package:coca_cola/login_screen.dart';
 import 'package:coca_cola/notification_Screen.dart';
+import 'package:coca_cola/provider/population_provider.dart';
 import 'package:coca_cola/registation/mobile_otp.dart';
 import 'package:coca_cola/population_screen.dart';
 import 'package:coca_cola/price_communication_screen.dart';
@@ -24,6 +25,7 @@ import 'package:coca_cola/week_screen.dart';
 import 'package:coca_cola/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'bonus_screen.dart';
 import 'edit_profile.dart';
@@ -43,9 +45,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => PopulationProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }

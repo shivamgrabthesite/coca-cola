@@ -32,6 +32,7 @@ class _WeekScreenState extends State<WeekScreen> {
   List clgList = [];
   List filterList = [];
   String token = '';
+  String flname = '';
   @override
   void initState() {
     super.initState();
@@ -58,6 +59,7 @@ class _WeekScreenState extends State<WeekScreen> {
   getPref() async {
     var pref = await SharedPreferences.getInstance();
     token = pref.getString("logintoken").toString();
+    flname = pref.getString("flname").toString();
   }
 
   // getData() {
@@ -69,10 +71,6 @@ class _WeekScreenState extends State<WeekScreen> {
   //     });
   //   });
   // }
-
-  setClgName(int index) {
-    print("wekkkk token----------" + token.toString());
-  }
 
   // Future<void> getList() async {
   //   String jsonString = await rootBundle.loadString('assets/json/clgList.json');
@@ -99,7 +97,7 @@ class _WeekScreenState extends State<WeekScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: Text(
-                    'Alex Volkov',
+                    flname,
                     style: GoogleFonts.ibmPlexSans(
                       color: Colors.black,
                       fontSize: 14,

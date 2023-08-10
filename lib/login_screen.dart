@@ -45,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
       passStr = password.text.toString();
     });
     LoginApi.setData(emailStr!, passStr!).then((value) async {
-      var pref = await SharedPreferences.getInstance();
       print(value!);
 
       msg = value.message;
@@ -60,12 +59,14 @@ class _LoginScreenState extends State<LoginScreen> {
         lname = value.userData.lastName.toString();
         id = value.userData.id.toString();
       });
+      var pref = await SharedPreferences.getInstance();
 
       print("login tojen------" + loginToken.toString());
       print("cgname---------" + clgName);
       print("week---------" + week);
       print("email---------" + emailtoken);
       pref.setString("logintoken", loginToken);
+      pref.setBool("loginstatus", statusCode!);
       pref.setString("uidtoken", id);
       pref.setString("clgName", clgName);
       pref.setString("week", week);
@@ -76,23 +77,30 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           if (statusCode == true) {
             Fluttertoast.showToast(msg: msg);
-            if (clgName == "null") {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.fade,
-                      curve: Curves.decelerate,
-                      duration: Duration(seconds: 1),
-                      child: WeekScreen()));
-            } else {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.fade,
-                      curve: Curves.decelerate,
-                      duration: Duration(seconds: 1),
-                      child: BottomBar()));
-            }
+            Navigator.pushReplacement(
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade,
+                    curve: Curves.decelerate,
+                    duration: Duration(seconds: 1),
+                    child: BottomBar()));
+            // if (clgName == "null") {
+            //   Navigator.push(
+            //       context,
+            //       PageTransition(
+            //           type: PageTransitionType.fade,
+            //           curve: Curves.decelerate,
+            //           duration: Duration(seconds: 1),
+            //           child: WeekScreen()));
+            // } else {
+            //   Navigator.pushReplacement(
+            //       context,
+            //       PageTransition(
+            //           type: PageTransitionType.fade,
+            //           curve: Curves.decelerate,
+            //           duration: Duration(seconds: 1),
+            //           child: BottomBar()));
+            // }
           } else {
             Fluttertoast.showToast(
               msg: "Invalid Credentials",

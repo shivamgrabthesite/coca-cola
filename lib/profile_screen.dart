@@ -20,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String email = '';
   String name = '';
+  String task = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -32,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       email = pref.getString("useremail").toString();
       name = pref.getString("flname").toString();
+      task = pref.getString("taskLength").toString();
     });
   }
 
@@ -50,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset("assets/images/ccsmall.svg"),
+                    Image.asset("assets/images/ccsmall.png", height: 80),
                     Spacer(),
                     GestureDetector(
                         onTap: () => Navigator.push(
@@ -64,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       width: 10,
                     ),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(
@@ -145,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '55',
+                                task.isEmpty ? "0" : task,
                                 style: GoogleFonts.ibmPlexSans(
                                   color: Colors.black,
                                   fontSize: 18,
@@ -349,7 +351,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     var prefs = await SharedPreferences.getInstance();
                     setState(() {
                       prefs.remove("logintoken");
+                      prefs.remove("loginstatus");
                     });
+
                     Navigator.pushReplacement(
                         context,
                         PageTransition(

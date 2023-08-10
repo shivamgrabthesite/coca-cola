@@ -2,6 +2,7 @@ import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class QuestionScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int _currentPage = 0;
   late PageController controller;
   String? selectedOption;
+  String flname = '';
 
   @override
   void initState() {
@@ -29,6 +31,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    flname = prefs.getString("flname").toString();
   }
 
   @override
@@ -46,7 +53,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset("assets/images/ccsmall.svg"),
+                    Image.asset("assets/images/ccsmall.png", height: 80),
                     Spacer(),
                     Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
@@ -57,7 +64,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Alex Volkov',
+                    flname,
                     style: GoogleFonts.ibmPlexSans(
                       color: Colors.black,
                       fontSize: 14,

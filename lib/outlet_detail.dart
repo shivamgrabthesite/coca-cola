@@ -110,9 +110,9 @@ class _OutletDetailState extends State<OutletDetail> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset("assets/images/ccsmall.svg"),
+                  Image.asset("assets/images/ccsmall.png", height: 80),
                   Spacer(),
-                  Align(alignment: Alignment.center, child: CustomBadge()),
+                  // Align(alignment: Alignment.center, child: CustomBadge()),
                 ],
               ),
               SizedBox(

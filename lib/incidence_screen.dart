@@ -62,7 +62,6 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   List<First> four = [];
   String title = '';
   String imgTitle = '';
-  // String? firstImg, secondImg;
   List<Widget> imgsUpload = [];
   List gorceryList = [];
   XFile? imagesss;
@@ -73,6 +72,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   String counterid = '';
   String aerialid = '';
   String tid = '';
+  String flname = '';
   @override
   void initState() {
     controller = PageController(initialPage: _currentPage);
@@ -134,6 +134,8 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     tid = prefs.getString("tid").toString();
+    flname = prefs.getString("flname").toString();
+    print("tid----------" + tid);
 
     Grocaryrackpi.getData(tid).then((value) {
       setState(() {
@@ -274,7 +276,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Alex Volkov',
+                    flname,
                     style: GoogleFonts.ibmPlexSans(
                       color: Colors.black,
                       fontSize: 14,

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconly/iconly.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -18,11 +19,18 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMixin {
   late PersistentTabController _controller;
   int index = 0;
+  bool? status;
 
   @override
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: index);
+    // getData();
+  }
+
+  getData() async {
+    var pref = await SharedPreferences.getInstance();
+    status = pref.getBool("loginstatus");
   }
 
   @override
@@ -46,7 +54,6 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
           controller: _controller,
           handleAndroidBackButtonPress: true,
           stateManagement: true,
-          popAllScreensOnTapAnyTabs: true,
           backgroundColor: Colors.white.withOpacity(.85),
           screenTransitionAnimation: const ScreenTransitionAnimation(
               animateTabTransition: true,

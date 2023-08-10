@@ -24,7 +24,7 @@ class CoolerAvailable {
         'image',
         imgPath.readAsBytesSync(),
         filename: imgPath.path,
-        contentType: MediaType("image", "jpg"),
+        // contentType: MediaType("image", "jpg"),
       ));
 
       request.fields.addAll(payload);
