@@ -7,7 +7,7 @@ import '../model/market_model.dart';
 class MarketApi {
   static Future<MarketModel?> getData(String authorization) async {
     try {
-      final url = Uri.parse(apiPath + "market/");
+      final url = Uri.parse(apiPath + "market");
       var response = await http.get(
         url,
         headers: {

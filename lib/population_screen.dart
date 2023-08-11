@@ -54,18 +54,18 @@ class PopulationScreen extends StatefulWidget {
 }
 
 class _PopulationScreenState extends State<PopulationScreen> {
-  TextEditingController dps1 = TextEditingController();
-  TextEditingController dps2 = TextEditingController();
-  TextEditingController cooler1 = TextEditingController();
-  TextEditingController cooler2 = TextEditingController();
-  TextEditingController standee1 = TextEditingController();
-  TextEditingController standee2 = TextEditingController();
-  TextEditingController vertical1 = TextEditingController();
-  TextEditingController vertical2 = TextEditingController();
-  TextEditingController oneway1 = TextEditingController();
-  TextEditingController oneway2 = TextEditingController();
-  TextEditingController vinyl1 = TextEditingController();
-  TextEditingController vinyl2 = TextEditingController();
+  // TextEditingController dps1 = TextEditingController();
+  // TextEditingController dps2 = TextEditingController();
+  // TextEditingController cooler1 = TextEditingController();
+  // TextEditingController cooler2 = TextEditingController();
+  // TextEditingController standee1 = TextEditingController();
+  // TextEditingController standee2 = TextEditingController();
+  // TextEditingController vertical1 = TextEditingController();
+  // TextEditingController vertical2 = TextEditingController();
+  // TextEditingController oneway1 = TextEditingController();
+  // TextEditingController oneway2 = TextEditingController();
+  // TextEditingController vinyl1 = TextEditingController();
+  // TextEditingController vinyl2 = TextEditingController();
   int _currentPage = 0;
   int _currentPage2 = 0;
   late PageController controller;
@@ -86,9 +86,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
   List<First> five = [];
   List<First> six = [];
   List<Widget> imgsUpload = [];
-  File? _image;
-  String imgName = "";
-  String imgPath = "";
+  // File? _image;
+  // String imgName = "";
+  // String imgPath = "";
   String? dpsid, cooleid, standeeid, verticalid, onewayid, vinylid;
   // List<XFile> _pickedImages = [];
   String tid = '';
@@ -110,22 +110,22 @@ class _PopulationScreenState extends State<PopulationScreen> {
     }
   }
 
-  Future _getImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    imgName = image!.name;
+  // Future _getImage() async {
+  //   var image = await ImagePicker().pickImage(
+  //     source: ImageSource.camera,
+  //   );
+  //   imgName = image!.name;
 
-    setState(() {
-      if (image != null) {
-        _image = File(image.path);
-        imgPath = image.path;
-        print("image-------" + _image.toString());
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (image != null) {
+  //       _image = File(image.path);
+  //       imgPath = image.path;
+  //       print("image-------" + _image.toString());
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   // removeImage() {
   //   setState(() {
@@ -192,106 +192,106 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
-  coolerUploadImage() {
+  coolerUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
     CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  dpsUploadImage() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DPsAvailable.setImage(dpsid!, _image!).then((value) {
+  dpsUploadImage(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  standeeUploadImage() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeAvailable.setImage(standeeid!, _image!).then((value) {
+  standeeUploadImage(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  verticalUploadImage() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageAvailable.setImage(verticalid!, _image!).then((value) {
+  verticalUploadImage(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  onewayUploadImage() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayVisionAvailable.setImage(onewayid!, _image!).then((value) {
+  onewayUploadImage(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  vinylUploadImage() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VVinylBrandingAvailable.setImage(vinylid!, _image!).then((value) {
+  vinylUploadImage(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  coolerNotAvailable() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerNotAvailableApi.setImage(cooleid!, cooler1.text, _image!);
+  coolerNotAvailable(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
   }
 
-  dpsNotAvailable() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsNotAvailable.setImage(dpsid!, dps1.text, _image!);
+  dpsNotAvailable(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
   }
 
-  standeeNotAvailable() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeNotAvailable.setImage(standeeid!, standee1.text, _image!);
+  standeeNotAvailable(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
   }
 
-  verticalNotAvailable() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageNotAvailable.setImage(verticalid!, vertical1.text, _image!);
+  verticalNotAvailable(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VerticalSignageNotAvailable.setImage(verticalid!, provider.vertical1.text, provider.vertical!);
   }
 
-  onewayNotAvailable() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayVisionNotAvailable.setImage(onewayid!, oneway1.text, _image!);
+  onewayNotAvailable(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
   }
 
-  vinylNotAvailable() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingNotAvailable.setImage(vinylid!, vinyl1.text, _image!);
+  vinylNotAvailable(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
   }
 
-  coolerCustom() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerCustom.setImage(cooleid!, cooler2.text, _image!);
+  coolerCustom(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
   }
 
-  standeeCustom() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeCustom.setImage(standeeid!, standee2.text, _image!);
+  standeeCustom(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
   }
 
-  dpsCustom() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsCustom.setImage(dpsid!, dps2.text, _image!);
+  dpsCustom(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
   }
 
-  verticalCustom() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageCustom.setImage(verticalid!, vertical2.text, _image!);
+  verticalCustom(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
   }
 
-  onewayCustom() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayVisionCustom.setImage(onewayid!, oneway2.text, _image!);
+  onewayCustom(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
   }
 
-  vinylCustom() {
-    // var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingCustom.setImage(vinylid!, vinyl2.text, _image!);
+  vinylCustom(BuildContext context) {
+    var provider = Provider.of<PopulationProvider>(context, listen: false);
+    VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
   }
 
   @override
@@ -392,7 +392,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column firstColumn(double width, BuildContext context) {
-    // var firstProvider = Provider.of<PopulationProvider>(context);
+    var firstProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -448,12 +448,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
-                        // firstProvider.dpsImage();
+                        // _getImage();
+                        firstProvider.dpsImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          firstProvider.dps == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -464,15 +464,15 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(firstProvider.dps!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              firstProvider.dps == null ? 'Upload Image' : firstProvider.dpsname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -517,7 +517,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: dps1,
+                          controller: firstProvider.dps1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -543,12 +543,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
-                            // firstProvider.dpsImage();
+                            // _getImage();
+                            firstProvider.dpsImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              firstProvider.dps == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -559,7 +559,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(firstProvider.dps!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -567,7 +567,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  firstProvider.dps == null
+                                      ? 'Upload Image'
+                                      : firstProvider.dpsname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -696,12 +698,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: InkWell(
                               onTap: () {
-                                _getImage();
-                                // firstProvider.dpsImage();
+                                // _getImage();
+                                firstProvider.dpsImage();
                               },
                               child: Column(
                                 children: [
-                                  _image == null
+                                  firstProvider.dps == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -712,7 +714,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(_image!,
+                                          child: Image.file(firstProvider.dps!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -720,7 +722,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _image == null ? 'Upload Image' : imgName,
+                                      firstProvider.dps == null
+                                          ? 'Upload Image'
+                                          : firstProvider.dpsname,
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF929292),
                                         fontSize: 12,
@@ -737,7 +741,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: dps2,
+                            controller: firstProvider.dps2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -768,20 +772,20 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || firstProvider.dps == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
                 } else if (selectedOption!.contains("first1")) {
-                  dpsUploadImage();
+                  dpsUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 } else if (selectedOption!.contains("first2")) {
-                  dpsNotAvailable();
+                  dpsNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 } else {
-                  dpsCustom();
+                  dpsCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 }
               },
@@ -812,7 +816,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column seocndColumn(double width, BuildContext context) {
-    // var secondProvider = Provider.of<PopulationProvider>(context);
+    var secondProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -837,7 +841,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Radio(
-                  value: "second1",
+                  value: 'second1',
                   groupValue: selectedOption,
                   activeColor: Color(0xFFE61D2B),
                   onChanged: (value) {
@@ -868,12 +872,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
-                        // secondProvider.coolerImage();
+                        // _getImage();
+                        secondProvider.coolerImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          secondProvider.cooler == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -884,15 +888,17 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(secondProvider.cooler!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              secondProvider.cooler == null
+                                  ? 'Upload Image'
+                                  : secondProvider.coolername,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -937,7 +943,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: cooler1,
+                          controller: secondProvider.cooler1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -963,12 +969,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
-                            // secondProvider.coolerImage();
+                            // _getImage();
+                            secondProvider.coolerImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              secondProvider.cooler == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -979,7 +985,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(secondProvider.cooler!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -987,7 +993,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  secondProvider.cooler == null
+                                      ? 'Upload Image'
+                                      : secondProvider.coolername,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1040,12 +1048,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: InkWell(
                               onTap: () {
-                                _getImage();
-                                // secondProvider.coolerImage();
+                                // _getImage();
+                                secondProvider.coolerImage();
                               },
                               child: Column(
                                 children: [
-                                  _image == null
+                                  secondProvider.cooler == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1056,7 +1064,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(_image!,
+                                          child: Image.file(secondProvider.cooler!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -1064,7 +1072,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _image == null ? 'Upload Image' : imgName,
+                                      secondProvider.cooler == null
+                                          ? 'Upload Image'
+                                          : secondProvider.coolername,
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF929292),
                                         fontSize: 12,
@@ -1081,7 +1091,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: cooler2,
+                            controller: secondProvider.cooler2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1134,18 +1144,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || secondProvider.cooler == null) {
                   setState(() {
                     Fluttertoast.showToast(msg: "select one option");
                   });
                 } else if (selectedOption!.contains("second1")) {
-                  coolerUploadImage();
+                  coolerUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 } else if (selectedOption!.contains("second2")) {
-                  coolerNotAvailable();
+                  coolerNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 } else {
-                  coolerCustom();
+                  coolerCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 }
               },
@@ -1176,7 +1186,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column thirdColumn(double width, BuildContext context) {
-    // var thirdProvider = Provider.of<PopulationProvider>(context);
+    var thirdProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1232,12 +1242,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
-                        // thirdProvider.standeeImage();
+                        // _getImage();
+                        thirdProvider.standeeImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          thirdProvider.standee == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1248,15 +1258,17 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(thirdProvider.standee!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              thirdProvider.standee == null
+                                  ? 'Upload Image'
+                                  : thirdProvider.standeename,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -1301,7 +1313,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: standee1,
+                          controller: thirdProvider.standee1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1327,12 +1339,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
-                            // thirdProvider.standeeImage();
+                            // _getImage();
+                            thirdProvider.standeeImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              thirdProvider.standee == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1343,7 +1355,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(thirdProvider.standee!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1351,7 +1363,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  thirdProvider.standee == null
+                                      ? 'Upload Image'
+                                      : thirdProvider.standeename,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1404,12 +1418,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: InkWell(
                               onTap: () {
-                                _getImage();
-                                // thirdProvider.standeeImage();
+                                // _getImage();
+                                thirdProvider.standeeImage();
                               },
                               child: Column(
                                 children: [
-                                  _image == null
+                                  thirdProvider.standee == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1420,7 +1434,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(_image!,
+                                          child: Image.file(thirdProvider.standee!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -1428,7 +1442,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _image == null ? 'Upload Image' : imgName,
+                                      thirdProvider.standee == null
+                                          ? 'Upload Image'
+                                          : thirdProvider.standeename,
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF929292),
                                         fontSize: 12,
@@ -1445,7 +1461,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: standee2,
+                            controller: thirdProvider.standee2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1498,7 +1514,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || thirdProvider.standee == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1506,18 +1522,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("third1")) {
                   // setAvailable();
-                  standeeUploadImage();
+                  standeeUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("third2")) {
                   // setNotAvailable();
-                  standeeNotAvailable();
+                  standeeNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
-                  standeeCustom();
+                  standeeCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -1550,7 +1566,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column fourColumn(double width, BuildContext context) {
-    // var fourProvider = Provider.of<PopulationProvider>(context);
+    var fourProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1606,12 +1622,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
-                        // fourProvider.verticalImage();
+                        // _getImage();
+                        fourProvider.verticalImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          fourProvider.vertical == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1622,15 +1638,17 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(fourProvider.vertical!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              fourProvider.vertical == null
+                                  ? 'Upload Image'
+                                  : fourProvider.verticalname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -1675,7 +1693,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: vertical1,
+                          controller: fourProvider.vertical1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1701,12 +1719,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
-                            // fourProvider.verticalImage();
+                            // _getImage();
+                            fourProvider.verticalImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              fourProvider.vertical == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1717,7 +1735,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(fourProvider.vertical!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1725,7 +1743,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  fourProvider.vertical == null
+                                      ? 'Upload Image'
+                                      : fourProvider.verticalname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1778,12 +1798,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: InkWell(
                               onTap: () {
-                                _getImage();
-                                // fourProvider.verticalImage();
+                                // _getImage();
+                                fourProvider.verticalImage();
                               },
                               child: Column(
                                 children: [
-                                  _image == null
+                                  fourProvider.vertical == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1794,7 +1814,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(_image!,
+                                          child: Image.file(fourProvider.vertical!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -1802,7 +1822,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _image == null ? 'Upload Image' : imgName,
+                                      fourProvider.vertical == null
+                                          ? 'Upload Image'
+                                          : fourProvider.verticalname,
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF929292),
                                         fontSize: 12,
@@ -1819,7 +1841,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: vertical2,
+                            controller: fourProvider.vertical2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1872,7 +1894,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || fourProvider.vertical == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1880,18 +1902,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("four1")) {
                   // setAvailable();
-                  verticalUploadImage();
+                  verticalUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("four2")) {
                   // setNotAvailable();
-                  verticalNotAvailable();
+                  verticalNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
-                  verticalCustom();
+                  verticalCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -1924,7 +1946,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column fiveColumn(double width, BuildContext context) {
-    // var fiveProvider = Provider.of<PopulationProvider>(context);
+    var fiveProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1980,12 +2002,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
-                        // fiveProvider.onewayImage();
+                        // _getImage();
+                        fiveProvider.onewayImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          fiveProvider.oneway == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1996,15 +2018,17 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(fiveProvider.oneway!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              fiveProvider.oneway == null
+                                  ? 'Upload Image'
+                                  : fiveProvider.onewayname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -2049,7 +2073,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: oneway1,
+                          controller: fiveProvider.oneway1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -2075,12 +2099,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
-                            // fiveProvider.onewayImage();
+                            // _getImage();
+                            fiveProvider.onewayImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              fiveProvider.oneway == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -2091,7 +2115,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(fiveProvider.oneway!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -2099,7 +2123,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  fiveProvider.oneway == null
+                                      ? 'Upload Image'
+                                      : fiveProvider.onewayname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -2152,12 +2178,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: InkWell(
                               onTap: () {
-                                _getImage();
-                                // fiveProvider.onewayImage();
+                                // _getImage();
+                                fiveProvider.onewayImage();
                               },
                               child: Column(
                                 children: [
-                                  _image == null
+                                  fiveProvider.oneway == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -2168,7 +2194,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(_image!,
+                                          child: Image.file(fiveProvider.oneway!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -2176,7 +2202,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _image == null ? 'Upload Image' : imgName,
+                                      fiveProvider.oneway == null
+                                          ? 'Upload Image'
+                                          : fiveProvider.onewayname,
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF929292),
                                         fontSize: 12,
@@ -2193,7 +2221,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: oneway2,
+                            controller: fiveProvider.oneway2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -2246,7 +2274,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || fiveProvider.oneway == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -2254,18 +2282,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("five1")) {
                   // setAvailable();
-                  onewayUploadImage();
+                  onewayUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("five2")) {
                   // setNotAvailable();
-                  onewayNotAvailable();
+                  onewayNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
-                  onewayCustom();
+                  onewayCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -2298,7 +2326,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   }
 
   Column sixColumn(double width, BuildContext context) {
-    // var sixProvider = Provider.of<PopulationProvider>(context);
+    var sixProvider = Provider.of<PopulationProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2354,12 +2382,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
-                        // sixProvider.vinylImage();
+                        // _getImage();
+                        sixProvider.vinylImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          sixProvider.vinyl == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -2370,15 +2398,15 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(sixProvider.vinyl!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              sixProvider.vinyl == null ? 'Upload Image' : sixProvider.vinylname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -2423,7 +2451,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: vinyl1,
+                          controller: sixProvider.vinyl1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -2449,12 +2477,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
-                            // sixProvider.vinylImage();
+                            // _getImage();
+                            sixProvider.vinylImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              sixProvider.vinyl == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -2465,7 +2493,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(sixProvider.vinyl!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -2473,7 +2501,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  sixProvider.vinyl == null
+                                      ? 'Upload Image'
+                                      : sixProvider.vinylname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -2526,12 +2556,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: InkWell(
                               onTap: () {
-                                _getImage();
-                                // sixProvider.vinylImage();
+                                // _getImage();
+                                sixProvider.vinylImage();
                               },
                               child: Column(
                                 children: [
-                                  _image == null
+                                  sixProvider.vinyl == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -2542,7 +2572,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(_image!,
+                                          child: Image.file(sixProvider.vinyl!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -2550,7 +2580,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      _image == null ? 'Upload Image' : imgName,
+                                      sixProvider.vinyl == null
+                                          ? 'Upload Image'
+                                          : sixProvider.vinylname,
                                       style: GoogleFonts.inter(
                                         color: Color(0xFF929292),
                                         fontSize: 12,
@@ -2567,7 +2599,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: vinyl2,
+                            controller: sixProvider.vinyl2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -2620,7 +2652,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || sixProvider.vinyl == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -2628,43 +2660,36 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   });
                 } else if (selectedOption!.contains("six1")) {
                   // setAvailable();
-                  vinylUploadImage();
-                  if (controller.page! == 5) {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            curve: Curves.decelerate,
-                            duration: Duration(seconds: 1),
-                            child: TransactionScreen()));
-                  }
+                  vinylUploadImage(context);
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                   // removeImage();
                 } else if (selectedOption!.contains("six2")) {
                   // setNotAvailable();
-                  vinylNotAvailable();
-                  if (controller.page! == 5) {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            curve: Curves.decelerate,
-                            duration: Duration(seconds: 1),
-                            child: TransactionScreen()));
-                  }
+                  vinylNotAvailable(context);
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                   // removeImage();
                   // remark1.clear();
                 } else {
-                  vinylCustom();
-                  // controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  if (controller.page! == 5) {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            curve: Curves.decelerate,
-                            duration: Duration(seconds: 1),
-                            child: TransactionScreen()));
-                  }
+                  vinylCustom(context);
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          curve: Curves.decelerate,
+                          duration: Duration(seconds: 1),
+                          child: TransactionScreen()));
                 }
               },
               child: Center(

@@ -44,10 +44,10 @@ class _TaskScreenState extends State<TaskScreen> {
       print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value.data.length; i++) {
-          marketData.add(value.data[i].market.mgrPresellerName);
+          marketData.add(value.data[i].market.outletName);
           status.add(value.data[i].status);
           gccid.add(value.data[i].market.gccCode);
-          prefs.setString("taskLength", value.data[i].market.mgrPresellerName.length.toString());
+          prefs.setString("taskLength", value.data[i].market.outletName.length.toString());
           print("market data---------" + marketData.toString());
         }
         print("data----" + marketData.toString());

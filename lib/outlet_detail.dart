@@ -1,11 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:coca_cola/shop_pic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/outlet_detail_api.dart';
@@ -23,24 +19,33 @@ class OutletDetail extends StatefulWidget {
 }
 
 class _OutletDetailState extends State<OutletDetail> {
-  String Customer_GCC_ID = '',
-      Pri_Customer_Name = '',
-      Channel = '',
-      RedOutletClass = '',
-      MarketArea = '',
-      Unit = '',
-      City = '',
-      CollegeName = '',
-      SMName = '',
-      ASMName = '',
-      STLName = '',
-      MGRName = '',
-      DistName = '',
-      Week = '',
-      Day = '',
-      mid = '',
-      uid = '',
-      MOBILE = '';
+  String MGRName = '',
+      mgr_contect_no = '',
+      channel = '',
+      red_ol_class = '',
+      cooler = '',
+      outlet_name = '',
+      ring_of_magic_area = '',
+      gcc_code = '';
+
+  // String Customer_GCC_ID = '',
+  //     Pri_Customer_Name = '',
+  //     Channel = '',
+  //     RedOutletClass = '',
+  //     MarketArea = '',
+  //     Unit = '',
+  //     City = '',
+  //     CollegeName = '',
+  //     SMName = '',
+  //     ASMName = '',
+  //     STLName = '',
+  //     MGRName = '',
+  //     DistName = '',
+  //     Week = '',
+  //     Day = '',
+  //     mid = '',
+  //     uid = '',
+  //     MOBILE = '';
   String flname = '';
   String uidtoken = '', midtoken = '', oidtoken = '';
   @override
@@ -73,26 +78,28 @@ class _OutletDetailState extends State<OutletDetail> {
     });
     print("widget id ---------" + widget.id);
     OutletDetailApi.getData(widget.id).then((value) {
-      print("data---------" + value!.data.asmName);
+      gcc_code = value!.data.gccCode;
+      mgr_contect_no = value.data.mgrContectNo;
+      MGRName = value.data.mgrPresellerName;
+      red_ol_class = value.data.redOlClass;
+      ring_of_magic_area = value.data.ringOfMagicArea;
+      cooler = value.data.cooler;
+      channel = value.data.channel;
+      outlet_name = value.data.outletName;
+      // Pri_Customer_Name = value.data.priCustomerName;
+      // Channel = value.data.channel;
 
-      Customer_GCC_ID = value.data.customerGccId;
-      Pri_Customer_Name = value.data.priCustomerName;
-      Channel = value.data.channel;
-      RedOutletClass = value.data.redOutletClass;
-      MarketArea = value.data.marketArea;
-      Unit = value.data.unit;
-      City = value.data.city;
-      CollegeName = value.data.collegeName;
-      SMName = value.data.smName;
-      ASMName = value.data.asmName;
-      STLName = value.data.stlName;
-      MGRName = value.data.mgrName;
-      DistName = value.data.distName;
-      Week = value.data.week;
-      Day = value.data.day;
-      mid = value.data.mid;
-      uid = value.data.uid;
-      MOBILE = value.data.mobileNumber;
+      // Unit = value.data.unit;
+      // City = value.data.city;
+      // CollegeName = value.data.collegeName;
+      // SMName = value.data.smName;
+      // ASMName = value.data.asmName;
+      // STLName = value.data.stlName;
+      // DistName = value.data.distName;
+      // Week = value.data.week;
+      // Day = value.data.day;
+      // mid = value.data.mid;
+      // uid = value.data.uid;
     }).whenComplete(() {
       setState(() {});
     });
@@ -156,551 +163,221 @@ class _OutletDetailState extends State<OutletDetail> {
                 ),
                 padding: EdgeInsets.all(8),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        Customer_GCC_ID!,
-                        style: GoogleFonts.ibmPlexSerif(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                    Row(
+                      children: [
+                        Text(
+                          "GCC No:",
+                          style: GoogleFonts.ibmPlexSerif(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            gcc_code,
+                            style: GoogleFonts.ibmPlexSerif(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Channel Class:",
+                          style: GoogleFonts.ibmPlexSerif(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            channel,
+                            style: GoogleFonts.ibmPlexSerif(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Red OL Class:',
+                          style: GoogleFonts.ibmPlexSans(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            red_ol_class,
+                            style: GoogleFonts.ibmPlexSans(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Coolers:",
+                          style: GoogleFonts.ibmPlexSerif(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            cooler,
+                            style: GoogleFonts.ibmPlexSerif(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Outlet Name:",
+                          style: GoogleFonts.ibmPlexSerif(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            outlet_name,
+                            style: GoogleFonts.ibmPlexSerif(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Market Area:',
+                          style: GoogleFonts.ibmPlexSans(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            ring_of_magic_area,
+                            style: GoogleFonts.ibmPlexSans(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Manager Name:",
+                          style: GoogleFonts.ibmPlexSerif(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text(
+                            MGRName,
+                            style: GoogleFonts.ibmPlexSerif(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Manager Contact Number:',
+                      style: GoogleFonts.ibmPlexSans(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            Pri_Customer_Name!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 80,
-                        ),
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            City!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Outlet Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'Area',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            Channel!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 80,
-                        // ),
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            RedOutletClass!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Channel',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'Red Outlet Class',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            MarketArea!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 80,
-                        // ),
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            Unit!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Market Area',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'Unit',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            City!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 80,
-                        // ),
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            CollegeName!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'City',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'College Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            SMName!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 80,
-                        // ),
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            ASMName!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'SM Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'ASM Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            STLName!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // Siz
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            MGRName!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'STL Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'MGR Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            DistName!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 80,
-                        // ),
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            Week!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Dist. Name',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'Week',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            Day!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // SizedB
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            mid!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Day',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'mid',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            uid!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        // Siz
-                        Spacer(),
-                        Expanded(
-                          child: Text(
-                            Unit!,
-                            style: GoogleFonts.ibmPlexSerif(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'uid',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 65,
-                        ),
-                        Text(
-                          'Unit',
-                          style: GoogleFonts.ibmPlexSans(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        MOBILE,
-                        style: GoogleFonts.ibmPlexSans(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Mobile Number',
-                        style: GoogleFonts.ibmPlexSans(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    Text(
+                      mgr_contect_no,
+                      style: GoogleFonts.ibmPlexSans(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -733,7 +410,7 @@ class _OutletDetailState extends State<OutletDetail> {
                         color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
                     child: Center(
                       child: Text(
-                        'Add Details',
+                        'Sumbit',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.ibmPlexSerif(
                           color: Colors.white,

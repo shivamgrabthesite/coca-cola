@@ -25,12 +25,21 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     _controller = PersistentTabController(initialIndex: index);
-    // getData();
+    getData();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   getData() async {
     var pref = await SharedPreferences.getInstance();
-    status = pref.getBool("loginstatus");
+    setState(() {
+      status = pref.getBool("loginstatus");
+      print("in bottombar----" + status.toString());
+    });
   }
 
   @override
@@ -49,11 +58,15 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
             ),
           ),
         ),
+        resizeToAvoidBottomInset: false,
         body: PersistentTabView(
           context,
           controller: _controller,
-          handleAndroidBackButtonPress: true,
+          resizeToAvoidBottomInset: true,
+          hideNavigationBar: status == true ? false : true,
           stateManagement: true,
+          hideNavigationBarWhenKeyboardShows: true,
+          popActionScreens: PopActionScreensType.all,
           backgroundColor: Colors.white.withOpacity(.85),
           screenTransitionAnimation: const ScreenTransitionAnimation(
               animateTabTransition: true,

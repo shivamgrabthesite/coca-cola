@@ -9,6 +9,7 @@ import 'package:coca_cola/incidence_screen.dart';
 import 'package:coca_cola/population_screen.dart';
 import 'package:coca_cola/price_communication_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopPic extends StatefulWidget {
   String? customerGccId, address, priCustomerName, channel;
@@ -29,6 +30,7 @@ class _ShopPicState extends State<ShopPic> {
   String _selectedOption = '';
   String imglink = '';
   String imgId = "";
+  String flname = "";
 
   @override
   void initState() {
@@ -38,13 +40,15 @@ class _ShopPicState extends State<ShopPic> {
     getId();
   }
 
-  getId() {
+  getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     ImagelinkApi.getData(widget.channel!).then((value) {
       setState(() {
         imgId = value!.data.id;
         imglink = value.data.imageLink;
       });
     });
+    flname = prefs.getString("flname").toString();
   }
 
   // Future<String> getImage() async {
@@ -85,14 +89,14 @@ class _ShopPicState extends State<ShopPic> {
                       ),
                     ),
                     Spacer(),
-                    CustomBadge()
+                    // CustomBadge()
                   ],
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 Text(
-                  'Alex Volkov',
+                  flname,
                   style: GoogleFonts.ibmPlexSans(
                     color: Colors.black,
                     fontSize: 14,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:coca_cola/apis/incindence%20apis/grocery_rack_not_available.dart';
 import 'package:coca_cola/apis/incindence%20apis/grocery_rack_upload_img.dart';
+import 'package:coca_cola/provider/incidence_provider.dart';
 import 'package:coca_cola/transaction_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -12,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'apis/bonus/ambient_api.dart';
@@ -39,14 +41,14 @@ class IncidenceScreen extends StatefulWidget {
 }
 
 class _IncidenceScreenState extends State<IncidenceScreen> {
-  TextEditingController first1 = TextEditingController();
-  TextEditingController first2 = TextEditingController();
-  TextEditingController second1 = TextEditingController();
-  TextEditingController second2 = TextEditingController();
-  TextEditingController third1 = TextEditingController();
-  TextEditingController third2 = TextEditingController();
-  TextEditingController four1 = TextEditingController();
-  TextEditingController four2 = TextEditingController();
+  // TextEditingController first1 = TextEditingController();
+  // TextEditingController first2 = TextEditingController();
+  // TextEditingController second1 = TextEditingController();
+  // TextEditingController second2 = TextEditingController();
+  // TextEditingController third1 = TextEditingController();
+  // TextEditingController third2 = TextEditingController();
+  // TextEditingController four1 = TextEditingController();
+  // TextEditingController four2 = TextEditingController();
   int _currentPage = 0;
   late PageController controller;
   String? selectedOption;
@@ -63,9 +65,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   String title = '';
   String imgTitle = '';
   List<Widget> imgsUpload = [];
-  List gorceryList = [];
-  XFile? imagesss;
-  File? _image;
+  // List gorceryList = [];
+  // XFile? imagesss;
+  // File? _image;
   String imgName = '';
   String groceryid = '';
   String ambinetid = '';
@@ -89,20 +91,20 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     }
   }
 
-  Future _getImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    imgName = image!.name;
+  // Future _getImage() async {
+  //   var image = await ImagePicker().pickImage(
+  //     source: ImageSource.camera,
+  //   );
+  //   imgName = image!.name;
 
-    setState(() {
-      if (image != null) {
-        _image = File(image.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (image != null) {
+  //       _image = File(image.path);
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   // Future _getListImg() async {
   //   imagesss = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -113,11 +115,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   //   }
   // }
 
-  removeImage() {
-    setState(() {
-      _image = null;
-    });
-  }
+  // removeImage() {
+  //   setState(() {
+  //     _image = null;
+  //   });
+  // }
 
   getData() async {
     IncidenceApi.getData("64c6cf53cfd3911994c43484", "2").then((value) {
@@ -163,74 +165,90 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
   }
 
-  groceryCustom() {
-    GroceryRackCustom.setImage(groceryid, first2.text, _image!).then((value) {
+  groceryCustom(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    GroceryRackCustom.setImage(groceryid, provider.grocery2.text, provider.grocery!).then((value) {
       print("custom res----" + value.toString());
     });
   }
 
-  ambientCustom() {
-    AmbientCustom.setImage(ambinetid, first2.text, _image!).then((value) {
+  ambientCustom(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    AmbientCustom.setImage(ambinetid, provider.ambient2.text, provider.ambient!).then((value) {
       print("custom res----" + value.toString());
     });
   }
 
-  counterCustom() {
-    CounterCustom.setImage(counterid, first2.text, _image!).then((value) {
+  counterCustom(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    CounterCustom.setImage(counterid, provider.counter2.text, provider.counter!).then((value) {
       print("custom res----" + value.toString());
     });
   }
 
-  arialCustom() {
-    AerialHangerCustom.setImage(aerialid, first2.text, _image!).then((value) {
+  arialCustom(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
       print("custom res----" + value.toString());
     });
   }
 
-  ambientAvailable() {
-    AmbientAvailable.setImage(ambinetid, _image!).then((value) {
+  ambientAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    AmbientAvailable.setImage(ambinetid, provider.ambient!).then((value) {
       print("avauilable res----" + value.toString());
     });
   }
 
-  groceryAvailable() {
-    GroceryRackUploadImg.setImage(groceryid, _image!).then((value) {
+  groceryAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    GroceryRackUploadImg.setImage(groceryid, provider.grocery!).then((value) {
       print("avauilable res----" + value.toString());
     });
   }
 
-  counterAvailable() {
-    CounterAvailable.setImage(counterid, _image!).then((value) {
+  counterAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    CounterAvailable.setImage(counterid, provider.counter!).then((value) {
       print("avauilable res----" + value.toString());
     });
   }
 
-  aerialAvailable() {
-    AerialHangerAvailable.setImage(aerialid, _image!).then((value) {
+  aerialAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
       print("avauilable res----" + value.toString());
     });
   }
 
-  groceryNotAvailable() {
-    GroceryRackNotAvailable.setImage(groceryid, first1.text, _image!).then((value) {
+  groceryNotAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    GroceryRackNotAvailable.setImage(groceryid, provider.grocery1.text, provider.grocery!)
+        .then((value) {
       print("not avauilable res----" + value.toString());
     });
   }
 
-  ambientNotAvailable() {
-    AmbientRackNotAvailable.setImage(groceryid, first1.text, _image!).then((value) {
+  ambientNotAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    AmbientRackNotAvailable.setImage(groceryid, provider.ambient1.text, provider.ambient!)
+        .then((value) {
       print("not avauilable res----" + value.toString());
     });
   }
 
-  counterNotAvailable() {
-    CounterNotAvailable.setImage(counterid, first1.text, _image!).then((value) {
+  counterNotAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    CounterNotAvailable.setImage(counterid, provider.counter1.text, provider.counter!)
+        .then((value) {
       print("not avauilable res----" + value.toString());
     });
   }
 
-  aerialNotAvailable() {
-    AerialHangerNotAvailable.setImage(groceryid, first1.text, _image!).then((value) {
+  aerialNotAvailable(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
+    AerialHangerNotAvailable.setImage(groceryid, provider.arial1.text, provider.arial!)
+        .then((value) {
       print("not avauilable res----" + value.toString());
     });
   }
@@ -241,9 +259,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var height = size.height;
     var width = size.width;
 
-    if (imgsUpload.length < 1) {
-      imgsUpload.add(uploadImage(width));
-    }
+    // if (imgsUpload.length < 1) {
+    //   imgsUpload.add(uploadImage(width));
+    // }
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -329,52 +347,8 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     );
   }
 
-  Container uploadImage(double width) {
-    return Container(
-      height: 90,
-      width: width / 1.4,
-      // margin: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
-      child: InkWell(
-        onTap: () {
-          _getImage();
-        },
-        child: Column(
-          children: [
-            _image == null
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Icon(
-                      IconlyLight.paper_upload,
-                      color: Colors.black,
-                      size: 40,
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
-                  ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Text(
-                _image == null ? 'Upload Image' : imgName,
-                style: GoogleFonts.inter(
-                  color: Color(0xFF929292),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Container uploadImageList(double width, [int index = 0]) {
+  // Container uploadImage(double width) {
+  //   var firstProvider = Provider.of<IncidenceProvider>(context);
   //   return Container(
   //     height: 90,
   //     width: width / 1.4,
@@ -383,11 +357,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   //         border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
   //     child: InkWell(
   //       onTap: () {
-  //         _getListImg();
+  //         // _getImage();
+  //         firstProvider.groceryImage();
   //       },
   //       child: Column(
   //         children: [
-  //           _pickedImages.isEmpty
+  //           firstProvider.grocery == null
   //               ? const Padding(
   //                   padding: EdgeInsets.only(top: 10),
   //                   child: Icon(
@@ -398,15 +373,14 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   //                 )
   //               : Padding(
   //                   padding: const EdgeInsets.only(top: 10),
-  //                   child: Image.file(File(_pickedImages[index!].path),
-  //                       fit: BoxFit.fill, height: 50, width: 50),
+  //                   child: Image.file(firstProvider.grocery!, fit: BoxFit.fill, height: 50, width: 50),
   //                 ),
   //           SizedBox(
   //             height: 10,
   //           ),
   //           Expanded(
   //             child: Text(
-  //               _pickedImages.isEmpty ? 'Upload Image' : imagesss!.name,
+  //               firstProvider.grocery == null ? 'Upload Image' : firstProvider.groceryname,
   //               style: GoogleFonts.inter(
   //                 color: Color(0xFF929292),
   //                 fontSize: 12,
@@ -421,6 +395,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   // }
 
   Column firstColumn(double width, BuildContext context) {
+    var firstProvider = Provider.of<IncidenceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -476,11 +451,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        firstProvider.groceryImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          firstProvider.grocery == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -491,15 +467,15 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(firstProvider.grocery!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              firstProvider.grocery == null ? 'Upload Image' : imgName,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -544,7 +520,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: first1,
+                          controller: firstProvider.grocery1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -570,11 +546,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            firstProvider.groceryImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              firstProvider.grocery == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -585,7 +562,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(firstProvider.grocery!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -593,7 +570,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  firstProvider.grocery == null ? 'Upload Image' : imgName,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -637,93 +614,58 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   if (_pickedImages.length == index + 1) {
-                                              //     imgsUpload.add(uploadImage(width));
-                                              //   }
-
-                                              //   // _getListImg();
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                firstProvider.groceryImage();
+                              },
+                              child: Column(
+                                children: [
+                                  firstProvider.grocery == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(firstProvider.grocery!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      firstProvider.grocery == null
+                                          ? 'Upload Image'
+                                          : firstProvider.groceryname,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: first2,
+                            controller: firstProvider.grocery2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -754,7 +696,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || firstProvider.grocery == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -762,18 +704,18 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                   });
                 } else if (selectedOption!.contains("first1")) {
                   // setAvailable();
-                  groceryAvailable();
+                  groceryAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("first2")) {
                   // setNotAvailable();
-                  groceryNotAvailable();
+                  groceryNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
                 } else {
                   // setCustom();
-                  groceryCustom();
+                  groceryCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first2.clear();
@@ -806,6 +748,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   }
 
   Column secondColumn(double width, BuildContext context) {
+    var secondProvider = Provider.of<IncidenceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -861,11 +804,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        secondProvider.ambientImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          secondProvider.ambient == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -876,15 +820,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(secondProvider.ambient!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              secondProvider.ambient == null
+                                  ? 'Upload Image'
+                                  : secondProvider.ambientname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -929,7 +875,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: second1,
+                          controller: secondProvider.ambient1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -955,11 +901,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            secondProvider.ambientImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              secondProvider.ambient == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -970,7 +917,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(secondProvider.ambient!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -978,7 +925,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  secondProvider.ambient == null
+                                      ? 'Upload Image'
+                                      : secondProvider.ambientname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1022,89 +971,58 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                secondProvider.ambientImage();
+                              },
+                              child: Column(
+                                children: [
+                                  secondProvider.ambient == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(secondProvider.ambient!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      secondProvider.ambient == null
+                                          ? 'Upload Image'
+                                          : secondProvider.ambientname,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: second2,
+                            controller: secondProvider.ambient2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1159,7 +1077,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || secondProvider.ambient == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1167,18 +1085,18 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                   });
                 } else if (selectedOption!.contains("second1")) {
                   // setAvailable();
-                  ambientAvailable();
+                  ambientAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("second2")) {
                   // setNotAvailable();
-                  ambientNotAvailable();
+                  ambientNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
                 } else {
                   // setCustom();
-                  ambientCustom();
+                  ambientCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second2.clear();
@@ -1211,6 +1129,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   }
 
   Column thirdColumn(double width, BuildContext context) {
+    var thirdProvider = Provider.of<IncidenceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1266,11 +1185,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        thirdProvider.counterImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          thirdProvider.counter == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1281,15 +1201,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(thirdProvider.counter!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              thirdProvider.counter == null
+                                  ? 'Upload Image'
+                                  : thirdProvider.countername,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -1334,7 +1256,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: third1,
+                          controller: thirdProvider.counter1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1360,11 +1282,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            thirdProvider.counterImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              thirdProvider.counter == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1375,7 +1298,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(thirdProvider.counter!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1383,7 +1306,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  thirdProvider.counter == null
+                                      ? 'Upload Image'
+                                      : thirdProvider.countername,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1427,90 +1352,58 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                thirdProvider.counterImage();
+                              },
+                              child: Column(
+                                children: [
+                                  thirdProvider.counter == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(8),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(thirdProvider.counter!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      thirdProvider.counter == null
+                                          ? 'Upload Image'
+                                          : thirdProvider.countername,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: third2,
+                            controller: thirdProvider.counter2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1566,7 +1459,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || thirdProvider.counter == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1574,18 +1467,18 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                   });
                 } else if (selectedOption!.contains("third1")) {
                   // setAvailable();
-                  counterAvailable();
+                  counterAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("third2")) {
                   // setNotAvailable();
-                  counterNotAvailable();
+                  counterNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
                 } else {
                   // setCustom();
-                  counterCustom();
+                  counterCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third2.clear();
@@ -1618,6 +1511,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   }
 
   Column fourColumn(double width, BuildContext context) {
+    var fourProvider = Provider.of<IncidenceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1673,11 +1567,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        fourProvider.arialImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          fourProvider.arial == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1688,15 +1583,15 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(fourProvider.arial!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              fourProvider.arial == null ? 'Upload Image' : fourProvider.arialname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -1741,7 +1636,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: four1,
+                          controller: fourProvider.arial1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1767,11 +1662,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            fourProvider.arialImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              fourProvider.arial == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1782,7 +1678,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(fourProvider.arial!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1790,7 +1686,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  fourProvider.arial == null
+                                      ? 'Upload Image'
+                                      : fourProvider.arialname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1834,90 +1732,58 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            // margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                fourProvider.arialImage();
+                              },
+                              child: Column(
+                                children: [
+                                  fourProvider.arial == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(fourProvider.arial!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      fourProvider.arial == null
+                                          ? 'Upload Image'
+                                          : fourProvider.arialname,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: four2,
+                            controller: fourProvider.arial2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1973,7 +1839,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || fourProvider.arial == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1981,7 +1847,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                   });
                 } else if (selectedOption!.contains("four1")) {
                   // setAvailable();
-                  aerialAvailable();
+                  aerialAvailable(context);
                   Navigator.push(
                       context,
                       PageTransition(
@@ -1991,7 +1857,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           child: TransactionScreen()));
                 } else if (selectedOption!.contains("four2")) {
                   // setNotAvailable();
-                  aerialNotAvailable();
+                  aerialNotAvailable(context);
                   Navigator.push(
                       context,
                       PageTransition(
@@ -2001,7 +1867,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           child: TransactionScreen()));
                 } else {
                   // setCustom();
-                  arialCustom();
+                  arialCustom(context);
                   Navigator.push(
                       context,
                       PageTransition(

@@ -5,7 +5,10 @@ import 'package:coca_cola/incidence_screen.dart';
 import 'package:coca_cola/leaderboard_screen.dart';
 import 'package:coca_cola/login_screen.dart';
 import 'package:coca_cola/notification_Screen.dart';
+import 'package:coca_cola/outlet_detail.dart';
+import 'package:coca_cola/provider/incidence_provider.dart';
 import 'package:coca_cola/provider/population_provider.dart';
+import 'package:coca_cola/provider/price_provider.dart';
 import 'package:coca_cola/registation/mobile_otp.dart';
 import 'package:coca_cola/population_screen.dart';
 import 'package:coca_cola/price_communication_screen.dart';
@@ -47,7 +50,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => PopulationProvider()),
+        ChangeNotifierProvider<PopulationProvider>(create: (context) => PopulationProvider()),
+        ChangeNotifierProvider<IncidenceProvider>(create: (context) => IncidenceProvider()),
+        ChangeNotifierProvider<PriceProvider>(create: (context) => PriceProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

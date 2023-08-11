@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:coca_cola/provider/price_provider.dart';
 import 'package:coca_cola/transaction_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -10,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -37,12 +39,12 @@ class PriceCommunicationScreen extends StatefulWidget {
 }
 
 class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
-  TextEditingController first1 = TextEditingController();
-  TextEditingController first2 = TextEditingController();
-  TextEditingController second1 = TextEditingController();
-  TextEditingController second2 = TextEditingController();
-  TextEditingController third1 = TextEditingController();
-  TextEditingController third2 = TextEditingController();
+  // TextEditingController first1 = TextEditingController();
+  // TextEditingController first2 = TextEditingController();
+  // TextEditingController second1 = TextEditingController();
+  // TextEditingController second2 = TextEditingController();
+  // TextEditingController third1 = TextEditingController();
+  // TextEditingController third2 = TextEditingController();
   int _currentPage = 0;
   late PageController controller;
   String? selectedOption;
@@ -58,9 +60,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   String title = '';
   String imgTitle = '';
 
-  List<Widget> imgsUpload = [];
-  File? _image;
-  String imgName = '';
+  // List<Widget> imgsUpload = [];
+  // File? _image;
+  // String imgName = '';
   String brandid = '', priceid = '', packid = '';
   String tid = '';
   String flname = '';
@@ -80,20 +82,20 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     }
   }
 
-  Future _getImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    imgName = image!.name;
+  // Future _getImage() async {
+  //   var image = await ImagePicker().pickImage(
+  //     source: ImageSource.camera,
+  //   );
+  //   imgName = image!.name;
 
-    setState(() {
-      if (image != null) {
-        _image = File(image.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (image != null) {
+  //       _image = File(image.path);
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   getData() async {
     PriceCommunicationApi.getData("64c6cf53cfd3911994c43484", "3").then((value) {
@@ -128,46 +130,55 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     });
   }
 
-  brandUploadImage() {
-    BrandAvailable.setImage(brandid!, _image!).then((value) {
+  brandUploadImage(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    BrandAvailable.setImage(brandid!, provider.brand!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  priceUploadImage() {
-    PriceStripAvailable.setImage(priceid!, _image!).then((value) {
+  priceUploadImage(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    PriceStripAvailable.setImage(priceid!, provider.price!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  packUploadImage() {
-    PackAvailable.setImage(packid!, _image!).then((value) {
+  packUploadImage(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    PackAvailable.setImage(packid!, provider.pack!).then((value) {
       print("image upload response---------" + value.toString());
     });
   }
 
-  brandNotAvailable() {
-    BrandNotAvailable.setImage(brandid!, first1.text, _image!);
+  brandNotAvailable(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    BrandNotAvailable.setImage(brandid!, provider.brand1.text, provider.brand!);
   }
 
-  priceNotAvailable() {
-    PriceStripNotAvailable.setImage(priceid!, second1.text, _image!);
+  priceNotAvailable(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    PriceStripNotAvailable.setImage(priceid!, provider.price1.text, provider.price!);
   }
 
-  packNotAvailable() {
-    PackNotAvailable.setImage(packid!, third1.text, _image!);
+  packNotAvailable(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
   }
 
-  brandCustom() {
-    BrandCustom.setImage(brandid!, first2.text, _image!);
+  brandCustom(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    BrandCustom.setImage(brandid!, provider.brand2.text, provider.brand!);
   }
 
-  priceCustom() {
-    PriceStripCustom.setImage(priceid!, second2.text, _image!);
+  priceCustom(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    PriceStripCustom.setImage(priceid!, provider.price2.text, provider.price!);
   }
 
-  packCustom() {
-    PackCustom.setImage(packid!, third2.text, _image!);
+  packCustom(BuildContext context) {
+    var provider = Provider.of<PriceProvider>(context, listen: false);
+    PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
   }
 
   @override
@@ -176,9 +187,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var height = size.height;
     var width = size.width;
 
-    if (imgsUpload.length < 1) {
-      imgsUpload.add(uploadImage(width));
-    }
+    // if (imgsUpload.length < 1) {
+    //   imgsUpload.add(uploadImage(width));
+    // }
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -269,6 +280,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   }
 
   Column firstColumn(double width, BuildContext context) {
+    var firstProvider = Provider.of<PriceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -324,11 +336,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        firstProvider.brandImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          firstProvider.brand == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -339,15 +352,17 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(firstProvider.brand!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              firstProvider.brand == null
+                                  ? 'Upload Image'
+                                  : firstProvider.brandname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -392,7 +407,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: first1,
+                          controller: firstProvider.brand1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -418,11 +433,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            firstProvider.brandImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              firstProvider.brand == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -433,7 +449,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(firstProvider.brand!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -441,7 +457,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  firstProvider.brand == null
+                                      ? 'Upload Image'
+                                      : firstProvider.brandname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -485,89 +503,58 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                firstProvider.brandImage();
+                              },
+                              child: Column(
+                                children: [
+                                  firstProvider.brand == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(firstProvider.brand!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      firstProvider.brand == null
+                                          ? 'Upload Image'
+                                          : firstProvider.brandname,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: first2,
+                            controller: firstProvider.brand2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -598,7 +585,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || firstProvider.brand == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -606,18 +593,18 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   });
                 } else if (selectedOption!.contains("first1")) {
                   // setAvailable();
-                  brandUploadImage();
+                  brandUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("first2")) {
                   // setNotAvailable();
-                  brandNotAvailable();
+                  brandNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
                 } else {
                   // setCustom();
-                  brandCustom();
+                  brandCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first2.clear();
@@ -650,6 +637,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   }
 
   Column secondColumn(double width, BuildContext context) {
+    var secondProvider = Provider.of<PriceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -705,11 +693,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        secondProvider.priceImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          secondProvider.price == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -720,15 +709,17 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(secondProvider.price!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              secondProvider.price == null
+                                  ? 'Upload Image'
+                                  : secondProvider.pricename,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -773,7 +764,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: second1,
+                          controller: secondProvider.price1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -799,11 +790,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            secondProvider.priceImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              secondProvider.price == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -814,7 +806,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(secondProvider.price!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -822,7 +814,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  secondProvider.price == null
+                                      ? 'Upload Image'
+                                      : secondProvider.pricename,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -866,89 +860,58 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                secondProvider.priceImage();
+                              },
+                              child: Column(
+                                children: [
+                                  secondProvider.price == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(secondProvider.price!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      secondProvider.price == null
+                                          ? 'Upload Image'
+                                          : secondProvider.pricename,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: second2,
+                            controller: secondProvider.price2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1003,7 +966,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || secondProvider.price == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1011,18 +974,18 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   });
                 } else if (selectedOption!.contains("second1")) {
                   // setAvailable();
-                  priceUploadImage();
+                  priceUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                 } else if (selectedOption!.contains("second2")) {
                   // setNotAvailable();
-                  priceNotAvailable();
+                  priceNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
                 } else {
                   // setCustom();
-                  priceCustom();
+                  priceCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second2.clear();
@@ -1055,6 +1018,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   }
 
   Column thirdColumn(double width, BuildContext context) {
+    var thirdProvider = Provider.of<PriceProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1110,11 +1074,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       onTap: () {
-                        _getImage();
+                        // _getImage();
+                        thirdProvider.packImage();
                       },
                       child: Column(
                         children: [
-                          _image == null
+                          thirdProvider.pack == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1125,15 +1090,15 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child:
-                                      Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
+                                  child: Image.file(thirdProvider.pack!,
+                                      fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
                             height: 10,
                           ),
                           Expanded(
                             child: Text(
-                              _image == null ? 'Upload Image' : imgName,
+                              thirdProvider.pack == null ? 'Upload Image' : thirdProvider.packname,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -1178,7 +1143,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         child: TextField(
                           maxLines: 2,
-                          controller: third1,
+                          controller: thirdProvider.pack1,
                           decoration: InputDecoration(
                               hintText: "Remark here",
                               border: OutlineInputBorder(
@@ -1204,11 +1169,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            _getImage();
+                            // _getImage();
+                            thirdProvider.packImage();
                           },
                           child: Column(
                             children: [
-                              _image == null
+                              thirdProvider.pack == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1219,7 +1185,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(_image!,
+                                      child: Image.file(thirdProvider.pack!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1227,7 +1193,9 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  _image == null ? 'Upload Image' : imgName,
+                                  thirdProvider.pack == null
+                                      ? 'Upload Image'
+                                      : thirdProvider.packname,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -1271,90 +1239,58 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) => Row(
-                                    children: [
-                                      uploadImage(width),
-                                      Spacer(),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState(() {
-                                              //   imgsUpload.add(uploadImage(width));
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "+",
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Colors.white,
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                          Container(
+                            height: 90,
+                            width: width / 1.1,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: InkWell(
+                              onTap: () {
+                                // _getImage();
+                                thirdProvider.packImage();
+                              },
+                              child: Column(
+                                children: [
+                                  thirdProvider.pack == null
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Icon(
+                                            IconlyLight.paper_upload,
+                                            color: Colors.black,
+                                            size: 40,
                                           ),
-                                          // Spacer(),
-
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // setState.call(() {
-                                              //   if (imgsUpload.length > 1) {
-                                              //     imgsUpload.removeAt(index);
-                                              //   }
-                                              // });
-                                            },
-                                            child: Center(
-                                              child: Container(
-                                                height: 40,
-                                                width: 40,
-                                                padding: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                    color: Color(0xFFE61D2B),
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "x",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                              separatorBuilder: (context, index) => SizedBox(
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.only(top: 10),
+                                          child: Image.file(thirdProvider.pack!,
+                                              fit: BoxFit.fill, height: 50, width: 50),
+                                        ),
+                                  SizedBox(
                                     height: 10,
                                   ),
-                              itemCount: imgsUpload.length),
+                                  Expanded(
+                                    child: Text(
+                                      thirdProvider.pack == null
+                                          ? 'Upload Image'
+                                          : thirdProvider.packname,
+                                      style: GoogleFonts.inter(
+                                        color: Color(0xFF929292),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
                           TextField(
                             maxLines: 2,
-                            controller: third2,
+                            controller: thirdProvider.pack2,
                             decoration: InputDecoration(
                                 hintText: "Remark here",
                                 border: OutlineInputBorder(
@@ -1410,7 +1346,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || _image == null) {
+                if (selectedOption!.isEmpty || thirdProvider.pack == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1418,7 +1354,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   });
                 } else if (selectedOption!.contains("third1")) {
                   // setAvailable();
-                  packUploadImage();
+                  packUploadImage(context);
                   Navigator.push(
                       context,
                       PageTransition(
@@ -1429,7 +1365,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   // removeImage();
                 } else if (selectedOption!.contains("third2")) {
                   // setNotAvailable();
-                  packNotAvailable();
+                  packNotAvailable(context);
                   Navigator.push(
                       context,
                       PageTransition(
@@ -1441,7 +1377,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                   // third1.clear();
                 } else {
                   // setCustom();
-                  packCustom();
+                  packCustom(context);
                   Navigator.push(
                       context,
                       PageTransition(
@@ -1476,49 +1412,6 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
           ],
         ),
       ],
-    );
-  }
-
-  Container uploadImage(double width) {
-    return Container(
-      height: 90,
-      width: width / 1.4,
-      // margin: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(10)),
-      child: InkWell(
-        onTap: () {
-          _getImage();
-        },
-        child: Column(
-          children: [
-            _image == null
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Icon(
-                      IconlyLight.paper_upload,
-                      color: Colors.black,
-                      size: 40,
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Image.file(_image!, fit: BoxFit.fill, height: 50, width: 50),
-                  ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              _image == null ? 'Upload Image' : imgName,
-              style: GoogleFonts.inter(
-                color: Color(0xFF929292),
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

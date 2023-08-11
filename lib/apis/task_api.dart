@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:coca_cola/constant/api.dart';
 import 'package:http/http.dart' as http;
-
-import '../../model/cooler_model.dart';
 import '../model/task_model.dart';
 
 class TaskApi {
@@ -19,8 +17,6 @@ class TaskApi {
       );
       print("map-------" + jsonencode);
       print("task code----" + response.statusCode.toString());
-      // return response.body;
-
       if (response.statusCode == 201) {
         TaskModel getdata = taskModelFromJson(response.body);
         return getdata;

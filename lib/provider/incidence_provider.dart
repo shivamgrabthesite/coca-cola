@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class IncidenceProvider extends ChangeNotifier {
-  TextEditingController first1 = TextEditingController();
-  TextEditingController first2 = TextEditingController();
-  TextEditingController second1 = TextEditingController();
-  TextEditingController second2 = TextEditingController();
-  TextEditingController thrid1 = TextEditingController();
-  TextEditingController thrid2 = TextEditingController();
-  TextEditingController four1 = TextEditingController();
-  TextEditingController four2 = TextEditingController();
+  TextEditingController grocery1 = TextEditingController();
+  TextEditingController grocery2 = TextEditingController();
+  TextEditingController ambient1 = TextEditingController();
+  TextEditingController ambient2 = TextEditingController();
+  TextEditingController counter1 = TextEditingController();
+  TextEditingController counter2 = TextEditingController();
+  TextEditingController arial1 = TextEditingController();
+  TextEditingController arial2 = TextEditingController();
   File? grocery;
   String grocerypath = '';
   String groceryname = '';

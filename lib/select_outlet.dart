@@ -45,7 +45,6 @@ class _SelectOutletState extends State<SelectOutlet> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginToken = prefs.getString("logintoken")!;
     prefs.setString("midtoken", widget.idz);
-    // print("id----" + widget.idz!);
     Future.delayed(Duration(milliseconds: 500));
     OutletApi.getData(widget.areaName, widget.day, loginToken).then((value) {
       print("json-------" + value!.data.toString());

@@ -38,6 +38,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  removeData() async {
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.remove("logintoken");
+      prefs.remove("loginstatus");
+    });
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => SplashScreen(),
+    ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -55,18 +71,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Image.asset("assets/images/ccsmall.png", height: 80),
                     Spacer(),
-                    GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.fade,
-                                curve: Curves.decelerate,
-                                duration: Duration(seconds: 1),
-                                child: LeaderboardScreen())),
-                        child: Image.asset("assets/images/d1.png")),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    // GestureDetector(
+                    //     onTap: () => Navigator.push(
+                    //         context,
+                    //         PageTransition(
+                    //             type: PageTransitionType.fade,
+                    //             curve: Curves.decelerate,
+                    //             duration: Duration(seconds: 1),
+                    //             child: LeaderboardScreen())),
+                    //     child: Image.asset("assets/images/d1.png")),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
                     // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
@@ -112,117 +128,117 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: 30,
                 ),
-                Row(
-                  children: [
-                    Container(
-                      width: width / 2.3,
-                      height: 70,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 20,
-                            blurStyle: BlurStyle.outer,
-                            color: Colors.black.withOpacity(0.1),
-                          )
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(
-                              left: 20,
-                              top: 8,
-                            ),
-                            child: Icon(
-                              IconlyLight.document,
-                              size: 26,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                task.isEmpty ? "0" : task,
-                                style: GoogleFonts.ibmPlexSans(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'Tasks',
-                                style: GoogleFonts.ibmPlexSansArabic(
-                                  color: Color(0xFF9098A3),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: width / 2.3,
-                      height: 70,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 20,
-                            blurStyle: BlurStyle.outer,
-                            color: Colors.black.withOpacity(0.1),
-                          )
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Icon(IconlyLight.graph, size: 28),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '#2',
-                                style: GoogleFonts.ibmPlexSans(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'Leaderboard',
-                                style: GoogleFonts.ibmPlexSansArabic(
-                                  color: Color(0xFF9098A3),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
+                // Row(
+                //   children: [
+                //     Container(
+                //       width: width / 2.3,
+                //       height: 70,
+                //       padding: EdgeInsets.all(10),
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(10),
+                //         boxShadow: [
+                //           BoxShadow(
+                //             blurRadius: 20,
+                //             blurStyle: BlurStyle.outer,
+                //             color: Colors.black.withOpacity(0.1),
+                //           )
+                //         ],
+                //       ),
+                //       child: Row(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           const Padding(
+                //             padding: EdgeInsets.only(
+                //               left: 20,
+                //               top: 8,
+                //             ),
+                //             child: Icon(
+                //               IconlyLight.document,
+                //               size: 26,
+                //             ),
+                //           ),
+                //           SizedBox(
+                //             width: 10,
+                //           ),
+                //           Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Text(
+                //                 task.isEmpty ? "0" : task,
+                //                 style: GoogleFonts.ibmPlexSans(
+                //                   color: Colors.black,
+                //                   fontSize: 18,
+                //                   fontWeight: FontWeight.w600,
+                //                 ),
+                //               ),
+                //               Text(
+                //                 'Tasks',
+                //                 style: GoogleFonts.ibmPlexSansArabic(
+                //                   color: Color(0xFF9098A3),
+                //                   fontSize: 12,
+                //                   fontWeight: FontWeight.w600,
+                //                 ),
+                //               ),
+                //             ],
+                //           )
+                //         ],
+                //       ),
+                //     ),
+                //     Spacer(),
+                //     Container(
+                //       width: width / 2.3,
+                //       height: 70,
+                //       padding: EdgeInsets.all(10),
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(10),
+                //         boxShadow: [
+                //           BoxShadow(
+                //             blurRadius: 20,
+                //             blurStyle: BlurStyle.outer,
+                //             color: Colors.black.withOpacity(0.1),
+                //           )
+                //         ],
+                //       ),
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           Padding(
+                //             padding: const EdgeInsets.only(top: 6),
+                //             child: Icon(IconlyLight.graph, size: 28),
+                //           ),
+                //           SizedBox(
+                //             width: 10,
+                //           ),
+                //           Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: [
+                //               Text(
+                //                 '#2',
+                //                 style: GoogleFonts.ibmPlexSans(
+                //                   color: Colors.black,
+                //                   fontSize: 18,
+                //                   fontWeight: FontWeight.w600,
+                //                 ),
+                //               ),
+                //               Text(
+                //                 'Leaderboard',
+                //                 style: GoogleFonts.ibmPlexSansArabic(
+                //                   color: Color(0xFF9098A3),
+                //                   fontSize: 12,
+                //                   fontWeight: FontWeight.w600,
+                //                 ),
+                //               ),
+                //             ],
+                //           )
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 30,
+                // ),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -348,20 +364,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 50,
                 ),
                 GestureDetector(
-                  onTap: () async {
-                    var prefs = await SharedPreferences.getInstance();
-                    setState(() {
-                      prefs.remove("logintoken");
-                      prefs.remove("loginstatus");
-                    });
-
-                    Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            curve: Curves.decelerate,
-                            duration: Duration(seconds: 1),
-                            child: SplashScreen()));
+                  onTap: () {
+                    removeData();
                   },
                   child: Center(
                     child: Container(
