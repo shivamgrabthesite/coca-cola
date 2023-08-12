@@ -16,7 +16,7 @@ class OnewayVisionCustom {
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "oneway_vision_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

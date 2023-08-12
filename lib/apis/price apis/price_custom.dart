@@ -16,7 +16,7 @@ class PriceStripCustom {
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "price_strip_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

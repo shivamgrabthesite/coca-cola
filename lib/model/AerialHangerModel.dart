@@ -16,7 +16,7 @@ class AerialHangerModel {
   int aerialHangerNotAvailable;
   String aerialHangerNotAvailableImage;
   String aerialHangerRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -43,7 +43,7 @@ class AerialHangerModel {
         aerialHangerNotAvailable: json["aerial_hanger_not_available"],
         aerialHangerNotAvailableImage: json["aerial_hanger_not_available_image"],
         aerialHangerRemark: json["aerial_hanger_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -57,7 +57,7 @@ class AerialHangerModel {
         "aerial_hanger_not_available": aerialHangerNotAvailable,
         "aerial_hanger_not_available_image": aerialHangerNotAvailableImage,
         "aerial_hanger_remark": aerialHangerRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

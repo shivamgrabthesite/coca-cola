@@ -85,7 +85,7 @@ class _Onboard0State extends State<Onboard0> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'Welcome to HCCBPL RING OF MAGIC',
+                                    'Welcome to HCCBPL RING OF MAGIC PROJECT',
                                     style: GoogleFonts.ibmPlexSerif(
                                       color: Colors.black,
                                       fontSize: 22,

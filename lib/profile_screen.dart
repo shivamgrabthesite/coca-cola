@@ -4,6 +4,7 @@ import 'package:coca_cola/privacy_policy.dart';
 import 'package:coca_cola/spalsh_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
@@ -38,15 +39,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  removeData() async {
+  removeData(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.remove("logintoken");
       prefs.remove("loginstatus");
+      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+      //   builder: (context) => SplashScreen(),
+      // ));
     });
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => SplashScreen(),
-    ));
+
+    SystemNavigator.pop();
   }
 
   @override
@@ -365,7 +368,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    removeData();
+                    removeData(context);
                   },
                   child: Center(
                     child: Container(

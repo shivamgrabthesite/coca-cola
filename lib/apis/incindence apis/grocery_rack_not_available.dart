@@ -10,11 +10,11 @@ class GroceryRackNotAvailable {
       print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/cooler/upload-image/not-available"),
+        Uri.parse("http://16.170.252.47:5000/api/task/grocery_rack/upload-image/not-available"),
       );
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "grocery_rack_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

@@ -122,6 +122,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   // }
 
   getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      tid = prefs.getString("tid").toString();
+      flname = prefs.getString("flname").toString();
+      print("tid----------" + tid);
+    });
     IncidenceApi.getData("64c6cf53cfd3911994c43484", "2").then((value) {
       print("incedence data---" + value!.data.toString());
       for (var i = 0; i < value.data.length; i++) {
@@ -134,122 +140,178 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         });
       }
     });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    tid = prefs.getString("tid").toString();
-    flname = prefs.getString("flname").toString();
-    print("tid----------" + tid);
+  }
 
+  groceryCustom(BuildContext context) {
+    var provider = Provider.of<IncidenceProvider>(context, listen: false);
     Grocaryrackpi.getData(tid).then((value) {
       setState(() {
         groceryid = value!.id;
       });
       // print("grocary id -------" + pid);
-    });
-    AmbientApi.getData(tid).then((value) {
-      setState(() {
-        ambinetid = value!.id;
+    }).whenComplete(() {
+      GroceryRackCustom.setImage(groceryid, provider.grocery2.text, provider.grocery!)
+          .then((value) {
+        print("custom res----" + value.toString());
       });
-      // print("grocary id -------" + pid);
-    });
-    CounterApi.getData(tid).then((value) {
-      setState(() {
-        counterid = value!.id;
-      });
-      // print("grocary id -------" + pid);
-    });
-    AerialHanger.getData(tid).then((value) {
-      setState(() {
-        aerialid = value!.id;
-      });
-      // print("grocary id -------" + pid);
-    });
-  }
-
-  groceryCustom(BuildContext context) {
-    var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    GroceryRackCustom.setImage(groceryid, provider.grocery2.text, provider.grocery!).then((value) {
-      print("custom res----" + value.toString());
     });
   }
 
   ambientCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientCustom.setImage(ambinetid, provider.ambient2.text, provider.ambient!).then((value) {
-      print("custom res----" + value.toString());
+    AmbientApi.getData(tid).then((value) {
+      setState(() {
+        ambinetid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      AmbientCustom.setImage(ambinetid, provider.ambient2.text, provider.ambient!).then((value) {
+        print("custom res----" + value.toString());
+      });
     });
   }
 
   counterCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterCustom.setImage(counterid, provider.counter2.text, provider.counter!).then((value) {
-      print("custom res----" + value.toString());
+    CounterApi.getData(tid).then((value) {
+      setState(() {
+        counterid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      CounterCustom.setImage(counterid, provider.counter2.text, provider.counter!).then((value) {
+        print("custom res----" + value.toString());
+      });
     });
   }
 
   arialCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
-      print("custom res----" + value.toString());
+    AerialHanger.getData(tid).then((value) {
+      setState(() {
+        aerialid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
+        print("custom res----" + value.toString());
+      });
     });
   }
 
   ambientAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientAvailable.setImage(ambinetid, provider.ambient!).then((value) {
-      print("avauilable res----" + value.toString());
+    AmbientApi.getData(tid).then((value) {
+      setState(() {
+        ambinetid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      AmbientAvailable.setImage(ambinetid, provider.ambient!).then((value) {
+        print("avauilable res----" + value.toString());
+      });
     });
   }
 
   groceryAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    GroceryRackUploadImg.setImage(groceryid, provider.grocery!).then((value) {
-      print("avauilable res----" + value.toString());
+    Grocaryrackpi.getData(tid).then((value) {
+      setState(() {
+        groceryid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      GroceryRackUploadImg.setImage(groceryid, provider.grocery!).then((value) {
+        print("avauilable res----" + value.toString());
+      });
     });
   }
 
   counterAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterAvailable.setImage(counterid, provider.counter!).then((value) {
-      print("avauilable res----" + value.toString());
+    CounterApi.getData(tid).then((value) {
+      setState(() {
+        counterid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      CounterAvailable.setImage(counterid, provider.counter!).then((value) {
+        print("avauilable res----" + value.toString());
+      });
     });
   }
 
   aerialAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
-      print("avauilable res----" + value.toString());
+    AerialHanger.getData(tid).then((value) {
+      setState(() {
+        aerialid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
+        print("avauilable res----" + value.toString());
+      });
     });
   }
 
   groceryNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    GroceryRackNotAvailable.setImage(groceryid, provider.grocery1.text, provider.grocery!)
-        .then((value) {
-      print("not avauilable res----" + value.toString());
+    Grocaryrackpi.getData(tid).then((value) {
+      setState(() {
+        groceryid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      GroceryRackNotAvailable.setImage(groceryid, provider.grocery1.text, provider.grocery!)
+          .then((value) {
+        print("not avauilable res----" + value.toString());
+      });
     });
   }
 
   ambientNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientRackNotAvailable.setImage(groceryid, provider.ambient1.text, provider.ambient!)
-        .then((value) {
-      print("not avauilable res----" + value.toString());
+    AmbientApi.getData(tid).then((value) {
+      setState(() {
+        ambinetid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      AmbientRackNotAvailable.setImage(groceryid, provider.ambient1.text, provider.ambient!)
+          .then((value) {
+        print("not avauilable res----" + value.toString());
+      });
     });
   }
 
   counterNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterNotAvailable.setImage(counterid, provider.counter1.text, provider.counter!)
-        .then((value) {
-      print("not avauilable res----" + value.toString());
+    CounterApi.getData(tid).then((value) {
+      setState(() {
+        counterid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      CounterNotAvailable.setImage(counterid, provider.counter1.text, provider.counter!)
+          .then((value) {
+        print("not avauilable res----" + value.toString());
+      });
     });
   }
 
   aerialNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHangerNotAvailable.setImage(groceryid, provider.arial1.text, provider.arial!)
-        .then((value) {
-      print("not avauilable res----" + value.toString());
+    AerialHanger.getData(tid).then((value) {
+      setState(() {
+        aerialid = value!.id;
+      });
+      // print("grocary id -------" + pid);
+    }).whenComplete(() {
+      AerialHangerNotAvailable.setImage(groceryid, provider.arial1.text, provider.arial!)
+          .then((value) {
+        print("not avauilable res----" + value.toString());
+      });
     });
   }
 

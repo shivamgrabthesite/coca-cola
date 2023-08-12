@@ -15,7 +15,7 @@ class PriceStripModel {
   int priceStripNotAvailable;
   String priceStripNotAvailableImage;
   String priceStripRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -42,7 +42,7 @@ class PriceStripModel {
         priceStripNotAvailable: json["price_strip_not_available"],
         priceStripNotAvailableImage: json["price_strip_not_available_image"],
         priceStripRemark: json["price_strip_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -56,7 +56,7 @@ class PriceStripModel {
         "price_strip_not_available": priceStripNotAvailable,
         "price_strip_not_available_image": priceStripNotAvailableImage,
         "price_strip_remark": priceStripRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

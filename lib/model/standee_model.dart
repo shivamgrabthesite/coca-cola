@@ -14,7 +14,8 @@ class StandeeModel {
   String standeeAvailableImage;
   int standeeNotAvailable;
   String standeeNotAvailableImage;
-  List<dynamic> customImage;
+  String standeeRemark;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -26,6 +27,7 @@ class StandeeModel {
     required this.standeeAvailableImage,
     required this.standeeNotAvailable,
     required this.standeeNotAvailableImage,
+    required this.standeeRemark,
     required this.customImage,
     required this.id,
     required this.createdAt,
@@ -39,7 +41,8 @@ class StandeeModel {
         standeeAvailableImage: json["standee_available_image"],
         standeeNotAvailable: json["standee_not_available"],
         standeeNotAvailableImage: json["standee_not_available_image"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        standeeRemark: json["standee_remark"],
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -52,7 +55,8 @@ class StandeeModel {
         "standee_available_image": standeeAvailableImage,
         "standee_not_available": standeeNotAvailable,
         "standee_not_available_image": standeeNotAvailableImage,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "standee_remark": standeeRemark,
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

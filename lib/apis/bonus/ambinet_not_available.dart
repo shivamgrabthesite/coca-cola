@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 class AmbientNotAvailable {
-  static Future setImage(String pid,String remark, File imgPath) async {
+  static Future setImage(String pid, String remark, File imgPath) async {
     try {
       print("pid in api------" + pid);
       print("image in api------" + imgPath.toString());
@@ -16,7 +16,7 @@ class AmbientNotAvailable {
       // request.fields['pid'] = pid.toString();
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "ambient_display_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

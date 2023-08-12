@@ -23,7 +23,7 @@ class _TaskScreenState extends State<TaskScreen> {
   List gccid = [];
   String? data;
   String flname = '';
-
+  List channel = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -46,6 +46,7 @@ class _TaskScreenState extends State<TaskScreen> {
         for (var i = 0; i < value.data.length; i++) {
           marketData.add(value.data[i].market.outletName);
           status.add(value.data[i].status);
+          channel.add(value.data[i].market.channel);
           gccid.add(value.data[i].market.gccCode);
           prefs.setString("taskLength", value.data[i].market.outletName.length.toString());
           print("market data---------" + marketData.toString());
@@ -116,18 +117,19 @@ class _TaskScreenState extends State<TaskScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.fade,
-                                  curve: Curves.decelerate,
-                                  duration: Duration(seconds: 1),
-                                  child: ShopPic(
-                                    address: "P01265 PADMARAO NAGAR_BOIGUDA",
-                                    channel: "Grocery - S&B",
-                                    customerGccId: "G000012245",
-                                    priCustomerName: "VIJAY KIRANA GEN.STORES",
-                                  ))),
+                          onTap: () {
+                            if (status[index] == "pending") {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      curve: Curves.decelerate,
+                                      duration: Duration(seconds: 1),
+                                      child: ShopPic(
+                                        channel: channel[index],
+                                      )));
+                            }
+                          },
                           child: Container(
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -155,9 +157,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                       decoration: BoxDecoration(
                                           color: status[index] == "pending"
                                               ? Colors.blue
-                                              : status[index] == "compeleted"
-                                                  ? Colors.green
-                                                  : Colors.red,
+                                              : Colors.green,
                                           borderRadius: BorderRadius.circular(5)),
                                       child: Text(
                                         // "pending",

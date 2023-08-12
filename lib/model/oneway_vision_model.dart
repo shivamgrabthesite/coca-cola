@@ -16,7 +16,7 @@ class OnewayVisionModel {
   int onewayVisionNotAvailable;
   String onewayVisionNotAvailableImage;
   String onewayVisionRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -43,7 +43,7 @@ class OnewayVisionModel {
         onewayVisionNotAvailable: json["oneway_vision_not_available"],
         onewayVisionNotAvailableImage: json["oneway_vision_not_available_image"],
         onewayVisionRemark: json["oneway_vision_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -57,7 +57,7 @@ class OnewayVisionModel {
         "oneway_vision_not_available": onewayVisionNotAvailable,
         "oneway_vision_not_available_image": onewayVisionNotAvailableImage,
         "oneway_vision_remark": onewayVisionRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

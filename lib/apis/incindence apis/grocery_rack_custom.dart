@@ -16,7 +16,7 @@ class GroceryRackCustom {
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "grocery_rack_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

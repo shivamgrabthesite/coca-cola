@@ -8,7 +8,7 @@ import '../../model/counter_brand_model.dart';
 import '../../model/price_strip_model.dart';
 
 class CounterApi {
-  static Future<CounterBrandModel?> getData(String tid) async {
+  static Future<CounterBrandingModel?> getData(String tid) async {
     try {
       final url = Uri.parse(apiPath + "task/counter_branding");
       Map<String, dynamic> requestBody = {
@@ -25,7 +25,7 @@ class CounterApi {
       // return response.body;
 
       if (response.statusCode == 201) {
-        CounterBrandModel getdata = counterBrandModelFromJson(response.body);
+        CounterBrandingModel getdata = counterBrandingModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

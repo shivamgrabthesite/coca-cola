@@ -98,8 +98,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   // }
 
   getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    tid = prefs.getString("tid").toString();
+    flname = prefs.getString("flname").toString();
+    print("tid----------" + tid);
     PriceCommunicationApi.getData("64c6cf53cfd3911994c43484", "3").then((value) {
-      // print(value);
       for (var i = 0; i < value!.data.length; i++) {
         setState(() {
           title = value.data[i].title;
@@ -109,76 +112,112 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         });
       }
     });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    tid = prefs.getString("tid").toString();
-    flname = prefs.getString("flname").toString();
-
-    BrandStripApi.getData(tid).then((value) {
-      setState(() {
-        brandid = value!.id;
-      });
-    });
-    PriceStripApi.getData(tid).then((value) {
-      setState(() {
-        priceid = value!.id;
-      });
-    });
-    PackCutoutApi.getData(tid).then((value) {
-      setState(() {
-        packid = value!.id;
-      });
-    });
   }
 
   brandUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandAvailable.setImage(brandid!, provider.brand!).then((value) {
-      print("image upload response---------" + value.toString());
+    BrandStripApi.getData(tid).then((value) {
+      setState(() {
+        brandid = value!.id;
+      });
+    }).whenComplete(() {
+      BrandAvailable.setImage(brandid!, provider.brand!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   priceUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripAvailable.setImage(priceid!, provider.price!).then((value) {
-      print("image upload response---------" + value.toString());
+    PriceStripApi.getData(tid).then((value) {
+      setState(() {
+        priceid = value!.id;
+      });
+    }).whenComplete(() {
+      PriceStripAvailable.setImage(priceid!, provider.price!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   packUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackAvailable.setImage(packid!, provider.pack!).then((value) {
-      print("image upload response---------" + value.toString());
+    PackCutoutApi.getData(tid).then((value) {
+      setState(() {
+        packid = value!.id;
+      });
+    }).whenComplete(() {
+      PackAvailable.setImage(packid!, provider.pack!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   brandNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandNotAvailable.setImage(brandid!, provider.brand1.text, provider.brand!);
+    BrandStripApi.getData(tid).then((value) {
+      setState(() {
+        brandid = value!.id;
+      });
+    }).whenComplete(() {
+      BrandNotAvailable.setImage(brandid!, provider.brand1.text, provider.brand!);
+    });
   }
 
   priceNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripNotAvailable.setImage(priceid!, provider.price1.text, provider.price!);
+    PriceStripApi.getData(tid).then((value) {
+      setState(() {
+        priceid = value!.id;
+      });
+    }).whenComplete(() {
+      PriceStripNotAvailable.setImage(priceid!, provider.price1.text, provider.price!);
+    });
   }
 
   packNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
+    PackCutoutApi.getData(tid).then((value) {
+      setState(() {
+        packid = value!.id;
+      });
+    }).whenComplete(() {
+      PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
+    });
   }
 
   brandCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandCustom.setImage(brandid!, provider.brand2.text, provider.brand!);
+    BrandStripApi.getData(tid).then((value) {
+      setState(() {
+        brandid = value!.id;
+        print("brand custom------" + brandid);
+      });
+    }).whenComplete(() {
+      BrandCustom.setImage(brandid!, provider.brand2.text, provider.brand!);
+    });
   }
 
   priceCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripCustom.setImage(priceid!, provider.price2.text, provider.price!);
+    PriceStripApi.getData(tid).then((value) {
+      setState(() {
+        priceid = value!.id;
+      });
+    }).whenComplete(() {
+      PriceStripCustom.setImage(priceid, provider.price2.text, provider.price!);
+    });
   }
 
   packCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
+    PackCutoutApi.getData(tid).then((value) {
+      setState(() {
+        packid = value!.id;
+      });
+    }).whenComplete(() {
+      PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
+    });
   }
 
   @override

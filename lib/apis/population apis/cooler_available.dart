@@ -24,7 +24,7 @@ class CoolerAvailable {
         'image',
         imgPath.readAsBytesSync(),
         filename: imgPath.path,
-        // contentType: MediaType("image", "jpg"),
+        contentType: MediaType("image", "jpg"),
       ));
 
       request.fields.addAll(payload);
@@ -35,7 +35,6 @@ class CoolerAvailable {
       var result = String.fromCharCodes(resposeData);
 
       print("image respose------" + res.statusCode.toString());
-      print("result------" + result);
     } catch (e) {
       print('Error while making API request: $e');
     }

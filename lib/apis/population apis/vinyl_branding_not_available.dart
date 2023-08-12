@@ -16,7 +16,7 @@ class VinylBrandingNotAvailable {
       // request.fields['pid'] = pid.toString();
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "vinyl_branding_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

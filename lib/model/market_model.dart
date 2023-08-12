@@ -78,9 +78,9 @@ class Datum {
             ? []
             : List<Day>.from(json["Friday"]!.map((x) => Day.fromJson(x))),
         fridayCount: json["FridayCount"],
-        saturday: json["Saturday"] == null
+        saturday: json["saturday"] == null
             ? []
-            : List<Day>.from(json["Saturday"]!.map((x) => Day.fromJson(x))),
+            : List<Day>.from(json["saturday"]!.map((x) => Day.fromJson(x))),
         saturdayCount: json["saturdayCount"],
       );
 
@@ -95,7 +95,7 @@ class Datum {
         "ThursdayCount": thursdayCount,
         "Friday": friday == null ? [] : List<dynamic>.from(friday!.map((x) => x.toJson())),
         "FridayCount": fridayCount,
-        "Saturday": saturday == null ? [] : List<dynamic>.from(saturday!.map((x) => x.toJson())),
+        "saturday": saturday == null ? [] : List<dynamic>.from(saturday!.map((x) => x.toJson())),
         "saturdayCount": saturdayCount,
       };
 }

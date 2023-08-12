@@ -16,7 +16,7 @@ class GroceryRackModel {
   int groceryRackNotAvailable;
   String groceryRackNotAvailableImage;
   String groceryRackRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -43,7 +43,7 @@ class GroceryRackModel {
         groceryRackNotAvailable: json["grocery_rack_not_available"],
         groceryRackNotAvailableImage: json["grocery_rack_not_available_image"],
         groceryRackRemark: json["grocery_rack_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -57,7 +57,7 @@ class GroceryRackModel {
         "grocery_rack_not_available": groceryRackNotAvailable,
         "grocery_rack_not_available_image": groceryRackNotAvailableImage,
         "grocery_rack_remark": groceryRackRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

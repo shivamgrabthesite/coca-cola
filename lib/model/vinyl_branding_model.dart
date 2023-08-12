@@ -16,7 +16,7 @@ class VinylBrandingModel {
   int vinylBrandingNotAvailable;
   String vinylBrandingNotAvailableImage;
   String vinylBrandingRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -43,7 +43,7 @@ class VinylBrandingModel {
         vinylBrandingNotAvailable: json["vinyl_branding_not_available"],
         vinylBrandingNotAvailableImage: json["vinyl_branding_not_available_image"],
         vinylBrandingRemark: json["vinyl_branding_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -57,7 +57,7 @@ class VinylBrandingModel {
         "vinyl_branding_not_available": vinylBrandingNotAvailable,
         "vinyl_branding_not_available_image": vinylBrandingNotAvailableImage,
         "vinyl_branding_remark": vinylBrandingRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

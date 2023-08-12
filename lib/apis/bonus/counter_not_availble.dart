@@ -14,7 +14,7 @@ class CounterNotAvailable {
       );
 
       // request.fields['pid'] = pid.toString();
-      var payload = {"pid": pid, "remark": remark};
+      var payload = {"pid": pid, "counter_top_remark": remark};
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');
 

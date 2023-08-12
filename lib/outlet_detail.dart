@@ -48,6 +48,7 @@ class _OutletDetailState extends State<OutletDetail> {
   //     MOBILE = '';
   String flname = '';
   String uidtoken = '', midtoken = '', oidtoken = '';
+  String tid = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -67,7 +68,12 @@ class _OutletDetailState extends State<OutletDetail> {
 
     TaskApi.getData(uidtoken, midtoken, oidtoken).then((value) {
       print("task response---------" + value!.data.id.toString());
-      prefs.setString("tid", value.data.id);
+      tid = value.data.id.toString();
+      print("tizzzzz---" + tid);
+    }).whenComplete(() {
+      setState(() {
+        prefs.setString("tid", tid.toString());
+      });
     });
   }
 
@@ -132,7 +138,7 @@ class _OutletDetailState extends State<OutletDetail> {
                     children: [
                       Text(
                         flname,
-                        style: GoogleFonts.ibmPlexSans(
+                        style: GoogleFonts.ibmPlexSerif(
                           color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -225,7 +231,7 @@ class _OutletDetailState extends State<OutletDetail> {
                       children: [
                         Text(
                           'Red OL Class:',
-                          style: GoogleFonts.ibmPlexSans(
+                          style: GoogleFonts.ibmPlexSerif(
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -237,7 +243,7 @@ class _OutletDetailState extends State<OutletDetail> {
                         Expanded(
                           child: Text(
                             red_ol_class,
-                            style: GoogleFonts.ibmPlexSans(
+                            style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -309,7 +315,7 @@ class _OutletDetailState extends State<OutletDetail> {
                       children: [
                         Text(
                           'Market Area:',
-                          style: GoogleFonts.ibmPlexSans(
+                          style: GoogleFonts.ibmPlexSerif(
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -321,7 +327,7 @@ class _OutletDetailState extends State<OutletDetail> {
                         Expanded(
                           child: Text(
                             ring_of_magic_area,
-                            style: GoogleFonts.ibmPlexSans(
+                            style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -336,7 +342,7 @@ class _OutletDetailState extends State<OutletDetail> {
                     Row(
                       children: [
                         Text(
-                          "Manager Name:",
+                          "MGR Name:",
                           style: GoogleFonts.ibmPlexSerif(
                             color: Colors.black,
                             fontSize: 20,
@@ -362,8 +368,8 @@ class _OutletDetailState extends State<OutletDetail> {
                       height: 10,
                     ),
                     Text(
-                      'Manager Contact Number:',
-                      style: GoogleFonts.ibmPlexSans(
+                      'MGR Contact Number:',
+                      style: GoogleFonts.ibmPlexSerif(
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -374,7 +380,7 @@ class _OutletDetailState extends State<OutletDetail> {
                     ),
                     Text(
                       mgr_contect_no,
-                      style: GoogleFonts.ibmPlexSans(
+                      style: GoogleFonts.ibmPlexSerif(
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -396,10 +402,10 @@ class _OutletDetailState extends State<OutletDetail> {
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
                           child: ShopPic(
-                            address: "P01265 PADMARAO NAGAR_BOIGUDA",
-                            channel: "Grocery - S&B",
-                            customerGccId: "G000012245",
-                            priCustomerName: "VIJAY KIRANA GEN.STORES",
+                            channel: channel,
+                            // address: "P01265 PADMARAO NAGAR_BOIGUDA",
+                            // customerGccId: "G000012245",
+                            // priCustomerName: "VIJAY KIRANA GEN.STORES",
                           )));
                 },
                 child: Center(
@@ -410,7 +416,7 @@ class _OutletDetailState extends State<OutletDetail> {
                         color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
                     child: Center(
                       child: Text(
-                        'Sumbit',
+                        'Sumbit Details',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.ibmPlexSerif(
                           color: Colors.white,

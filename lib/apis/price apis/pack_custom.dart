@@ -16,7 +16,7 @@ class PackCustom {
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "pack_cutout_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

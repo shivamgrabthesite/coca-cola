@@ -16,7 +16,7 @@ class AmbientRackNotAvailable {
       // request.fields['pid'] = pid.toString();
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "ambient_rack_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

@@ -16,7 +16,7 @@ class VerticalSignageNotAvailable {
       // request.fields['pid'] = pid.toString();
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "vertical_signage_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

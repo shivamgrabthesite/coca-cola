@@ -16,7 +16,7 @@ class VerticalSignageModel {
   int verticalSignageNotAvailable;
   String verticalSignageNotAvailableImage;
   String verticalSignageRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -43,7 +43,7 @@ class VerticalSignageModel {
         verticalSignageNotAvailable: json["vertical_signage_not_available"],
         verticalSignageNotAvailableImage: json["vertical_signage_not_available_image"],
         verticalSignageRemark: json["vertical_signage_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -57,7 +57,7 @@ class VerticalSignageModel {
         "vertical_signage_not_available": verticalSignageNotAvailable,
         "vertical_signage_not_available_image": verticalSignageNotAvailableImage,
         "vertical_signage_remark": verticalSignageRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

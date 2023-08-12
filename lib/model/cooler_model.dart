@@ -14,7 +14,8 @@ class CoolerModel {
   String coolerAvailableImage;
   int coolerNotAvailable;
   String coolerNotAvailableImage;
-  List<dynamic> customImage;
+  String coolerRemark;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -26,6 +27,7 @@ class CoolerModel {
     required this.coolerAvailableImage,
     required this.coolerNotAvailable,
     required this.coolerNotAvailableImage,
+    required this.coolerRemark,
     required this.customImage,
     required this.id,
     required this.createdAt,
@@ -39,7 +41,8 @@ class CoolerModel {
         coolerAvailableImage: json["cooler_available_image"],
         coolerNotAvailable: json["cooler_not_available"],
         coolerNotAvailableImage: json["cooler_not_available_image"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        coolerRemark: json["cooler_remark"],
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -52,7 +55,8 @@ class CoolerModel {
         "cooler_available_image": coolerAvailableImage,
         "cooler_not_available": coolerNotAvailable,
         "cooler_not_available_image": coolerNotAvailableImage,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "cooler_remark": coolerRemark,
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

@@ -16,7 +16,7 @@ class DpsCustom {
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "dps_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

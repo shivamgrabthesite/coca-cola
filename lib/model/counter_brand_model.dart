@@ -1,28 +1,28 @@
 // To parse this JSON data, do
 //
-//     final counterBrandModel = counterBrandModelFromJson(jsonString);
+//     final counterBrandingModel = counterBrandingModelFromJson(jsonString);
 
 import 'dart:convert';
 
-CounterBrandModel counterBrandModelFromJson(String str) =>
-    CounterBrandModel.fromJson(json.decode(str));
+CounterBrandingModel counterBrandingModelFromJson(String str) =>
+    CounterBrandingModel.fromJson(json.decode(str));
 
-String counterBrandModelToJson(CounterBrandModel data) => json.encode(data.toJson());
+String counterBrandingModelToJson(CounterBrandingModel data) => json.encode(data.toJson());
 
-class CounterBrandModel {
+class CounterBrandingModel {
   String tid;
   int counterBrandingAvailable;
   String counterBrandingAvailableImage;
   int counterBrandingNotAvailable;
   String counterBrandingNotAvailableImage;
   String counterBrandingRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
 
-  CounterBrandModel({
+  CounterBrandingModel({
     required this.tid,
     required this.counterBrandingAvailable,
     required this.counterBrandingAvailableImage,
@@ -36,14 +36,14 @@ class CounterBrandModel {
     required this.v,
   });
 
-  factory CounterBrandModel.fromJson(Map<String, dynamic> json) => CounterBrandModel(
+  factory CounterBrandingModel.fromJson(Map<String, dynamic> json) => CounterBrandingModel(
         tid: json["tid"],
         counterBrandingAvailable: json["counter_branding_available"],
         counterBrandingAvailableImage: json["counter_branding_available_image"],
         counterBrandingNotAvailable: json["counter_branding_not_available"],
         counterBrandingNotAvailableImage: json["counter_branding_not_available_image"],
         counterBrandingRemark: json["counter_branding_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -57,7 +57,7 @@ class CounterBrandModel {
         "counter_branding_not_available": counterBrandingNotAvailable,
         "counter_branding_not_available_image": counterBrandingNotAvailableImage,
         "counter_branding_remark": counterBrandingRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

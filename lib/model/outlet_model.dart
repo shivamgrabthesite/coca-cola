@@ -36,6 +36,7 @@ class Datum {
   String redOutletClass;
   String channel;
   String address;
+  String status;
 
   Datum({
     required this.id,
@@ -45,6 +46,7 @@ class Datum {
     required this.redOutletClass,
     required this.channel,
     required this.address,
+    required this.status,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -55,6 +57,7 @@ class Datum {
         redOutletClass: json["Red_Outlet_Class"],
         channel: json["Channel"],
         address: json["address"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,5 +68,6 @@ class Datum {
         "Red_Outlet_Class": redOutletClass,
         "Channel": channel,
         "address": address,
+        "status": status,
       };
 }

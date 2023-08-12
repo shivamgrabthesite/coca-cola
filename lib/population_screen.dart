@@ -98,6 +98,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     super.initState();
     controller = PageController(initialPage: _currentPage);
     controller2 = PageController(initialPage: _currentPage2);
+    getPrefs();
     getData();
   }
 
@@ -133,12 +134,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
   //   });
   // }
 
-  getData() async {
-    // var prefs = Shared
+  getPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      tid = prefs.getString("tid").toString();
+      flname = prefs.getString("flname").toString();
+      print("tid----------" + tid);
+    });
+  }
+
+  getData() {
     PopulationApi.getData("64c6cf53cfd3911994c43484", "1").then((value) {
-      setState(() {
-        print(value);
-        for (var i = 0; i < value!.data.length; i++) {
+      for (var i = 0; i < value!.data.length; i++) {
+        setState(() {
           title = value.data[i].title;
           first.add(value.data[i].first);
           second.add(value.data[i].second);
@@ -146,152 +154,238 @@ class _PopulationScreenState extends State<PopulationScreen> {
           four.add(value.data[i].four);
           five.add(value.data[i].five);
           six.add(value.data[i].six);
-        }
-      });
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    tid = prefs.getString("tid").toString();
-    flname = prefs.getString("flname").toString();
-    print("tid----------" + tid);
-
-    CoolerApi.getData(tid).then((value) {
-      setState(() {
-        cooleid = value!.id;
-        print("idddd----------" + value.id);
-      });
-    });
-    DpsApi.getData(tid).then((value) {
-      setState(() {
-        dpsid = value!.id;
-        print("idddd----------" + value.id);
-      });
-    });
-    StandeeApi.getData(tid).then((value) {
-      setState(() {
-        standeeid = value!.id;
-        print("idddd----------" + value.id);
-      });
-    });
-    VerticalSignageApi.getData(tid).then((value) {
-      setState(() {
-        verticalid = value!.id;
-        print("idddd----------" + value.id);
-      });
-    });
-    OnewayApi.getData(tid).then((value) {
-      setState(() {
-        onewayid = value!.id;
-        print("idddd----------" + value.id);
-      });
-    });
-    VinylBrandingApi.getData(tid).then((value) {
-      setState(() {
-        vinylid = value!.id;
-        print("idddd----------" + value.id);
-      });
+        });
+      }
     });
   }
 
   coolerUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
-      print("image upload response---------" + value.toString());
+    CoolerApi.getData(tid).then((value) {
+      setState(() {
+        cooleid = value!.id;
+        print("cooler----------" + value.id);
+      });
+    }).whenComplete(() {
+      CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   dpsUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
-      print("image upload response---------" + value.toString());
+    DpsApi.getData(tid).then((value) {
+      setState(() {
+        dpsid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   standeeUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
-      print("image upload response---------" + value.toString());
+    StandeeApi.getData(tid).then((value) {
+      setState(() {
+        standeeid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   verticalUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
-      print("image upload response---------" + value.toString());
+    VerticalSignageApi.getData(tid).then((value) {
+      setState(() {
+        verticalid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   onewayUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
-      print("image upload response---------" + value.toString());
+    OnewayApi.getData(tid).then((value) {
+      setState(() {
+        onewayid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   vinylUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
-      print("image upload response---------" + value.toString());
+    VinylBrandingApi.getData(tid).then((value) {
+      setState(() {
+        vinylid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
+        print("image upload response---------" + value.toString());
+      });
     });
   }
 
   coolerNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
+    CoolerApi.getData(tid).then((value) {
+      setState(() {
+        cooleid = value!.id;
+        print("cooler----------" + value.id);
+      });
+    }).whenComplete(() {
+      CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
+    });
   }
 
   dpsNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
+    DpsApi.getData(tid).then((value) {
+      setState(() {
+        dpsid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
+    });
   }
 
   standeeNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
+    StandeeApi.getData(tid).then((value) {
+      setState(() {
+        standeeid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
+    });
   }
 
   verticalNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageNotAvailable.setImage(verticalid!, provider.vertical1.text, provider.vertical!);
+    VerticalSignageApi.getData(tid).then((value) {
+      setState(() {
+        verticalid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      VerticalSignageNotAvailable.setImage(
+          verticalid!, provider.vertical1.text, provider.vertical!);
+    });
   }
 
   onewayNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
+    OnewayApi.getData(tid).then((value) {
+      setState(() {
+        onewayid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
+    });
   }
 
   vinylNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
+    VinylBrandingApi.getData(tid).then((value) {
+      setState(() {
+        vinylid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
+    });
   }
 
   coolerCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
+    CoolerApi.getData(tid).then((value) {
+      setState(() {
+        cooleid = value!.id;
+        print("cooler----------" + value.id);
+      });
+    }).whenComplete(() {
+      CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
+    });
   }
 
   standeeCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
+    StandeeApi.getData(tid).then((value) {
+      setState(() {
+        standeeid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
+    });
   }
 
   dpsCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
+    DpsApi.getData(tid).then((value) {
+      setState(() {
+        dpsid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
+    });
   }
 
   verticalCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
+    VerticalSignageApi.getData(tid).then((value) {
+      setState(() {
+        verticalid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
+    });
   }
 
   onewayCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
+    OnewayApi.getData(tid).then((value) {
+      setState(() {
+        onewayid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
+    });
   }
 
   vinylCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
+    VinylBrandingApi.getData(tid).then((value) {
+      setState(() {
+        vinylid = value!.id;
+        print("idddd----------" + value.id);
+      });
+    }).whenComplete(() {
+      VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
+    });
   }
 
   @override

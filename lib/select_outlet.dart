@@ -35,6 +35,7 @@ class _SelectOutletState extends State<SelectOutlet> {
   String loginToken = '';
   List id = [];
   String flname = '';
+  List status = [];
   @override
   void initState() {
     super.initState();
@@ -55,6 +56,7 @@ class _SelectOutletState extends State<SelectOutlet> {
           address.add(value.data[i].address);
           customerGccId.add(value.data[i].customerGccId);
           channel.add(value.data[i].imageChannal);
+          status.add(value.data[i].status);
           id.add(value.data[i].id);
         });
       }
@@ -67,13 +69,15 @@ class _SelectOutletState extends State<SelectOutlet> {
   getOid(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("oidtoken", id[index]);
-    Navigator.push(
-        context,
-        PageTransition(
-            type: PageTransitionType.fade,
-            child: OutletDetail(
-              id: id[index],
-            )));
+    if (status[index] != "completed") {
+      Navigator.push(
+          context,
+          PageTransition(
+              type: PageTransitionType.fade,
+              child: OutletDetail(
+                id: id[index],
+              )));
+    }
   }
 
   @override
@@ -102,8 +106,8 @@ class _SelectOutletState extends State<SelectOutlet> {
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    const CustomBadge()
+                    // const Spacer(),
+                    // const CustomBadge()
                   ],
                 ),
                 const SizedBox(
@@ -160,6 +164,13 @@ class _SelectOutletState extends State<SelectOutlet> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
+                                  Spacer(),
+                                  status[index] == "completed"
+                                      ? Icon(
+                                          Icons.done_outline_rounded,
+                                          color: Colors.green,
+                                        )
+                                      : Container()
                                 ],
                               ),
                               SizedBox(

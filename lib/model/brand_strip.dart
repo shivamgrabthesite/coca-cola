@@ -15,7 +15,7 @@ class BrandStripModel {
   int brandStripNotAvailable;
   String brandStripNotAvailableImage;
   String brandStripRemark;
-  List<dynamic> customImage;
+  String customImage;
   String id;
   DateTime createdAt;
   DateTime updatedAt;
@@ -42,7 +42,7 @@ class BrandStripModel {
         brandStripNotAvailable: json["brand_strip_not_available"],
         brandStripNotAvailableImage: json["brand_strip_not_available_image"],
         brandStripRemark: json["brand_strip_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -56,7 +56,7 @@ class BrandStripModel {
         "brand_strip_not_available": brandStripNotAvailable,
         "brand_strip_not_available_image": brandStripNotAvailableImage,
         "brand_strip_remark": brandStripRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

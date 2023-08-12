@@ -12,12 +12,13 @@ import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopPic extends StatefulWidget {
-  String? customerGccId, address, priCustomerName, channel;
+  String? channel;
+  // String? customerGccId, address, priCustomerName, channel;
   ShopPic({
     Key? key,
-    this.customerGccId,
-    this.address,
-    this.priCustomerName,
+    // this.customerGccId,
+    // this.address,
+    // this.priCustomerName,
     this.channel,
   }) : super(key: key);
 
@@ -36,7 +37,6 @@ class _ShopPicState extends State<ShopPic> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getImage();
     getId();
   }
 
@@ -48,23 +48,13 @@ class _ShopPicState extends State<ShopPic> {
         imglink = value.data.imageLink;
       });
     });
-    flname = prefs.getString("flname").toString();
+    setState(() {
+      flname = prefs.getString("flname").toString();
+    });
   }
-
-  // Future<String> getImage() async {
-  //   ImagelinkApi.getData(widget.channel!).then((value) {
-  //     setState(() {
-  //       imglink = value!.data.imageLink;
-  //     });
-  //   });
-  //   return imglink;
-  // }
 
   @override
   Widget build(BuildContext context) {
-    // var size = MediaQuery.of(context).size;
-    // var height = size.height;
-    // var width = size.width;
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -95,6 +85,20 @@ class _ShopPicState extends State<ShopPic> {
                 SizedBox(
                   height: 30,
                 ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Picture of Success",
+                    style: GoogleFonts.ibmPlexSerif(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   flname,
                   style: GoogleFonts.ibmPlexSans(
@@ -109,8 +113,8 @@ class _ShopPicState extends State<ShopPic> {
                     "Please select to fill details",
                     style: GoogleFonts.ibmPlexSerif(
                       color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -184,23 +188,8 @@ class _ShopPicState extends State<ShopPic> {
                 SizedBox(
                   height: 30,
                 ),
-                // FutureBuilder(
-                //   future: getImage(),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData) {
-                //       return Image.network(
-                //         snapshot.data.toString(),
-                //       );
-                //     } else {
-                //       return const Center(
-                //           child: CircularProgressIndicator(
-                //         color: Colors.red,
-                //       ));
-                //     }
-                //   },
-                // ),
                 Image.network(
-                  imglink,
+                  widget.channel!.isEmpty ? "NO IMAGE" : imglink,
                 ),
                 SizedBox(
                   height: 20,
@@ -288,7 +277,7 @@ class _ShopPicState extends State<ShopPic> {
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
                               child: IncidenceScreen()));
-                    } else {
+                    } else if (_selectedOption == "Price Communication") {
                       Navigator.push(
                           context,
                           PageTransition(

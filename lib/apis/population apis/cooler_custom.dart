@@ -16,7 +16,7 @@ class CoolerCustom {
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "cooler_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');
