@@ -114,12 +114,12 @@ class _BonusScreenState extends State<BonusScreen> {
 
     CounterApi.getData(tid).then((value) {
       setState(() {
-        cid = value!.id;
+        cid = value!.id!;
       });
     });
     AmbientApi.getData(tid).then((value) {
       setState(() {
-        aid = value!.id;
+        aid = value!.id!;
       });
     });
     SplideinApi.getData(tid).then((value) {

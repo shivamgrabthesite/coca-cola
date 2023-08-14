@@ -10,30 +10,30 @@ GroceryRackModel groceryRackModelFromJson(String str) =>
 String groceryRackModelToJson(GroceryRackModel data) => json.encode(data.toJson());
 
 class GroceryRackModel {
-  String tid;
-  int groceryRackAvailable;
-  String groceryRackAvailableImage;
-  int groceryRackNotAvailable;
-  String groceryRackNotAvailableImage;
-  String groceryRackRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? groceryRackAvailable;
+  String? groceryRackAvailableImage;
+  int? groceryRackNotAvailable;
+  String? groceryRackNotAvailableImage;
+  String? groceryRackRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   GroceryRackModel({
-    required this.tid,
-    required this.groceryRackAvailable,
-    required this.groceryRackAvailableImage,
-    required this.groceryRackNotAvailable,
-    required this.groceryRackNotAvailableImage,
-    required this.groceryRackRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.groceryRackAvailable,
+    this.groceryRackAvailableImage,
+    this.groceryRackNotAvailable,
+    this.groceryRackNotAvailableImage,
+    this.groceryRackRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory GroceryRackModel.fromJson(Map<String, dynamic> json) => GroceryRackModel(
@@ -59,8 +59,8 @@ class GroceryRackModel {
         "grocery_rack_remark": groceryRackRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

@@ -10,30 +10,30 @@ OnewayVisionModel onewayVisionModelFromJson(String str) =>
 String onewayVisionModelToJson(OnewayVisionModel data) => json.encode(data.toJson());
 
 class OnewayVisionModel {
-  String tid;
-  int onewayVisionAvailable;
-  String onewayVisionAvailableImage;
-  int onewayVisionNotAvailable;
-  String onewayVisionNotAvailableImage;
-  String onewayVisionRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? onewayVisionAvailable;
+  String? onewayVisionAvailableImage;
+  int? onewayVisionNotAvailable;
+  String? onewayVisionNotAvailableImage;
+  String? onewayVisionRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   OnewayVisionModel({
-    required this.tid,
-    required this.onewayVisionAvailable,
-    required this.onewayVisionAvailableImage,
-    required this.onewayVisionNotAvailable,
-    required this.onewayVisionNotAvailableImage,
-    required this.onewayVisionRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.onewayVisionAvailable,
+    this.onewayVisionAvailableImage,
+    this.onewayVisionNotAvailable,
+    this.onewayVisionNotAvailableImage,
+    this.onewayVisionRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory OnewayVisionModel.fromJson(Map<String, dynamic> json) => OnewayVisionModel(
@@ -59,8 +59,8 @@ class OnewayVisionModel {
         "oneway_vision_remark": onewayVisionRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

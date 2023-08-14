@@ -130,13 +130,13 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
     IncidenceApi.getData("64c6cf53cfd3911994c43484", "2").then((value) {
       print("incedence data---" + value!.data.toString());
-      for (var i = 0; i < value.data.length; i++) {
+      for (var i = 0; i < value.data!.length; i++) {
         setState(() {
-          title = value.data[i].title;
-          first.add(value.data[i].first);
-          second.add(value.data[i].second);
-          third.add(value.data[i].third);
-          four.add(value.data[i].four);
+          title = value.data![i].title!;
+          first.add(value.data![i].first!);
+          second.add(value.data![i].second!);
+          third.add(value.data![i].third!);
+          four.add(value.data![i].four!);
         });
       }
     });
@@ -146,7 +146,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     Grocaryrackpi.getData(tid).then((value) {
       setState(() {
-        groceryid = value!.id;
+        groceryid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -161,7 +161,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AmbientApi.getData(tid).then((value) {
       setState(() {
-        ambinetid = value!.id;
+        ambinetid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -175,7 +175,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     CounterApi.getData(tid).then((value) {
       setState(() {
-        counterid = value!.id;
+        counterid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -189,7 +189,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AerialHanger.getData(tid).then((value) {
       setState(() {
-        aerialid = value!.id;
+        aerialid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -203,7 +203,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AmbientApi.getData(tid).then((value) {
       setState(() {
-        ambinetid = value!.id;
+        ambinetid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -217,7 +217,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     Grocaryrackpi.getData(tid).then((value) {
       setState(() {
-        groceryid = value!.id;
+        groceryid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -231,7 +231,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     CounterApi.getData(tid).then((value) {
       setState(() {
-        counterid = value!.id;
+        counterid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -245,7 +245,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AerialHanger.getData(tid).then((value) {
       setState(() {
-        aerialid = value!.id;
+        aerialid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -259,7 +259,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     Grocaryrackpi.getData(tid).then((value) {
       setState(() {
-        groceryid = value!.id;
+        groceryid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -274,11 +274,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AmbientApi.getData(tid).then((value) {
       setState(() {
-        ambinetid = value!.id;
+        ambinetid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AmbientRackNotAvailable.setImage(groceryid, provider.ambient1.text, provider.ambient!)
+      AmbientRackNotAvailable.setImage(ambinetid, provider.ambient1.text, provider.ambient!)
           .then((value) {
         print("not avauilable res----" + value.toString());
       });
@@ -289,7 +289,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     CounterApi.getData(tid).then((value) {
       setState(() {
-        counterid = value!.id;
+        counterid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
@@ -304,11 +304,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AerialHanger.getData(tid).then((value) {
       setState(() {
-        aerialid = value!.id;
+        aerialid = value!.id!;
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AerialHangerNotAvailable.setImage(groceryid, provider.arial1.text, provider.arial!)
+      AerialHangerNotAvailable.setImage(aerialid, provider.arial1.text, provider.arial!)
           .then((value) {
         print("not avauilable res----" + value.toString());
       });
@@ -346,8 +346,8 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         ),
                       ),
                     ),
-                    Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Spacer(),
+                    // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(
@@ -462,7 +462,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          first[0].title,
+          first[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -472,7 +472,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(first[0].imageLink)),
+        Center(child: Image.network(first[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -815,7 +815,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          second[0].title,
+          second[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -825,7 +825,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(second[0].imageLink)),
+        Center(child: Image.network(second[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -1196,7 +1196,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          third[0].title,
+          third[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -1206,7 +1206,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(third[0].imageLink)),
+        Center(child: Image.network(third[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -1578,7 +1578,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          four[0].title,
+          four[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -1588,7 +1588,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(four[0].imageLink)),
+        Center(child: Image.network(four[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -1609,7 +1609,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 ),
                 Expanded(
                   child: Text(
-                    '${third[0].title} available',
+                    '${four[0].title} available',
                     style: GoogleFonts.ibmPlexSerif(
                       color: Color(0xFF222B45),
                       fontSize: 16,
@@ -1910,7 +1910,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else if (selectedOption!.contains("four1")) {
                   // setAvailable();
                   aerialAvailable(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
@@ -1920,7 +1920,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else if (selectedOption!.contains("four2")) {
                   // setNotAvailable();
                   aerialNotAvailable(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
@@ -1930,7 +1930,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                 } else {
                   // setCustom();
                   arialCustom(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,

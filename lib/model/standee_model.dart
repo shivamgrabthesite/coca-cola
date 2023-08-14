@@ -9,30 +9,30 @@ StandeeModel standeeModelFromJson(String str) => StandeeModel.fromJson(json.deco
 String standeeModelToJson(StandeeModel data) => json.encode(data.toJson());
 
 class StandeeModel {
-  String tid;
-  int standeeAvailable;
-  String standeeAvailableImage;
-  int standeeNotAvailable;
-  String standeeNotAvailableImage;
-  String standeeRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? standeeAvailable;
+  String? standeeAvailableImage;
+  int? standeeNotAvailable;
+  String? standeeNotAvailableImage;
+  String? standeeRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   StandeeModel({
-    required this.tid,
-    required this.standeeAvailable,
-    required this.standeeAvailableImage,
-    required this.standeeNotAvailable,
-    required this.standeeNotAvailableImage,
-    required this.standeeRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.standeeAvailable,
+    this.standeeAvailableImage,
+    this.standeeNotAvailable,
+    this.standeeNotAvailableImage,
+    this.standeeRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory StandeeModel.fromJson(Map<String, dynamic> json) => StandeeModel(
@@ -58,8 +58,8 @@ class StandeeModel {
         "standee_remark": standeeRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

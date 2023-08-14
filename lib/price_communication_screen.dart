@@ -103,12 +103,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     flname = prefs.getString("flname").toString();
     print("tid----------" + tid);
     PriceCommunicationApi.getData("64c6cf53cfd3911994c43484", "3").then((value) {
-      for (var i = 0; i < value!.data.length; i++) {
+      for (var i = 0; i < value!.data!.length; i++) {
         setState(() {
-          title = value.data[i].title;
-          first.add(value.data[i].first);
-          second.add(value.data[i].second);
-          third.add(value.data[i].third);
+          title = value.data![i].title!;
+          first.add(value.data![i].first!);
+          second.add(value.data![i].second!);
+          third.add(value.data![i].third!);
         });
       }
     });
@@ -118,7 +118,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     BrandStripApi.getData(tid).then((value) {
       setState(() {
-        brandid = value!.id;
+        brandid = value!.id!;
       });
     }).whenComplete(() {
       BrandAvailable.setImage(brandid!, provider.brand!).then((value) {
@@ -131,7 +131,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PriceStripApi.getData(tid).then((value) {
       setState(() {
-        priceid = value!.id;
+        priceid = value!.id!;
       });
     }).whenComplete(() {
       PriceStripAvailable.setImage(priceid!, provider.price!).then((value) {
@@ -144,10 +144,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PackCutoutApi.getData(tid).then((value) {
       setState(() {
-        packid = value!.id;
+        packid = value!.id!;
+        print("packid-----" + packid);
       });
     }).whenComplete(() {
-      PackAvailable.setImage(packid!, provider.pack!).then((value) {
+      PackAvailable.setImage(packid, provider.pack!).then((value) {
         print("image upload response---------" + value.toString());
       });
     });
@@ -157,7 +158,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     BrandStripApi.getData(tid).then((value) {
       setState(() {
-        brandid = value!.id;
+        brandid = value!.id!;
       });
     }).whenComplete(() {
       BrandNotAvailable.setImage(brandid!, provider.brand1.text, provider.brand!);
@@ -168,7 +169,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PriceStripApi.getData(tid).then((value) {
       setState(() {
-        priceid = value!.id;
+        priceid = value!.id!;
       });
     }).whenComplete(() {
       PriceStripNotAvailable.setImage(priceid!, provider.price1.text, provider.price!);
@@ -179,7 +180,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PackCutoutApi.getData(tid).then((value) {
       setState(() {
-        packid = value!.id;
+        packid = value!.id!;
       });
     }).whenComplete(() {
       PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
@@ -190,7 +191,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     BrandStripApi.getData(tid).then((value) {
       setState(() {
-        brandid = value!.id;
+        brandid = value!.id!;
         print("brand custom------" + brandid);
       });
     }).whenComplete(() {
@@ -202,7 +203,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PriceStripApi.getData(tid).then((value) {
       setState(() {
-        priceid = value!.id;
+        priceid = value!.id!;
       });
     }).whenComplete(() {
       PriceStripCustom.setImage(priceid, provider.price2.text, provider.price!);
@@ -213,7 +214,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PackCutoutApi.getData(tid).then((value) {
       setState(() {
-        packid = value!.id;
+        packid = value!.id!;
       });
     }).whenComplete(() {
       PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
@@ -251,8 +252,8 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         ),
                       ),
                     ),
-                    Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Spacer(),
+                    // // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(
@@ -324,7 +325,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          first[0].title,
+          first[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -334,7 +335,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(first[0].imageLink)),
+        Center(child: Image.network(first[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -681,7 +682,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          second[0].title,
+          second[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -691,7 +692,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(second[0].imageLink)),
+        Center(child: Image.network(second[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -1062,7 +1063,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          third[0].title,
+          third[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -1072,7 +1073,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(third[0].imageLink)),
+        Center(child: Image.network(third[0].imageLink!)),
         SizedBox(
           height: 30,
         ),

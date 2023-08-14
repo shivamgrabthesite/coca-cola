@@ -9,30 +9,30 @@ CoolerModel coolerModelFromJson(String str) => CoolerModel.fromJson(json.decode(
 String coolerModelToJson(CoolerModel data) => json.encode(data.toJson());
 
 class CoolerModel {
-  String tid;
-  int coolerAvailable;
-  String coolerAvailableImage;
-  int coolerNotAvailable;
-  String coolerNotAvailableImage;
-  String coolerRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? coolerAvailable;
+  String? coolerAvailableImage;
+  int? coolerNotAvailable;
+  String? coolerNotAvailableImage;
+  String? coolerRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   CoolerModel({
-    required this.tid,
-    required this.coolerAvailable,
-    required this.coolerAvailableImage,
-    required this.coolerNotAvailable,
-    required this.coolerNotAvailableImage,
-    required this.coolerRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.coolerAvailable,
+    this.coolerAvailableImage,
+    this.coolerNotAvailable,
+    this.coolerNotAvailableImage,
+    this.coolerRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory CoolerModel.fromJson(Map<String, dynamic> json) => CoolerModel(
@@ -58,8 +58,8 @@ class CoolerModel {
         "cooler_remark": coolerRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

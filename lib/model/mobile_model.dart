@@ -9,12 +9,12 @@ MobileModel mobileModelFromJson(String str) => MobileModel.fromJson(json.decode(
 String mobileModelToJson(MobileModel data) => json.encode(data.toJson());
 
 class MobileModel {
-  bool success;
-  String message;
+  bool? success;
+  String? message;
 
   MobileModel({
-    required this.success,
-    required this.message,
+    this.success,
+    this.message,
   });
 
   factory MobileModel.fromJson(Map<String, dynamic> json) => MobileModel(

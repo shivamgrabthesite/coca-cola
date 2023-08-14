@@ -10,12 +10,12 @@ WeekScheduleModel weekScheduleModelFromJson(String str) =>
 String weekScheduleModelToJson(WeekScheduleModel data) => json.encode(data.toJson());
 
 class WeekScheduleModel {
-  bool success;
-  String message;
+  bool? success;
+  String? message;
 
   WeekScheduleModel({
-    required this.success,
-    required this.message,
+    this.success,
+    this.message,
   });
 
   factory WeekScheduleModel.fromJson(Map<String, dynamic> json) => WeekScheduleModel(

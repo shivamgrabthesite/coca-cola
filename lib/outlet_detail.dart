@@ -66,14 +66,14 @@ class _OutletDetailState extends State<OutletDetail> {
     print("midtoken----" + midtoken);
     print("oidtoken----" + oidtoken);
 
-    TaskApi.getData(uidtoken, midtoken, oidtoken).then((value) {
-      print("task response---------" + value!.data.id.toString());
-      tid = value.data.id.toString();
+    TaskApi.getData(uidtoken, oidtoken).then((value) {
+      print("task response---------" + value!.data!.id.toString());
+      setState(() {
+        tid = value.data!.id.toString();
+      });
       print("tizzzzz---" + tid);
     }).whenComplete(() {
-      setState(() {
-        prefs.setString("tid", tid.toString());
-      });
+      prefs.setString("tid", tid).toString();
     });
   }
 
@@ -84,14 +84,14 @@ class _OutletDetailState extends State<OutletDetail> {
     });
     print("widget id ---------" + widget.id);
     OutletDetailApi.getData(widget.id).then((value) {
-      gcc_code = value!.data.gccCode;
-      mgr_contect_no = value.data.mgrContectNo;
-      MGRName = value.data.mgrPresellerName;
-      red_ol_class = value.data.redOlClass;
-      ring_of_magic_area = value.data.ringOfMagicArea;
-      cooler = value.data.cooler;
-      channel = value.data.channel;
-      outlet_name = value.data.outletName;
+      gcc_code = value!.data!.gccCode!;
+      mgr_contect_no = value.data!.mgrContectNo!;
+      MGRName = value.data!.mgrPresellerName!;
+      red_ol_class = value.data!.redOlClass!;
+      ring_of_magic_area = value.data!.ringOfMagicArea!;
+      cooler = value.data!.cooler!;
+      channel = value.data!.channel!;
+      outlet_name = value.data!.outletName!;
       // Pri_Customer_Name = value.data.priCustomerName;
       // Channel = value.data.channel;
 

@@ -10,30 +10,30 @@ VerticalSignageModel verticalSignageModelFromJson(String str) =>
 String verticalSignageModelToJson(VerticalSignageModel data) => json.encode(data.toJson());
 
 class VerticalSignageModel {
-  String tid;
-  int verticalSignageAvailable;
-  String verticalSignageAvailableImage;
-  int verticalSignageNotAvailable;
-  String verticalSignageNotAvailableImage;
-  String verticalSignageRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? verticalSignageAvailable;
+  String? verticalSignageAvailableImage;
+  int? verticalSignageNotAvailable;
+  String? verticalSignageNotAvailableImage;
+  String? verticalSignageRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   VerticalSignageModel({
-    required this.tid,
-    required this.verticalSignageAvailable,
-    required this.verticalSignageAvailableImage,
-    required this.verticalSignageNotAvailable,
-    required this.verticalSignageNotAvailableImage,
-    required this.verticalSignageRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.verticalSignageAvailable,
+    this.verticalSignageAvailableImage,
+    this.verticalSignageNotAvailable,
+    this.verticalSignageNotAvailableImage,
+    this.verticalSignageRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory VerticalSignageModel.fromJson(Map<String, dynamic> json) => VerticalSignageModel(
@@ -59,8 +59,8 @@ class VerticalSignageModel {
         "vertical_signage_remark": verticalSignageRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

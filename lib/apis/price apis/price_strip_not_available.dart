@@ -10,7 +10,7 @@ class PriceStripNotAvailable {
       print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/price_Strip/upload-image/not-available"),
+        Uri.parse("http://16.170.252.47:5000/api/task/price_strip/upload-image/not-available"),
       );
 
       // request.fields['pid'] = pid.toString();

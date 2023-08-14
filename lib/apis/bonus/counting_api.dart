@@ -3,14 +3,15 @@ import 'package:coca_cola/constant/api.dart';
 import 'package:coca_cola/model/vinyl_branding_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../model/CounterTopModel.dart';
 import '../../model/brand_strip.dart';
 import '../../model/counter_brand_model.dart';
 import '../../model/price_strip_model.dart';
 
 class CounterApi {
-  static Future<CounterBrandingModel?> getData(String tid) async {
+  static Future<CounterTopModel?> getData(String tid) async {
     try {
-      final url = Uri.parse(apiPath + "task/counter_branding");
+      final url = Uri.parse(apiPath + "task/counter_top");
       Map<String, dynamic> requestBody = {
         "tid": tid,
       };
@@ -25,7 +26,7 @@ class CounterApi {
       // return response.body;
 
       if (response.statusCode == 201) {
-        CounterBrandingModel getdata = counterBrandingModelFromJson(response.body);
+        CounterTopModel getdata = counterTopModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

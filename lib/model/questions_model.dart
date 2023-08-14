@@ -9,12 +9,12 @@ QuestionsModel questionsModelFromJson(String str) => QuestionsModel.fromJson(jso
 String questionsModelToJson(QuestionsModel data) => json.encode(data.toJson());
 
 class QuestionsModel {
-  bool success;
-  List<Datum> data;
+  bool? success;
+  List<Datum>? data;
 
   QuestionsModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory QuestionsModel.fromJson(Map<String, dynamic> json) => QuestionsModel(
@@ -24,21 +24,21 @@ class QuestionsModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
-  String title;
-  List<First> first;
-  List<First> second;
-  List<Third> third;
+  String? title;
+  List<First>? first;
+  List<First>? second;
+  List<Third>? third;
 
   Datum({
-    required this.title,
-    required this.first,
-    required this.second,
-    required this.third,
+    this.title,
+    this.first,
+    this.second,
+    this.third,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -50,19 +50,19 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "first": List<dynamic>.from(first.map((x) => x.toJson())),
-        "second": List<dynamic>.from(second.map((x) => x.toJson())),
-        "third": List<dynamic>.from(third.map((x) => x.toJson())),
+        "first": List<dynamic>.from(first!.map((x) => x.toJson())),
+        "second": List<dynamic>.from(second!.map((x) => x.toJson())),
+        "third": List<dynamic>.from(third!.map((x) => x.toJson())),
       };
 }
 
 class First {
-  String title;
-  String imageLink;
+  String? title;
+  String? imageLink;
 
   First({
-    required this.title,
-    required this.imageLink,
+    this.title,
+    this.imageLink,
   });
 
   factory First.fromJson(Map<String, dynamic> json) => First(
@@ -77,16 +77,16 @@ class First {
 }
 
 class Third {
-  First standee;
-  First verticalSignage;
-  First onewayVision;
-  First vinylBranding;
+  First? standee;
+  First? verticalSignage;
+  First? onewayVision;
+  First? vinylBranding;
 
   Third({
-    required this.standee,
-    required this.verticalSignage,
-    required this.onewayVision,
-    required this.vinylBranding,
+    this.standee,
+    this.verticalSignage,
+    this.onewayVision,
+    this.vinylBranding,
   });
 
   factory Third.fromJson(Map<String, dynamic> json) => Third(
@@ -97,9 +97,9 @@ class Third {
       );
 
   Map<String, dynamic> toJson() => {
-        "Standee": standee.toJson(),
-        "Vertical Signage": verticalSignage.toJson(),
-        "Oneway Vision": onewayVision.toJson(),
-        "Vinyl Branding": vinylBranding.toJson(),
+        "Standee": standee!.toJson(),
+        "Vertical Signage": verticalSignage!.toJson(),
+        "Oneway Vision": onewayVision!.toJson(),
+        "Vinyl Branding": vinylBranding!.toJson(),
       };
 }

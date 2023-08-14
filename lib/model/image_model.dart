@@ -9,12 +9,12 @@ ImageModel imageModelFromJson(String str) => ImageModel.fromJson(json.decode(str
 String imageModelToJson(ImageModel data) => json.encode(data.toJson());
 
 class ImageModel {
-  bool success;
-  Data data;
+  bool? success;
+  Data? data;
 
   ImageModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory ImageModel.fromJson(Map<String, dynamic> json) => ImageModel(
@@ -24,17 +24,17 @@ class ImageModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class Data {
-  String id;
-  String imageLink;
+  String? id;
+  String? imageLink;
 
   Data({
-    required this.id,
-    required this.imageLink,
+    this.id,
+    this.imageLink,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(

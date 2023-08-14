@@ -11,12 +11,12 @@ class CounterCustom {
       // print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/counter_branding/custom-image"),
+        Uri.parse("http://16.170.252.47:5000/api/task/counter_top/custom-image"),
       );
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "counter_top_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

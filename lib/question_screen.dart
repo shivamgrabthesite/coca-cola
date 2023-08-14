@@ -1,7 +1,9 @@
+import 'package:coca_cola/starterkit_screen.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -54,8 +56,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 Row(
                   children: [
                     Image.asset("assets/images/ccsmall.png", height: 80),
-                    Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Spacer(),
+                    // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(
@@ -232,14 +234,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  controller.nextPage(
-                                      duration: Duration(milliseconds: 500), curve: Curves.ease);
                                   if (controller.page! == 6) {
-                                    //  PageTransition(
-                                    //     type: PageTransitionType.fade,
-                                    //     curve: Curves.decelerate,
-                                    //     duration: Duration(seconds: 1),
-                                    //     child: TransactionScreen());
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type: PageTransitionType.fade,
+                                            curve: Curves.decelerate,
+                                            duration: Duration(seconds: 1),
+                                            child: StarterkitScreen()));
+                                  } else {
+                                    controller.nextPage(
+                                        duration: Duration(milliseconds: 500), curve: Curves.ease);
                                   }
                                 },
                                 child: Center(

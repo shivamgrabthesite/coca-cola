@@ -9,12 +9,12 @@ HeaderModel headerModelFromJson(String str) => HeaderModel.fromJson(json.decode(
 String headerModelToJson(HeaderModel data) => json.encode(data.toJson());
 
 class HeaderModel {
-  bool success;
-  Data data;
+  bool? success;
+  Data? data;
 
   HeaderModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory HeaderModel.fromJson(Map<String, dynamic> json) => HeaderModel(
@@ -24,17 +24,17 @@ class HeaderModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class Data {
-  String wishes;
-  String name;
+  String? wishes;
+  String? name;
 
   Data({
-    required this.wishes,
-    required this.name,
+    this.wishes,
+    this.name,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(

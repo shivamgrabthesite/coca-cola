@@ -44,8 +44,8 @@ class _ShopPicState extends State<ShopPic> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     ImagelinkApi.getData(widget.channel!).then((value) {
       setState(() {
-        imgId = value!.data.id;
-        imglink = value.data.imageLink;
+        imgId = value!.data!.id!;
+        imglink = value.data!.imageLink!;
       });
     });
     setState(() {

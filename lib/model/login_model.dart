@@ -9,16 +9,16 @@ LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str
 String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
 class LoginModel {
-  bool success;
-  String message;
-  Data data;
-  UserData userData;
+  bool? success;
+  String? message;
+  Data? data;
+  UserData? userData;
 
   LoginModel({
-    required this.success,
-    required this.message,
-    required this.data,
-    required this.userData,
+    this.success,
+    this.message,
+    this.data,
+    this.userData,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
@@ -31,18 +31,18 @@ class LoginModel {
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
-        "data": data.toJson(),
-        "user_data": userData.toJson(),
+        "data": data!.toJson(),
+        "user_data": userData!.toJson(),
       };
 }
 
 class Data {
-  User user;
-  String token;
+  User? user;
+  String? token;
 
   Data({
-    required this.user,
-    required this.token,
+    this.user,
+    this.token,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -51,18 +51,18 @@ class Data {
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user.toJson(),
+        "user": user!.toJson(),
         "token": token,
       };
 }
 
 class User {
-  String week;
-  String collegeName;
+  String? week;
+  String? collegeName;
 
   User({
-    required this.week,
-    required this.collegeName,
+    this.week,
+    this.collegeName,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -77,22 +77,22 @@ class User {
 }
 
 class UserData {
-  List<String> role;
-  bool verify;
-  String id;
-  String phoneNumber;
-  String firstName;
-  String lastName;
-  String userEmail;
+  List<String>? role;
+  bool? verify;
+  String? id;
+  String? phoneNumber;
+  String? firstName;
+  String? lastName;
+  String? userEmail;
 
   UserData({
-    required this.role,
-    required this.verify,
-    required this.id,
-    required this.phoneNumber,
-    required this.firstName,
-    required this.lastName,
-    required this.userEmail,
+    this.role,
+    this.verify,
+    this.id,
+    this.phoneNumber,
+    this.firstName,
+    this.lastName,
+    this.userEmail,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -106,7 +106,7 @@ class UserData {
       );
 
   Map<String, dynamic> toJson() => {
-        "role": List<dynamic>.from(role.map((x) => x)),
+        "role": List<dynamic>.from(role!.map((x) => x)),
         "verify": verify,
         "_id": id,
         "phone_number": phoneNumber,

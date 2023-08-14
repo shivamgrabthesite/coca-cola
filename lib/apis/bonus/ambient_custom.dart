@@ -11,12 +11,12 @@ class AmbientCustom {
       // print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/ambient_display/custom-image"),
+        Uri.parse("http://16.170.252.47:5000/api/task/ambient_rack/custom-image"),
       );
 
       var payload = {
         "pid": pid,
-        "remark": remark,
+        "ambient_rack_remark": remark,
       };
       var payloadJson = jsonEncode(payload);
       print('JSON Payload: $payloadJson');

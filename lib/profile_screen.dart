@@ -244,13 +244,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            curve: Curves.decelerate,
-                            duration: Duration(seconds: 1),
-                            child: EditProfile()));
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.fade,
+                    //         curve: Curves.decelerate,
+                    //         duration: Duration(seconds: 1),
+                    //         child: EditProfile()));
                   },
                   child: Row(
                     children: [

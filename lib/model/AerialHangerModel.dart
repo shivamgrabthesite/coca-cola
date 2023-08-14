@@ -10,30 +10,30 @@ AerialHangerModel aerialHangerModelFromJson(String str) =>
 String aerialHangerModelToJson(AerialHangerModel data) => json.encode(data.toJson());
 
 class AerialHangerModel {
-  String tid;
-  int aerialHangerAvailable;
-  String aerialHangerAvailableImage;
-  int aerialHangerNotAvailable;
-  String aerialHangerNotAvailableImage;
-  String aerialHangerRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? aerialHangerAvailable;
+  String? aerialHangerAvailableImage;
+  int? aerialHangerNotAvailable;
+  String? aerialHangerNotAvailableImage;
+  String? aerialHangerRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   AerialHangerModel({
-    required this.tid,
-    required this.aerialHangerAvailable,
-    required this.aerialHangerAvailableImage,
-    required this.aerialHangerNotAvailable,
-    required this.aerialHangerNotAvailableImage,
-    required this.aerialHangerRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.aerialHangerAvailable,
+    this.aerialHangerAvailableImage,
+    this.aerialHangerNotAvailable,
+    this.aerialHangerNotAvailableImage,
+    this.aerialHangerRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory AerialHangerModel.fromJson(Map<String, dynamic> json) => AerialHangerModel(
@@ -59,8 +59,8 @@ class AerialHangerModel {
         "aerial_hanger_remark": aerialHangerRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

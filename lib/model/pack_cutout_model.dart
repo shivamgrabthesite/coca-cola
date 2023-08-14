@@ -9,30 +9,30 @@ PackCutoutModel packCutoutModelFromJson(String str) => PackCutoutModel.fromJson(
 String packCutoutModelToJson(PackCutoutModel data) => json.encode(data.toJson());
 
 class PackCutoutModel {
-  String tid;
-  int packCutoutAvailable;
-  String packCutoutAvailableImage;
-  int packCutoutNotAvailable;
-  String packCutoutNotAvailableImage;
-  String packCutoutRemark;
-  List<dynamic> customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? packCutoutAvailable;
+  String? packCutoutAvailableImage;
+  int? packCutoutNotAvailable;
+  String? packCutoutNotAvailableImage;
+  String? packCutoutRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   PackCutoutModel({
-    required this.tid,
-    required this.packCutoutAvailable,
-    required this.packCutoutAvailableImage,
-    required this.packCutoutNotAvailable,
-    required this.packCutoutNotAvailableImage,
-    required this.packCutoutRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.packCutoutAvailable,
+    this.packCutoutAvailableImage,
+    this.packCutoutNotAvailable,
+    this.packCutoutNotAvailableImage,
+    this.packCutoutRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory PackCutoutModel.fromJson(Map<String, dynamic> json) => PackCutoutModel(
@@ -42,7 +42,7 @@ class PackCutoutModel {
         packCutoutNotAvailable: json["pack_cutout_not_available"],
         packCutoutNotAvailableImage: json["pack_cutout_not_available_image"],
         packCutoutRemark: json["pack_cutout_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -56,10 +56,10 @@ class PackCutoutModel {
         "pack_cutout_not_available": packCutoutNotAvailable,
         "pack_cutout_not_available_image": packCutoutNotAvailableImage,
         "pack_cutout_remark": packCutoutRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

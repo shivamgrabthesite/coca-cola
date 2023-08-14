@@ -50,14 +50,14 @@ class _SelectOutletState extends State<SelectOutlet> {
     OutletApi.getData(widget.areaName, widget.day, loginToken).then((value) {
       print("json-------" + value!.data.toString());
 
-      for (var i = 0; i < value.data.length; i++) {
+      for (var i = 0; i < value.data!.length; i++) {
         setState(() {
-          priCustomerName.add(value.data[i].priCustomerName);
-          address.add(value.data[i].address);
-          customerGccId.add(value.data[i].customerGccId);
-          channel.add(value.data[i].imageChannal);
-          status.add(value.data[i].status);
-          id.add(value.data[i].id);
+          priCustomerName.add(value.data![i].priCustomerName);
+          address.add(value.data![i].address);
+          customerGccId.add(value.data![i].customerGccId);
+          channel.add(value.data![i].imageChannal);
+          status.add(value.data![i].status);
+          id.add(value.data![i].id);
         });
       }
 

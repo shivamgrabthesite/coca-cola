@@ -10,12 +10,12 @@ PriceCommunicationModel priceCommunicationModelFromJson(String str) =>
 String priceCommunicationModelToJson(PriceCommunicationModel data) => json.encode(data.toJson());
 
 class PriceCommunicationModel {
-  bool success;
-  List<Datum> data;
+  bool? success;
+  List<Datum>? data;
 
   PriceCommunicationModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory PriceCommunicationModel.fromJson(Map<String, dynamic> json) => PriceCommunicationModel(
@@ -25,23 +25,23 @@ class PriceCommunicationModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
-  String title;
-  First first;
-  First second;
-  First third;
-  First four;
+  String? title;
+  First? first;
+  First? second;
+  First? third;
+  First? four;
 
   Datum({
-    required this.title,
-    required this.first,
-    required this.second,
-    required this.third,
-    required this.four,
+    this.title,
+    this.first,
+    this.second,
+    this.third,
+    this.four,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -54,20 +54,20 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "first": first.toJson(),
-        "second": second.toJson(),
-        "third": third.toJson(),
-        "four": four.toJson(),
+        "first": first!.toJson(),
+        "second": second!.toJson(),
+        "third": third!.toJson(),
+        "four": four!.toJson(),
       };
 }
 
 class First {
-  String title;
-  String imageLink;
+  String? title;
+  String? imageLink;
 
   First({
-    required this.title,
-    required this.imageLink,
+    this.title,
+    this.imageLink,
   });
 
   factory First.fromJson(Map<String, dynamic> json) => First(

@@ -10,12 +10,12 @@ OutletDetailModel outletDetailModelFromJson(String str) =>
 String outletDetailModelToJson(OutletDetailModel data) => json.encode(data.toJson());
 
 class OutletDetailModel {
-  bool success;
-  Data data;
+  bool? success;
+  Data? data;
 
   OutletDetailModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory OutletDetailModel.fromJson(Map<String, dynamic> json) => OutletDetailModel(
@@ -25,65 +25,65 @@ class OutletDetailModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class Data {
-  String id;
-  String studentName;
-  String studentEmail;
-  String studentPhone;
-  String scheduleWeek;
-  String day;
-  String collegeName;
-  String ringOfMagicArea;
-  String town;
-  String gccCode;
-  String outletName;
-  String fullOutletAddress;
-  String outletMobileNumber;
-  String mgrPresellerName;
-  String mgrContectNo;
-  String moeName;
-  String moeContact;
-  String channelManager;
-  String stlName;
-  String asmName;
-  String distributor;
-  String channel;
-  String redOlClass;
-  String cooler;
-  String uid;
-  DateTime updatedAt;
+  String? id;
+  String? studentName;
+  String? studentEmail;
+  String? studentPhone;
+  String? scheduleWeek;
+  String? day;
+  String? collegeName;
+  String? ringOfMagicArea;
+  String? town;
+  String? gccCode;
+  String? outletName;
+  String? fullOutletAddress;
+  String? outletMobileNumber;
+  String? mgrPresellerName;
+  String? mgrContectNo;
+  String? moeName;
+  String? moeContact;
+  String? channelManager;
+  String? stlName;
+  String? asmName;
+  String? distributor;
+  String? channel;
+  String? redOlClass;
+  String? cooler;
+  String? uid;
+  DateTime? updatedAt;
 
   Data({
-    required this.id,
-    required this.studentName,
-    required this.studentEmail,
-    required this.studentPhone,
-    required this.scheduleWeek,
-    required this.day,
-    required this.collegeName,
-    required this.ringOfMagicArea,
-    required this.town,
-    required this.gccCode,
-    required this.outletName,
-    required this.fullOutletAddress,
-    required this.outletMobileNumber,
-    required this.mgrPresellerName,
-    required this.mgrContectNo,
-    required this.moeName,
-    required this.moeContact,
-    required this.channelManager,
-    required this.stlName,
-    required this.asmName,
-    required this.distributor,
-    required this.channel,
-    required this.redOlClass,
-    required this.cooler,
-    required this.uid,
-    required this.updatedAt,
+    this.id,
+    this.studentName,
+    this.studentEmail,
+    this.studentPhone,
+    this.scheduleWeek,
+    this.day,
+    this.collegeName,
+    this.ringOfMagicArea,
+    this.town,
+    this.gccCode,
+    this.outletName,
+    this.fullOutletAddress,
+    this.outletMobileNumber,
+    this.mgrPresellerName,
+    this.mgrContectNo,
+    this.moeName,
+    this.moeContact,
+    this.channelManager,
+    this.stlName,
+    this.asmName,
+    this.distributor,
+    this.channel,
+    this.redOlClass,
+    this.cooler,
+    this.uid,
+    this.updatedAt,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -141,6 +141,6 @@ class Data {
         "red_ol_class": redOlClass,
         "cooler": cooler,
         "uid": uid,
-        "updatedAt": updatedAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
       };
 }

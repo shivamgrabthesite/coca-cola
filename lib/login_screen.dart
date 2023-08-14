@@ -47,17 +47,17 @@ class _LoginScreenState extends State<LoginScreen> {
     LoginApi.setData(emailStr!, passStr!).then((value) async {
       print(value!);
 
-      msg = value.message;
+      msg = value.message!;
       statusCode = value.success;
       print("status----------" + statusCode.toString());
       setState(() {
-        loginToken = value.data.token.toString();
-        clgName = value.data.user.collegeName.toString();
-        week = value.data.user.week.toString();
-        emailtoken = value.userData.userEmail.toString();
-        fname = value.userData.firstName.toString();
-        lname = value.userData.lastName.toString();
-        id = value.userData.id.toString();
+        loginToken = value.data!.token.toString();
+        clgName = value.data!.user!.collegeName.toString();
+        week = value.data!.user!.week.toString();
+        emailtoken = value.userData!.userEmail.toString();
+        fname = value.userData!.firstName.toString();
+        lname = value.userData!.lastName.toString();
+        id = value.userData!.id.toString();
       });
       var pref = await SharedPreferences.getInstance();
 

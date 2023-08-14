@@ -10,30 +10,30 @@ AmbientDisplayModel ambientDisplayModelFromJson(String str) =>
 String ambientDisplayModelToJson(AmbientDisplayModel data) => json.encode(data.toJson());
 
 class AmbientDisplayModel {
-  String tid;
-  int ambientDisplayAvailable;
-  String ambientDisplayAvailableImage;
-  int ambientDisplayNotAvailable;
-  String ambientDisplayNotAvailableImage;
-  String ambientDisplayRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? ambientDisplayAvailable;
+  String? ambientDisplayAvailableImage;
+  int? ambientDisplayNotAvailable;
+  String? ambientDisplayNotAvailableImage;
+  String? ambientDisplayRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   AmbientDisplayModel({
-    required this.tid,
-    required this.ambientDisplayAvailable,
-    required this.ambientDisplayAvailableImage,
-    required this.ambientDisplayNotAvailable,
-    required this.ambientDisplayNotAvailableImage,
-    required this.ambientDisplayRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.ambientDisplayAvailable,
+    this.ambientDisplayAvailableImage,
+    this.ambientDisplayNotAvailable,
+    this.ambientDisplayNotAvailableImage,
+    this.ambientDisplayRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory AmbientDisplayModel.fromJson(Map<String, dynamic> json) => AmbientDisplayModel(
@@ -59,8 +59,8 @@ class AmbientDisplayModel {
         "ambient_display_remark": ambientDisplayRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

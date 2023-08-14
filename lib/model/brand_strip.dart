@@ -9,30 +9,30 @@ BrandStripModel brandStripModelFromJson(String str) => BrandStripModel.fromJson(
 String brandStripModelToJson(BrandStripModel data) => json.encode(data.toJson());
 
 class BrandStripModel {
-  String tid;
-  int brandStripAvailable;
-  String brandStripAvailableImage;
-  int brandStripNotAvailable;
-  String brandStripNotAvailableImage;
-  String brandStripRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? brandStripAvailable;
+  String? brandStripAvailableImage;
+  int? brandStripNotAvailable;
+  String? brandStripNotAvailableImage;
+  String? brandStripRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   BrandStripModel({
-    required this.tid,
-    required this.brandStripAvailable,
-    required this.brandStripAvailableImage,
-    required this.brandStripNotAvailable,
-    required this.brandStripNotAvailableImage,
-    required this.brandStripRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.brandStripAvailable,
+    this.brandStripAvailableImage,
+    this.brandStripNotAvailable,
+    this.brandStripNotAvailableImage,
+    this.brandStripRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory BrandStripModel.fromJson(Map<String, dynamic> json) => BrandStripModel(
@@ -58,8 +58,8 @@ class BrandStripModel {
         "brand_strip_remark": brandStripRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

@@ -9,12 +9,12 @@ MarketModel marketModelFromJson(String str) => MarketModel.fromJson(json.decode(
 String marketModelToJson(MarketModel data) => json.encode(data.toJson());
 
 class MarketModel {
-  bool success;
-  List<Datum> data;
+  bool? success;
+  List<Datum>? data;
 
   MarketModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory MarketModel.fromJson(Map<String, dynamic> json) => MarketModel(
@@ -24,7 +24,7 @@ class MarketModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -101,12 +101,12 @@ class Datum {
 }
 
 class Day {
-  String area;
-  String id;
+  String? area;
+  String? id;
 
   Day({
-    required this.area,
-    required this.id,
+    this.area,
+    this.id,
   });
 
   factory Day.fromJson(Map<String, dynamic> json) => Day(

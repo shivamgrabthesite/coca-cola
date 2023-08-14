@@ -9,12 +9,12 @@ FetchTaskModel fetchTaskModelFromJson(String str) => FetchTaskModel.fromJson(jso
 String fetchTaskModelToJson(FetchTaskModel data) => json.encode(data.toJson());
 
 class FetchTaskModel {
-  bool success;
-  List<Datum> data;
+  bool? success;
+  List<Datum>? data;
 
   FetchTaskModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory FetchTaskModel.fromJson(Map<String, dynamic> json) => FetchTaskModel(
@@ -24,17 +24,17 @@ class FetchTaskModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
-  Market market;
-  String status;
+  Market? market;
+  String? status;
 
   Datum({
-    required this.market,
-    required this.status,
+    this.market,
+    this.status,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -43,66 +43,66 @@ class Datum {
       );
 
   Map<String, dynamic> toJson() => {
-        "market": market.toJson(),
+        "market": market!.toJson(),
         "status": status,
       };
 }
 
 class Market {
-  String id;
-  String studentName;
-  String studentEmail;
-  String studentPhone;
-  String scheduleWeek;
-  String day;
-  String collegeName;
-  String ringOfMagicArea;
-  String town;
-  String gccCode;
-  String outletName;
-  String fullOutletAddress;
-  String outletMobileNumber;
-  String mgrPresellerName;
-  String mgrContectNo;
-  String moeName;
-  String moeContact;
-  String channelManager;
-  String stlName;
-  String asmName;
-  String distributor;
-  String channel;
-  String redOlClass;
-  String cooler;
-  String uid;
-  DateTime updatedAt;
+  String? id;
+  String? studentName;
+  String? studentEmail;
+  String? studentPhone;
+  String? scheduleWeek;
+  String? day;
+  String? collegeName;
+  String? ringOfMagicArea;
+  String? town;
+  String? gccCode;
+  String? outletName;
+  String? fullOutletAddress;
+  String? outletMobileNumber;
+  String? mgrPresellerName;
+  String? mgrContectNo;
+  String? moeName;
+  String? moeContact;
+  String? channelManager;
+  String? stlName;
+  String? asmName;
+  String? distributor;
+  String? channel;
+  String? redOlClass;
+  String? cooler;
+  String? uid;
+  DateTime? updatedAt;
 
   Market({
-    required this.id,
-    required this.studentName,
-    required this.studentEmail,
-    required this.studentPhone,
-    required this.scheduleWeek,
-    required this.day,
-    required this.collegeName,
-    required this.ringOfMagicArea,
-    required this.town,
-    required this.gccCode,
-    required this.outletName,
-    required this.fullOutletAddress,
-    required this.outletMobileNumber,
-    required this.mgrPresellerName,
-    required this.mgrContectNo,
-    required this.moeName,
-    required this.moeContact,
-    required this.channelManager,
-    required this.stlName,
-    required this.asmName,
-    required this.distributor,
-    required this.channel,
-    required this.redOlClass,
-    required this.cooler,
-    required this.uid,
-    required this.updatedAt,
+    this.id,
+    this.studentName,
+    this.studentEmail,
+    this.studentPhone,
+    this.scheduleWeek,
+    this.day,
+    this.collegeName,
+    this.ringOfMagicArea,
+    this.town,
+    this.gccCode,
+    this.outletName,
+    this.fullOutletAddress,
+    this.outletMobileNumber,
+    this.mgrPresellerName,
+    this.mgrContectNo,
+    this.moeName,
+    this.moeContact,
+    this.channelManager,
+    this.stlName,
+    this.asmName,
+    this.distributor,
+    this.channel,
+    this.redOlClass,
+    this.cooler,
+    this.uid,
+    this.updatedAt,
   });
 
   factory Market.fromJson(Map<String, dynamic> json) => Market(
@@ -160,6 +160,6 @@ class Market {
         "red_ol_class": redOlClass,
         "cooler": cooler,
         "uid": uid,
-        "updatedAt": updatedAt.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
       };
 }

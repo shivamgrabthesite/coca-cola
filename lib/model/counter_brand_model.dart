@@ -10,30 +10,30 @@ CounterBrandingModel counterBrandingModelFromJson(String str) =>
 String counterBrandingModelToJson(CounterBrandingModel data) => json.encode(data.toJson());
 
 class CounterBrandingModel {
-  String tid;
-  int counterBrandingAvailable;
-  String counterBrandingAvailableImage;
-  int counterBrandingNotAvailable;
-  String counterBrandingNotAvailableImage;
-  String counterBrandingRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? counterBrandingAvailable;
+  String? counterBrandingAvailableImage;
+  int? counterBrandingNotAvailable;
+  String? counterBrandingNotAvailableImage;
+  String? counterBrandingRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   CounterBrandingModel({
-    required this.tid,
-    required this.counterBrandingAvailable,
-    required this.counterBrandingAvailableImage,
-    required this.counterBrandingNotAvailable,
-    required this.counterBrandingNotAvailableImage,
-    required this.counterBrandingRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.counterBrandingAvailable,
+    this.counterBrandingAvailableImage,
+    this.counterBrandingNotAvailable,
+    this.counterBrandingNotAvailableImage,
+    this.counterBrandingRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory CounterBrandingModel.fromJson(Map<String, dynamic> json) => CounterBrandingModel(
@@ -59,8 +59,8 @@ class CounterBrandingModel {
         "counter_branding_remark": counterBrandingRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

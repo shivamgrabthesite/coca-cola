@@ -9,12 +9,12 @@ OutletModel outletModelFromJson(String str) => OutletModel.fromJson(json.decode(
 String outletModelToJson(OutletModel data) => json.encode(data.toJson());
 
 class OutletModel {
-  bool success;
-  List<Datum> data;
+  bool? success;
+  List<Datum>? data;
 
   OutletModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory OutletModel.fromJson(Map<String, dynamic> json) => OutletModel(
@@ -24,29 +24,29 @@ class OutletModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
-  String id;
-  String imageChannal;
-  String customerGccId;
-  String priCustomerName;
-  String redOutletClass;
-  String channel;
-  String address;
-  String status;
+  String? id;
+  String? imageChannal;
+  String? customerGccId;
+  String? priCustomerName;
+  String? redOutletClass;
+  String? channel;
+  String? address;
+  String? status;
 
   Datum({
-    required this.id,
-    required this.imageChannal,
-    required this.customerGccId,
-    required this.priCustomerName,
-    required this.redOutletClass,
-    required this.channel,
-    required this.address,
-    required this.status,
+    this.id,
+    this.imageChannal,
+    this.customerGccId,
+    this.priCustomerName,
+    this.redOutletClass,
+    this.channel,
+    this.address,
+    this.status,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(

@@ -4,11 +4,11 @@ import 'package:http/http.dart' as http;
 import '../model/task_model.dart';
 
 class TaskApi {
-  static Future<TaskModel?> getData(String uid, String mid, String oid) async {
+  static Future<TaskModel?> getData(String uid, String oid) async {
     try {
       print("oid in api--------" + oid);
       final url = Uri.parse(apiPath + "task");
-      Map<String, dynamic> requestBody = {"uid": uid, "mid": mid, "oid": oid};
+      Map<String, dynamic> requestBody = {"uid": uid, "oid": oid};
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(
         url,

@@ -98,7 +98,6 @@ class _PopulationScreenState extends State<PopulationScreen> {
     super.initState();
     controller = PageController(initialPage: _currentPage);
     controller2 = PageController(initialPage: _currentPage2);
-    getPrefs();
     getData();
   }
 
@@ -134,26 +133,23 @@ class _PopulationScreenState extends State<PopulationScreen> {
   //   });
   // }
 
-  getPrefs() async {
+  getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       tid = prefs.getString("tid").toString();
       flname = prefs.getString("flname").toString();
       print("tid----------" + tid);
     });
-  }
-
-  getData() {
     PopulationApi.getData("64c6cf53cfd3911994c43484", "1").then((value) {
-      for (var i = 0; i < value!.data.length; i++) {
+      for (var i = 0; i < value!.data!.length; i++) {
         setState(() {
-          title = value.data[i].title;
-          first.add(value.data[i].first);
-          second.add(value.data[i].second);
-          third.add(value.data[i].third);
-          four.add(value.data[i].four);
-          five.add(value.data[i].five);
-          six.add(value.data[i].six);
+          title = value.data![i].title!;
+          first.add(value.data![i].first!);
+          second.add(value.data![i].second!);
+          third.add(value.data![i].third!);
+          four.add(value.data![i].four!);
+          five.add(value.data![i].five!);
+          six.add(value.data![i].six!);
         });
       }
     });
@@ -164,7 +160,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     CoolerApi.getData(tid).then((value) {
       setState(() {
         cooleid = value!.id;
-        print("cooler----------" + value.id);
+        print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
       CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
@@ -178,7 +174,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     DpsApi.getData(tid).then((value) {
       setState(() {
         dpsid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
@@ -192,7 +188,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     StandeeApi.getData(tid).then((value) {
       setState(() {
         standeeid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
@@ -206,7 +202,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VerticalSignageApi.getData(tid).then((value) {
       setState(() {
         verticalid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
@@ -220,7 +216,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     OnewayApi.getData(tid).then((value) {
       setState(() {
         onewayid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
@@ -234,7 +230,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VinylBrandingApi.getData(tid).then((value) {
       setState(() {
         vinylid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
@@ -248,7 +244,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     CoolerApi.getData(tid).then((value) {
       setState(() {
         cooleid = value!.id;
-        print("cooler----------" + value.id);
+        print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
       CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
@@ -260,7 +256,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     DpsApi.getData(tid).then((value) {
       setState(() {
         dpsid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
@@ -272,7 +268,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     StandeeApi.getData(tid).then((value) {
       setState(() {
         standeeid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
@@ -284,7 +280,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VerticalSignageApi.getData(tid).then((value) {
       setState(() {
         verticalid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VerticalSignageNotAvailable.setImage(
@@ -297,7 +293,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     OnewayApi.getData(tid).then((value) {
       setState(() {
         onewayid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
@@ -309,7 +305,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VinylBrandingApi.getData(tid).then((value) {
       setState(() {
         vinylid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
@@ -321,7 +317,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     CoolerApi.getData(tid).then((value) {
       setState(() {
         cooleid = value!.id;
-        print("cooler----------" + value.id);
+        print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
       CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
@@ -333,7 +329,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     StandeeApi.getData(tid).then((value) {
       setState(() {
         standeeid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
@@ -345,7 +341,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     DpsApi.getData(tid).then((value) {
       setState(() {
         dpsid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
@@ -357,7 +353,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VerticalSignageApi.getData(tid).then((value) {
       setState(() {
         verticalid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
@@ -369,7 +365,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     OnewayApi.getData(tid).then((value) {
       setState(() {
         onewayid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
@@ -381,7 +377,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
     VinylBrandingApi.getData(tid).then((value) {
       setState(() {
         vinylid = value!.id;
-        print("idddd----------" + value.id);
+        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
@@ -420,8 +416,8 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         ),
                       ),
                     ),
-                    Spacer(),
-                    Align(alignment: Alignment.center, child: CustomBadge()),
+                    // Spacer(),
+                    // Align(alignment: Alignment.center, child: CustomBadge()),
                   ],
                 ),
                 SizedBox(
@@ -491,7 +487,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          first[0].title,
+          first[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -501,7 +497,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(first[0].imageLink)),
+        Center(child: Image.network(first[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -915,7 +911,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          second[0].title,
+          second[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -925,7 +921,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(second[0].imageLink)),
+        Center(child: Image.network(second[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -1285,7 +1281,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          third[0].title,
+          third[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -1295,7 +1291,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(third[0].imageLink)),
+        Center(child: Image.network(third[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -1665,7 +1661,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          four[0].title,
+          four[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -1675,7 +1671,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(four[0].imageLink)),
+        Center(child: Image.network(four[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -2045,7 +2041,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          five[0].title,
+          five[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -2055,7 +2051,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(five[0].imageLink)),
+        Center(child: Image.network(five[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -2425,7 +2421,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          six[0].title,
+          six[0].title!,
           style: GoogleFonts.ibmPlexSans(
             color: Colors.black,
             fontSize: 20,
@@ -2435,7 +2431,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(six[0].imageLink)),
+        Center(child: Image.network(six[0].imageLink!)),
         SizedBox(
           height: 30,
         ),
@@ -2643,7 +2639,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.4,
+                            width: width / 1,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -2755,7 +2751,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                 } else if (selectedOption!.contains("six1")) {
                   // setAvailable();
                   vinylUploadImage(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
@@ -2766,7 +2762,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                 } else if (selectedOption!.contains("six2")) {
                   // setNotAvailable();
                   vinylNotAvailable(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
@@ -2777,7 +2773,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   // remark1.clear();
                 } else {
                   vinylCustom(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,

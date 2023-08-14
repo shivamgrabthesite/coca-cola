@@ -9,12 +9,12 @@ PopulationModel populationModelFromJson(String str) => PopulationModel.fromJson(
 String populationModelToJson(PopulationModel data) => json.encode(data.toJson());
 
 class PopulationModel {
-  bool success;
-  List<Datum> data;
+  bool? success;
+  List<Datum>? data;
 
   PopulationModel({
-    required this.success,
-    required this.data,
+    this.success,
+    this.data,
   });
 
   factory PopulationModel.fromJson(Map<String, dynamic> json) => PopulationModel(
@@ -24,27 +24,27 @@ class PopulationModel {
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
-  String title;
-  First first;
-  First second;
-  First third;
-  First four;
-  First five;
-  First six;
+  String? title;
+  First? first;
+  First? second;
+  First? third;
+  First? four;
+  First? five;
+  First? six;
 
   Datum({
-    required this.title,
-    required this.first,
-    required this.second,
-    required this.third,
-    required this.four,
-    required this.five,
-    required this.six,
+    this.title,
+    this.first,
+    this.second,
+    this.third,
+    this.four,
+    this.five,
+    this.six,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -59,22 +59,22 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "first": first.toJson(),
-        "second": second.toJson(),
-        "third": third.toJson(),
-        "four": four.toJson(),
-        "five": five.toJson(),
-        "six": six.toJson(),
+        "first": first!.toJson(),
+        "second": second!.toJson(),
+        "third": third!.toJson(),
+        "four": four!.toJson(),
+        "five": five!.toJson(),
+        "six": six!.toJson(),
       };
 }
 
 class First {
-  String title;
-  String imageLink;
+  String? title;
+  String? imageLink;
 
   First({
-    required this.title,
-    required this.imageLink,
+    this.title,
+    this.imageLink,
   });
 
   factory First.fromJson(Map<String, dynamic> json) => First(

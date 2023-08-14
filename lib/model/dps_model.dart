@@ -9,30 +9,30 @@ DpsModel dpsModelFromJson(String str) => DpsModel.fromJson(json.decode(str));
 String dpsModelToJson(DpsModel data) => json.encode(data.toJson());
 
 class DpsModel {
-  String tid;
-  int dpsBoardAvailable;
-  String dpsBoardAvailableImage;
-  int dpsBoardNotAvailable;
-  String dpsBoardNotAvailableImage;
-  String dpsRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? dpsBoardAvailable;
+  String? dpsBoardAvailableImage;
+  int? dpsBoardNotAvailable;
+  String? dpsBoardNotAvailableImage;
+  String? dpsRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   DpsModel({
-    required this.tid,
-    required this.dpsBoardAvailable,
-    required this.dpsBoardAvailableImage,
-    required this.dpsBoardNotAvailable,
-    required this.dpsBoardNotAvailableImage,
-    required this.dpsRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.dpsBoardAvailable,
+    this.dpsBoardAvailableImage,
+    this.dpsBoardNotAvailable,
+    this.dpsBoardNotAvailableImage,
+    this.dpsRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory DpsModel.fromJson(Map<String, dynamic> json) => DpsModel(
@@ -58,8 +58,8 @@ class DpsModel {
         "dps_remark": dpsRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

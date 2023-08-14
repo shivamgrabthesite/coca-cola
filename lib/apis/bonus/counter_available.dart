@@ -10,7 +10,7 @@ class CounterAvailable {
       print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/counter_branding/upload-image"),
+        Uri.parse("http://16.170.252.47:5000/api/task/counter_top/upload-image"),
       );
 
       // request.fields['pid'] = pid.toString();

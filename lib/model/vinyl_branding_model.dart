@@ -10,30 +10,30 @@ VinylBrandingModel vinylBrandingModelFromJson(String str) =>
 String vinylBrandingModelToJson(VinylBrandingModel data) => json.encode(data.toJson());
 
 class VinylBrandingModel {
-  String tid;
-  int vinylBrandingAvailable;
-  String vinylBrandingAvailableImage;
-  int vinylBrandingNotAvailable;
-  String vinylBrandingNotAvailableImage;
-  String vinylBrandingRemark;
-  String customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? vinylBrandingAvailable;
+  String? vinylBrandingAvailableImage;
+  int? vinylBrandingNotAvailable;
+  String? vinylBrandingNotAvailableImage;
+  String? vinylBrandingRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   VinylBrandingModel({
-    required this.tid,
-    required this.vinylBrandingAvailable,
-    required this.vinylBrandingAvailableImage,
-    required this.vinylBrandingNotAvailable,
-    required this.vinylBrandingNotAvailableImage,
-    required this.vinylBrandingRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.vinylBrandingAvailable,
+    this.vinylBrandingAvailableImage,
+    this.vinylBrandingNotAvailable,
+    this.vinylBrandingNotAvailableImage,
+    this.vinylBrandingRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory VinylBrandingModel.fromJson(Map<String, dynamic> json) => VinylBrandingModel(
@@ -59,8 +59,8 @@ class VinylBrandingModel {
         "vinyl_branding_remark": vinylBrandingRemark,
         "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }

@@ -98,29 +98,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       print("value----" + value!.data.toString());
 
       setState(() {
-        for (var j = 0; j < value.data[0].count!; j++) {
-          mon.add(value.data[0].monday![j].area);
-          monid.add(value.data[0].monday![j].id);
+        for (var j = 0; j < value.data![0].count!; j++) {
+          mon.add(value.data![0].monday![j].area);
+          monid.add(value.data![0].monday![j].id);
         }
-        for (var k = 0; k < value.data[1].tuesdayCount!; k++) {
-          tue.add(value.data[1].tuesday![k].area);
-          tueid.add(value.data[1].tuesday![k].id);
+        for (var k = 0; k < value.data![1].tuesdayCount!; k++) {
+          tue.add(value.data![1].tuesday![k].area);
+          tueid.add(value.data![1].tuesday![k].id);
         }
-        for (var k = 0; k < value.data[2].wednesdayCount!; k++) {
-          wed.add(value.data[2].wednesday![k].area);
-          wedid.add(value.data[2].wednesday![k].id);
+        for (var k = 0; k < value.data![2].wednesdayCount!; k++) {
+          wed.add(value.data![2].wednesday![k].area);
+          wedid.add(value.data![2].wednesday![k].id);
         }
-        for (var k = 0; k < value.data[3].thursdayCount!; k++) {
-          thu.add(value.data[3].thursday![k].area);
-          thuid.add(value.data[3].thursday![k].id);
+        for (var k = 0; k < value.data![3].thursdayCount!; k++) {
+          thu.add(value.data![3].thursday![k].area);
+          thuid.add(value.data![3].thursday![k].id);
         }
-        for (var k = 0; k < value.data[4].fridayCount!; k++) {
-          fri.add(value.data[4].friday![k].area);
-          fridi.add(value.data[4].friday![k].id);
+        for (var k = 0; k < value.data![4].fridayCount!; k++) {
+          fri.add(value.data![4].friday![k].area);
+          fridi.add(value.data![4].friday![k].id);
         }
-        for (var k = 0; k < value.data[5].saturdayCount!; k++) {
-          sat.add(value.data[5].saturday![k].area);
-          sarid.add(value.data[5].saturday![k].id);
+        for (var k = 0; k < value.data![5].saturdayCount!; k++) {
+          sat.add(value.data![5].saturday![k].area);
+          sarid.add(value.data![5].saturday![k].id);
         }
       });
     }).whenComplete(() {

@@ -9,30 +9,30 @@ CounterTopModel counterTopModelFromJson(String str) => CounterTopModel.fromJson(
 String counterTopModelToJson(CounterTopModel data) => json.encode(data.toJson());
 
 class CounterTopModel {
-  String tid;
-  int counterTopAvailable;
-  String counterTopAvailableImage;
-  int counterTopNotAvailable;
-  String counterTopNotAvailableImage;
-  String counterTopRemark;
-  List<dynamic> customImage;
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? tid;
+  int? counterTopAvailable;
+  String? counterTopAvailableImage;
+  int? counterTopNotAvailable;
+  String? counterTopNotAvailableImage;
+  String? counterTopRemark;
+  String? customImage;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
 
   CounterTopModel({
-    required this.tid,
-    required this.counterTopAvailable,
-    required this.counterTopAvailableImage,
-    required this.counterTopNotAvailable,
-    required this.counterTopNotAvailableImage,
-    required this.counterTopRemark,
-    required this.customImage,
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.tid,
+    this.counterTopAvailable,
+    this.counterTopAvailableImage,
+    this.counterTopNotAvailable,
+    this.counterTopNotAvailableImage,
+    this.counterTopRemark,
+    this.customImage,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
   factory CounterTopModel.fromJson(Map<String, dynamic> json) => CounterTopModel(
@@ -42,7 +42,7 @@ class CounterTopModel {
         counterTopNotAvailable: json["counter_top_not_available"],
         counterTopNotAvailableImage: json["counter_top_not_available_image"],
         counterTopRemark: json["counter_top_remark"],
-        customImage: List<dynamic>.from(json["custom_image"].map((x) => x)),
+        customImage: json["custom_image"],
         id: json["_id"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -56,10 +56,10 @@ class CounterTopModel {
         "counter_top_not_available": counterTopNotAvailable,
         "counter_top_not_available_image": counterTopNotAvailableImage,
         "counter_top_remark": counterTopRemark,
-        "custom_image": List<dynamic>.from(customImage.map((x) => x)),
+        "custom_image": customImage,
         "_id": id,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
       };
 }
