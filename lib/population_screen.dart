@@ -43,10 +43,10 @@ import 'apis/population_api.dart';
 import 'model/population_model.dart';
 
 class PopulationScreen extends StatefulWidget {
-  String imgId;
+  String? tid;
   PopulationScreen({
     Key? key,
-    required this.imgId,
+    this.tid,
   }) : super(key: key);
 
   @override
@@ -134,6 +134,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   // }
 
   getData() async {
+    print("tid in population:"+widget.tid!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       tid = prefs.getString("tid").toString();
@@ -157,94 +158,92 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   coolerUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerApi.getData(tid).then((value) {
+    CoolerApi.getData(widget.tid!).then((value) {
       setState(() {
         cooleid = value!.id;
         print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
       CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
-        print("image upload response---------" + value.toString());
       });
     });
   }
 
   dpsUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsApi.getData(tid).then((value) {
+    DpsApi.getData(widget.tid!).then((value) {
       setState(() {
         dpsid = value!.id;
-        print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
-        print("image upload response---------" + value.toString());
+        // print("image upload response---------" + value.toString());
       });
     });
   }
 
   standeeUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeApi.getData(tid).then((value) {
+    StandeeApi.getData(widget.tid!).then((value) {
       setState(() {
         standeeid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
-        print("image upload response---------" + value.toString());
+        // print("image upload response---------" + value.toString());
       });
     });
   }
 
   verticalUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageApi.getData(tid).then((value) {
+    VerticalSignageApi.getData(widget.tid!).then((value) {
       setState(() {
         verticalid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
-        print("image upload response---------" + value.toString());
+        // print("image upload response---------" + value.toString());
       });
     });
   }
 
   onewayUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayApi.getData(tid).then((value) {
+    OnewayApi.getData(widget.tid!).then((value) {
       setState(() {
         onewayid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
-        print("image upload response---------" + value.toString());
+        // print("image upload response---------" + value.toString());
       });
     });
   }
 
   vinylUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(tid).then((value) {
+    VinylBrandingApi.getData(widget.tid!).then((value) {
       setState(() {
         vinylid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
-        print("image upload response---------" + value.toString());
+        // print("image upload response---------" + value.toString());
       });
     });
   }
 
   coolerNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerApi.getData(tid).then((value) {
+    CoolerApi.getData(widget.tid!).then((value) {
       setState(() {
         cooleid = value!.id;
-        print("cooler----------" + value.id!);
+        // print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
       CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
@@ -253,10 +252,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   dpsNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsApi.getData(tid).then((value) {
+    DpsApi.getData(widget.tid!).then((value) {
       setState(() {
         dpsid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
@@ -265,10 +264,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   standeeNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeApi.getData(tid).then((value) {
+    StandeeApi.getData(widget.tid!).then((value) {
       setState(() {
         standeeid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
@@ -277,10 +276,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   verticalNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageApi.getData(tid).then((value) {
+    VerticalSignageApi.getData(widget.tid!).then((value) {
       setState(() {
         verticalid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VerticalSignageNotAvailable.setImage(
@@ -290,10 +289,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   onewayNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayApi.getData(tid).then((value) {
+    OnewayApi.getData(widget.tid!).then((value) {
       setState(() {
         onewayid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
@@ -302,10 +301,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   vinylNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(tid).then((value) {
+    VinylBrandingApi.getData(widget.tid!).then((value) {
       setState(() {
         vinylid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
@@ -314,10 +313,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   coolerCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerApi.getData(tid).then((value) {
+    CoolerApi.getData(widget.tid!).then((value) {
       setState(() {
         cooleid = value!.id;
-        print("cooler----------" + value.id!);
+        // print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
       CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
@@ -326,10 +325,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   standeeCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeApi.getData(tid).then((value) {
+    StandeeApi.getData(widget.tid!).then((value) {
       setState(() {
         standeeid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
@@ -338,10 +337,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   dpsCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsApi.getData(tid).then((value) {
+    DpsApi.getData(widget.tid!).then((value) {
       setState(() {
         dpsid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
@@ -350,10 +349,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   verticalCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageApi.getData(tid).then((value) {
+    VerticalSignageApi.getData(widget.tid!).then((value) {
       setState(() {
         verticalid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
@@ -362,10 +361,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   onewayCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayApi.getData(tid).then((value) {
+    OnewayApi.getData(widget.tid!).then((value) {
       setState(() {
         onewayid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
@@ -374,10 +373,10 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   vinylCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(tid).then((value) {
+    VinylBrandingApi.getData(widget.tid!).then((value) {
       setState(() {
         vinylid = value!.id;
-        print("idddd----------" + value.id!);
+        // print("idddd----------" + value.id!);
       });
     }).whenComplete(() {
       VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);

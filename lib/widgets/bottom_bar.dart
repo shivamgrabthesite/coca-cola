@@ -55,8 +55,7 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
             ),
           ),
         ),
-        body: StatefulBuilder(
-          builder: (context, setState) => PersistentTabView(
+        body:PersistentTabView(
             context,
             controller: _controller,
             resizeToAvoidBottomInset: true,
@@ -68,27 +67,27 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
               //     widget.index = value;
               //   },
               // );
-              setState(() {
-                switch (value) {
-                  case 0:
-                    _controller.index = 0;
-                    _controller.dispose();
-                    break;
-                  case 1:
-                    _controller.index = 1;
-                    _controller.dispose();
-                    break;
-                  case 2:
-                    _controller.index = 2;
-                    _controller.dispose();
-                    break;
-                  case 3:
-                    _controller.index = 3;
-                    _controller.dispose();
-                    break;
-                  default:
-                }
-              });
+              // setState(() {
+              //   switch (value) {
+              //     case 0:
+              //       _controller.index = 0;
+              //       _controller.dispose();
+              //       break;
+              //     case 1:
+              //       _controller.index = 1;
+              //       _controller.dispose();
+              //       break;
+              //     case 2:
+              //       _controller.index = 2;
+              //       _controller.dispose();
+              //       break;
+              //     case 3:
+              //       _controller.index = 3;
+              //       _controller.dispose();
+              //       break;
+              //     default:
+              //   }
+              // });
             },
             hideNavigationBarWhenKeyboardShows: true,
             popActionScreens: PopActionScreensType.all,
@@ -138,7 +137,7 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
             navBarStyle: NavBarStyle.style12,
           ),
         ),
-      ),
+
     );
   }
 }

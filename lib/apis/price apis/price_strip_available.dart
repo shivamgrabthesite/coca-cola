@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import '../../constant/api.dart';
+
 class PriceStripAvailable {
   static Future setImage(String pid, File imgPath) async {
     try {
@@ -10,7 +12,7 @@ class PriceStripAvailable {
       print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/price_strip/upload-image"),
+        Uri.parse(apiPath + "task/price_strip/upload-image"),
       );
 
       // request.fields['pid'] = pid.toString();

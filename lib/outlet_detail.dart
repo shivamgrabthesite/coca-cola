@@ -73,7 +73,7 @@ class _OutletDetailState extends State<OutletDetail> {
       });
       print("tizzzzz---" + tid);
     }).whenComplete(() {
-      prefs.setString("tid", tid).toString();
+      // prefs.setString("tid", tid).toString();
     });
   }
 
@@ -403,6 +403,7 @@ class _OutletDetailState extends State<OutletDetail> {
                           duration: Duration(seconds: 1),
                           child: ShopPic(
                             channel: channel,
+                            tid: tid!,
                             // address: "P01265 PADMARAO NAGAR_BOIGUDA",
                             // customerGccId: "G000012245",
                             // priCustomerName: "VIJAY KIRANA GEN.STORES",

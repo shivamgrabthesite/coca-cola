@@ -13,12 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopPic extends StatefulWidget {
   String? channel;
+  String? tid;
   // String? customerGccId, address, priCustomerName, channel;
   ShopPic({
     Key? key,
     // this.customerGccId,
     // this.address,
     // this.priCustomerName,
+    this.tid,
     this.channel,
   }) : super(key: key);
 
@@ -41,6 +43,7 @@ class _ShopPicState extends State<ShopPic> {
   }
 
   getId() async {
+    print("tid in shpo pic:"+widget.tid!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     ImagelinkApi.getData(widget.channel!).then((value) {
       setState(() {
@@ -267,7 +270,7 @@ class _ShopPicState extends State<ShopPic> {
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
                               child: PopulationScreen(
-                                imgId: imgId,
+                                tid: widget.tid,
                               )));
                     } else if (_selectedOption == "Incidence") {
                       Navigator.push(
@@ -276,7 +279,9 @@ class _ShopPicState extends State<ShopPic> {
                               type: PageTransitionType.fade,
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
-                              child: IncidenceScreen()));
+                              child: IncidenceScreen(
+                                tid: widget.tid,
+                              )));
                     } else if (_selectedOption == "Price Communication") {
                       Navigator.push(
                           context,
@@ -284,7 +289,9 @@ class _ShopPicState extends State<ShopPic> {
                               type: PageTransitionType.fade,
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
-                              child: PriceCommunicationScreen()));
+                              child: PriceCommunicationScreen(
+                                tid: widget.tid,
+                              )));
                     }
                     // else {
                     //   Navigator.push(

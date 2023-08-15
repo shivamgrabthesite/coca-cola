@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../constant/api.dart';
+
 class PackCustom {
   static Future setImage(String pid, String remark, File imgPath) async {
     try {
@@ -11,7 +13,7 @@ class PackCustom {
       // print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/pack_cutout/custom-image"),
+        Uri.parse(apiPath + "task/pack_cutout/custom-image"),
       );
 
       var payload = {

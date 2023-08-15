@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:coca_cola/apis/custom_week_api.dart';
 import 'package:coca_cola/select_outlet.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -59,11 +61,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String clgName = '';
   String week = '';
   String flname = '';
+  String data='';
+  bool? success;
+  String _selectedWeek = "1";
+
+  List<String> _weeks = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+  ];
   @override
   void initState() {
     super.initState();
     tabcontroller = TabController(length: days.length, vsync: this);
-    getPref();
     getData();
   }
 
@@ -76,11 +89,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   //     });
   //   });
   // }
-  getPref() async {
-    print("clgname = = == = = = =" + clgName);
-  }
+
 
   Future getData() async {
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     mon.clear();
     tue.clear();
@@ -89,10 +101,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     fri.clear();
     sat.clear();
 
-    var data = prefs.getString("logintoken");
+    data = prefs.getString("logintoken").toString();
     clgName = prefs.getString("clgName").toString();
     week = prefs.getString("week").toString();
     flname = prefs.getString("flname").toString();
+
+    _selectedWeek = week;
 
     MarketApi.getData(data!).then((value) {
       print("value----" + value!.data.toString());
@@ -125,12 +139,50 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       });
     }).whenComplete(() {
       setState(() {
-        print("mon------" + mon.toString());
-        print("tue------" + tue.toString());
-        print("wed------" + wed.toString());
-        print("id------" + monid.toString());
+
       });
     });
+  }
+
+
+  getWeek(String weekNo)
+  {
+    CustomWeekApi.getData(weekNo, data!).then((value) {
+      success = value!.success;
+    });
+  }
+  removeData(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.remove("logintoken");
+      prefs.remove("loginstatus");
+    });
+    SystemNavigator.pop();
+  }
+  void showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('Week Change Successful.\nPlease Restart the App to see the Changes'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                removeData(context);
+              },
+              child: Text('Okay'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -158,7 +210,45 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: 20,
+              ),
+              Container(
+                width: 150,
+                alignment: Alignment.center,
+
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black
+                  ),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: DropdownButton<String>(
+                  underline: null,
+                  focusColor: Colors.black,
+
+                  value: _selectedWeek,
+                  alignment: Alignment.center,
+                  onChanged: (String? newValue) {
+                    getWeek(newValue!);
+                    if(success==true)
+                      {
+                        setState(() {
+                          showSuccessDialog();
+                          _selectedWeek = newValue!;
+                        });
+                      }
+
+                  },
+                  items: _weeks.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text("Week "+value),
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Align(
                 alignment: Alignment.centerLeft,

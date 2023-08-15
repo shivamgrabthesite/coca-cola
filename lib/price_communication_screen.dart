@@ -1,8 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:coca_cola/provider/price_provider.dart';
-import 'package:coca_cola/transaction_screen.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +12,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'package:coca_cola/provider/price_provider.dart';
+import 'package:coca_cola/transaction_screen.dart';
+import 'package:coca_cola/widgets/custom_badge.dart';
 
 import 'apis/population apis/cooler_available.dart';
 import 'apis/price apis/brand_available.dart';
@@ -32,7 +34,11 @@ import 'apis/price_communication_api.dart';
 import 'model/price_communication_model.dart';
 
 class PriceCommunicationScreen extends StatefulWidget {
-  const PriceCommunicationScreen({super.key});
+  String? tid;
+  PriceCommunicationScreen({
+    Key? key,
+    this.tid,
+  }) : super(key: key);
 
   @override
   State<PriceCommunicationScreen> createState() => _PriceCommunicationScreenState();
@@ -116,7 +122,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   brandUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandStripApi.getData(tid).then((value) {
+    BrandStripApi.getData(widget.tid!).then((value) {
       setState(() {
         brandid = value!.id!;
       });
@@ -129,7 +135,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   priceUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripApi.getData(tid).then((value) {
+    PriceStripApi.getData(widget.tid!).then((value) {
       setState(() {
         priceid = value!.id!;
       });
@@ -142,7 +148,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   packUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCutoutApi.getData(tid).then((value) {
+    PackCutoutApi.getData(widget.tid!).then((value) {
       setState(() {
         packid = value!.id!;
         print("packid-----" + packid);
@@ -156,7 +162,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   brandNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandStripApi.getData(tid).then((value) {
+    BrandStripApi.getData(widget.tid!).then((value) {
       setState(() {
         brandid = value!.id!;
       });
@@ -167,7 +173,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   priceNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripApi.getData(tid).then((value) {
+    PriceStripApi.getData(widget.tid!).then((value) {
       setState(() {
         priceid = value!.id!;
       });
@@ -178,7 +184,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   packNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCutoutApi.getData(tid).then((value) {
+    PackCutoutApi.getData(widget.tid!).then((value) {
       setState(() {
         packid = value!.id!;
       });
@@ -189,7 +195,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   brandCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandStripApi.getData(tid).then((value) {
+    BrandStripApi.getData(widget.tid!).then((value) {
       setState(() {
         brandid = value!.id!;
         print("brand custom------" + brandid);
@@ -201,7 +207,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   priceCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripApi.getData(tid).then((value) {
+    PriceStripApi.getData(widget.tid!).then((value) {
       setState(() {
         priceid = value!.id!;
       });
@@ -212,7 +218,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   packCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCutoutApi.getData(tid).then((value) {
+    PackCutoutApi.getData(widget.tid!).then((value) {
       setState(() {
         packid = value!.id!;
       });

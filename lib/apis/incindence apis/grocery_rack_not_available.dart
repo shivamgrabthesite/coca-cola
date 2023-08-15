@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import '../../constant/api.dart';
+
 class GroceryRackNotAvailable {
   static Future setImage(String pid, String remark, File imgPath) async {
     try {
@@ -10,7 +12,7 @@ class GroceryRackNotAvailable {
       print("image in api------" + imgPath.toString());
       var request = http.MultipartRequest(
         'post',
-        Uri.parse("http://16.170.252.47:5000/api/task/grocery_rack/upload-image/not-available"),
+        Uri.parse(apiPath + "task/grocery_rack/upload-image/not-available"),
       );
       var payload = {
         "pid": pid,

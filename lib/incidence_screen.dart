@@ -1,10 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
-import 'package:coca_cola/apis/incindence%20apis/grocery_rack_not_available.dart';
-import 'package:coca_cola/apis/incindence%20apis/grocery_rack_upload_img.dart';
-import 'package:coca_cola/provider/incidence_provider.dart';
-import 'package:coca_cola/transaction_screen.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +12,13 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'package:coca_cola/apis/incindence%20apis/grocery_rack_not_available.dart';
+import 'package:coca_cola/apis/incindence%20apis/grocery_rack_upload_img.dart';
+import 'package:coca_cola/provider/incidence_provider.dart';
+import 'package:coca_cola/transaction_screen.dart';
+import 'package:coca_cola/widgets/custom_badge.dart';
+
 import 'apis/bonus/ambient_api.dart';
 import 'apis/bonus/ambient_available.dart';
 import 'apis/bonus/ambient_custom.dart';
@@ -34,7 +37,11 @@ import 'apis/incindence apis/grocery_rack_custom.dart';
 import 'model/incidence_model.dart';
 
 class IncidenceScreen extends StatefulWidget {
-  const IncidenceScreen({super.key});
+  String? tid;
+  IncidenceScreen({
+    Key? key,
+    this.tid,
+  }) : super(key: key);
 
   @override
   State<IncidenceScreen> createState() => _IncidenceScreenState();
@@ -144,7 +151,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   groceryCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    Grocaryrackpi.getData(tid).then((value) {
+    Grocaryrackpi.getData(widget.tid!).then((value) {
       setState(() {
         groceryid = value!.id!;
       });
@@ -159,7 +166,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   ambientCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientApi.getData(tid).then((value) {
+    AmbientApi.getData(widget.tid!).then((value) {
       setState(() {
         ambinetid = value!.id!;
       });
@@ -173,7 +180,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   counterCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterApi.getData(tid).then((value) {
+    CounterApi.getData(widget.tid!).then((value) {
       setState(() {
         counterid = value!.id!;
       });
@@ -187,7 +194,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   arialCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(tid).then((value) {
+    AerialHanger.getData(widget.tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
@@ -201,7 +208,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   ambientAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientApi.getData(tid).then((value) {
+    AmbientApi.getData(widget.tid!).then((value) {
       setState(() {
         ambinetid = value!.id!;
       });
@@ -215,7 +222,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   groceryAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    Grocaryrackpi.getData(tid).then((value) {
+    Grocaryrackpi.getData(widget.tid!).then((value) {
       setState(() {
         groceryid = value!.id!;
       });
@@ -229,7 +236,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   counterAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterApi.getData(tid).then((value) {
+    CounterApi.getData(widget.tid!).then((value) {
       setState(() {
         counterid = value!.id!;
       });
@@ -243,7 +250,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   aerialAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(tid).then((value) {
+    AerialHanger.getData(widget.tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
@@ -257,7 +264,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   groceryNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    Grocaryrackpi.getData(tid).then((value) {
+    Grocaryrackpi.getData(widget.tid!).then((value) {
       setState(() {
         groceryid = value!.id!;
       });
@@ -272,7 +279,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   ambientNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientApi.getData(tid).then((value) {
+    AmbientApi.getData(widget.tid!).then((value) {
       setState(() {
         ambinetid = value!.id!;
       });
@@ -287,7 +294,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   counterNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterApi.getData(tid).then((value) {
+    CounterApi.getData(widget.tid!).then((value) {
       setState(() {
         counterid = value!.id!;
       });
@@ -302,7 +309,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   aerialNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(tid).then((value) {
+    AerialHanger.getData(widget.tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });

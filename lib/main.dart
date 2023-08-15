@@ -58,6 +58,15 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<PriceProvider>(create: (context) => PriceProvider()),
       ],
       child: MaterialApp(
+        // routes: {
+        //   "/": (context) => SplashScreen(),
+        //   "/onBoarding": (context) => Onboard0(),
+        //   "/getStarted": (context) => GetstartedScreen(),
+        //   "/login": (context) => LoginScreen(),
+        //   "/bottombar": (context) => BottomBar(),
+        //   "/HomeScreen": (context) => HomeScreen(),
+        // },
+        // initialRoute: "/",
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
       ),
