@@ -151,7 +151,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   groceryCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    Grocaryrackpi.getData(widget.tid!).then((value) {
+    Grocaryrackpi.getData(tid!).then((value) {
       setState(() {
         groceryid = value!.id!;
       });
@@ -166,7 +166,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   ambientCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientApi.getData(widget.tid!).then((value) {
+    AmbientApi.getData(tid!).then((value) {
       setState(() {
         ambinetid = value!.id!;
       });
@@ -180,7 +180,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   counterCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterApi.getData(widget.tid!).then((value) {
+    CounterApi.getData(tid!).then((value) {
       setState(() {
         counterid = value!.id!;
       });
@@ -194,7 +194,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   arialCustom(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(widget.tid!).then((value) {
+    AerialHanger.getData(tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
@@ -208,7 +208,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   ambientAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientApi.getData(widget.tid!).then((value) {
+    AmbientApi.getData(tid!).then((value) {
       setState(() {
         ambinetid = value!.id!;
       });
@@ -222,7 +222,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   groceryAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    Grocaryrackpi.getData(widget.tid!).then((value) {
+    Grocaryrackpi.getData(tid!).then((value) {
       setState(() {
         groceryid = value!.id!;
       });
@@ -236,7 +236,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   counterAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterApi.getData(widget.tid!).then((value) {
+    CounterApi.getData(tid!).then((value) {
       setState(() {
         counterid = value!.id!;
       });
@@ -250,7 +250,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   aerialAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(widget.tid!).then((value) {
+    AerialHanger.getData(tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
@@ -264,7 +264,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   groceryNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    Grocaryrackpi.getData(widget.tid!).then((value) {
+    Grocaryrackpi.getData(tid!).then((value) {
       setState(() {
         groceryid = value!.id!;
       });
@@ -279,7 +279,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   ambientNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AmbientApi.getData(widget.tid!).then((value) {
+    AmbientApi.getData(tid!).then((value) {
       setState(() {
         ambinetid = value!.id!;
       });
@@ -294,7 +294,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   counterNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    CounterApi.getData(widget.tid!).then((value) {
+    CounterApi.getData(tid!).then((value) {
       setState(() {
         counterid = value!.id!;
       });
@@ -309,7 +309,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
 
   aerialNotAvailable(BuildContext context) {
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(widget.tid!).then((value) {
+    AerialHanger.getData(tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });

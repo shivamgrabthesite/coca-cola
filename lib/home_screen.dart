@@ -61,23 +61,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   String clgName = '';
   String week = '';
   String flname = '';
-  String data='';
+  String data = '';
   bool? success;
   String _selectedWeek = "1";
 
-  List<String> _weeks = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-  ];
+  List<String> _weeks = ["1", "2", "3", "4", "5", "6"];
   @override
   void initState() {
+    getData();
     super.initState();
     tabcontroller = TabController(length: days.length, vsync: this);
-    getData();
   }
 
   // getTime() async {
@@ -90,9 +83,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   //   });
   // }
 
-
   Future getData() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     mon.clear();
     tue.clear();
@@ -105,8 +96,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     clgName = prefs.getString("clgName").toString();
     week = prefs.getString("week").toString();
     flname = prefs.getString("flname").toString();
+    _selectedWeek = week.toString();
 
-    _selectedWeek = week;
+    print("week----" + _selectedWeek);
 
     MarketApi.getData(data!).then((value) {
       print("value----" + value!.data.toString());
@@ -138,19 +130,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       });
     }).whenComplete(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
-
-  getWeek(String weekNo)
-  {
+  getWeek(String weekNo) {
     CustomWeekApi.getData(weekNo, data!).then((value) {
       success = value!.success;
     });
   }
+
   removeData(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -159,27 +148,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
     SystemNavigator.pop();
   }
+
   void showSuccessDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: Text('Week Change Successful.\nPlease Restart the App to see the Changes'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                removeData(context);
-              },
-              child: Text('Okay'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-          ],
+        return StatefulBuilder(
+          builder: (context, setState) => AlertDialog(
+            title: Text('Success'),
+            content:
+                Text('Click Okay to Change Week and Please Restart the App to see the Changes'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  getWeek(_selectedWeek);
+                  removeData(context);
+                },
+                child: Text('Okay'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -212,39 +206,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                width: 150,
-                alignment: Alignment.center,
-
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black
-                  ),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: DropdownButton<String>(
-                  underline: null,
-                  focusColor: Colors.black,
-
-                  value: _selectedWeek,
+              StatefulBuilder(
+                builder: (context, setState) => Container(
+                  width: 150,
                   alignment: Alignment.center,
-                  onChanged: (String? newValue) {
-                    getWeek(newValue!);
-                    if(success==true)
-                      {
-                        setState(() {
-                          showSuccessDialog();
-                          _selectedWeek = newValue!;
-                        });
-                      }
-
-                  },
-                  items: _weeks.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text("Week "+value),
-                    );
-                  }).toList(),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: DropdownButton<String>(
+                    underline: null,
+                    focusColor: Colors.black,
+                    value: _selectedWeek,
+                    alignment: Alignment.center,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedWeek = newValue!;
+                        showSuccessDialog();
+                      });
+                    },
+                    items: _weeks.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value.toString(),
+                        child: Text("Week " + value.toString()),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
               SizedBox(

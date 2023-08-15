@@ -58,12 +58,12 @@ class _OutletDetailState extends State<OutletDetail> {
 
   setTask() async {
     var prefs = await SharedPreferences.getInstance();
-    uidtoken = prefs.getString("uidtoken").toString();
-    midtoken = prefs.getString("midtoken").toString();
-    oidtoken = prefs.getString("oidtoken").toString();
+    setState(() {
+      uidtoken = prefs.getString("uidtoken").toString();
+      oidtoken = prefs.getString("oidtoken").toString();
+    });
 
     print("uidtoken----" + uidtoken);
-    print("midtoken----" + midtoken);
     print("oidtoken----" + oidtoken);
 
     TaskApi.getData(uidtoken, oidtoken).then((value) {
@@ -73,7 +73,10 @@ class _OutletDetailState extends State<OutletDetail> {
       });
       print("tizzzzz---" + tid);
     }).whenComplete(() {
-      // prefs.setString("tid", tid).toString();
+      // setState(() {
+      //   tid;
+      // });
+      prefs.setString("tid", tid).toString();
     });
   }
 
@@ -403,7 +406,7 @@ class _OutletDetailState extends State<OutletDetail> {
                           duration: Duration(seconds: 1),
                           child: ShopPic(
                             channel: channel,
-                            tid: tid!,
+                            tid: tid,
                             // address: "P01265 PADMARAO NAGAR_BOIGUDA",
                             // customerGccId: "G000012245",
                             // priCustomerName: "VIJAY KIRANA GEN.STORES",

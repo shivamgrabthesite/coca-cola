@@ -122,7 +122,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   brandUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandStripApi.getData(widget.tid!).then((value) {
+    BrandStripApi.getData(tid!).then((value) {
       setState(() {
         brandid = value!.id!;
       });
@@ -135,7 +135,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   priceUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripApi.getData(widget.tid!).then((value) {
+    PriceStripApi.getData(tid!).then((value) {
       setState(() {
         priceid = value!.id!;
       });
@@ -148,7 +148,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   packUploadImage(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCutoutApi.getData(widget.tid!).then((value) {
+    PackCutoutApi.getData(tid!).then((value) {
       setState(() {
         packid = value!.id!;
         print("packid-----" + packid);
@@ -162,7 +162,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   brandNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandStripApi.getData(widget.tid!).then((value) {
+    BrandStripApi.getData(tid!).then((value) {
       setState(() {
         brandid = value!.id!;
       });
@@ -173,7 +173,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   priceNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripApi.getData(widget.tid!).then((value) {
+    PriceStripApi.getData(tid!).then((value) {
       setState(() {
         priceid = value!.id!;
       });
@@ -184,7 +184,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   packNotAvailable(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCutoutApi.getData(widget.tid!).then((value) {
+    PackCutoutApi.getData(tid!).then((value) {
       setState(() {
         packid = value!.id!;
       });
@@ -195,7 +195,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   brandCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    BrandStripApi.getData(widget.tid!).then((value) {
+    BrandStripApi.getData(tid!).then((value) {
       setState(() {
         brandid = value!.id!;
         print("brand custom------" + brandid);
@@ -207,7 +207,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   priceCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PriceStripApi.getData(widget.tid!).then((value) {
+    PriceStripApi.getData(tid!).then((value) {
       setState(() {
         priceid = value!.id!;
       });
@@ -218,7 +218,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
   packCustom(BuildContext context) {
     var provider = Provider.of<PriceProvider>(context, listen: false);
-    PackCutoutApi.getData(widget.tid!).then((value) {
+    PackCutoutApi.getData(tid!).then((value) {
       setState(() {
         packid = value!.id!;
       });

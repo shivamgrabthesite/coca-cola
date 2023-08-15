@@ -134,7 +134,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
   // }
 
   getData() async {
-    print("tid in population:"+widget.tid!);
+    print("tid in population:" + widget.tid!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       tid = prefs.getString("tid").toString();
@@ -158,20 +158,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   coolerUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerApi.getData(widget.tid!).then((value) {
+    CoolerApi.getData(tid!).then((value) {
       setState(() {
         cooleid = value!.id;
         print("cooler----------" + value.id!);
       });
     }).whenComplete(() {
-      CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {
-      });
+      CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {});
     });
   }
 
   dpsUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsApi.getData(widget.tid!).then((value) {
+    DpsApi.getData(tid!).then((value) {
       setState(() {
         dpsid = value!.id;
       });
@@ -184,7 +183,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   standeeUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeApi.getData(widget.tid!).then((value) {
+    StandeeApi.getData(tid!).then((value) {
       setState(() {
         standeeid = value!.id;
         // print("idddd----------" + value.id!);
@@ -198,7 +197,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   verticalUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageApi.getData(widget.tid!).then((value) {
+    VerticalSignageApi.getData(tid!).then((value) {
       setState(() {
         verticalid = value!.id;
         // print("idddd----------" + value.id!);
@@ -212,7 +211,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   onewayUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayApi.getData(widget.tid!).then((value) {
+    OnewayApi.getData(tid!).then((value) {
       setState(() {
         onewayid = value!.id;
         // print("idddd----------" + value.id!);
@@ -226,7 +225,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   vinylUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(widget.tid!).then((value) {
+    VinylBrandingApi.getData(tid!).then((value) {
       setState(() {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
@@ -240,7 +239,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   coolerNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerApi.getData(widget.tid!).then((value) {
+    CoolerApi.getData(tid!).then((value) {
       setState(() {
         cooleid = value!.id;
         // print("cooler----------" + value.id!);
@@ -252,7 +251,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   dpsNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsApi.getData(widget.tid!).then((value) {
+    DpsApi.getData(tid!).then((value) {
       setState(() {
         dpsid = value!.id;
         // print("idddd----------" + value.id!);
@@ -264,7 +263,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   standeeNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeApi.getData(widget.tid!).then((value) {
+    StandeeApi.getData(tid!).then((value) {
       setState(() {
         standeeid = value!.id;
         // print("idddd----------" + value.id!);
@@ -276,7 +275,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   verticalNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageApi.getData(widget.tid!).then((value) {
+    VerticalSignageApi.getData(tid!).then((value) {
       setState(() {
         verticalid = value!.id;
         // print("idddd----------" + value.id!);
@@ -289,7 +288,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   onewayNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayApi.getData(widget.tid!).then((value) {
+    OnewayApi.getData(tid!).then((value) {
       setState(() {
         onewayid = value!.id;
         // print("idddd----------" + value.id!);
@@ -301,7 +300,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   vinylNotAvailable(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(widget.tid!).then((value) {
+    VinylBrandingApi.getData(tid!).then((value) {
       setState(() {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
@@ -313,7 +312,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   coolerCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    CoolerApi.getData(widget.tid!).then((value) {
+    CoolerApi.getData(tid!).then((value) {
       setState(() {
         cooleid = value!.id;
         // print("cooler----------" + value.id!);
@@ -325,7 +324,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   standeeCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    StandeeApi.getData(widget.tid!).then((value) {
+    StandeeApi.getData(tid!).then((value) {
       setState(() {
         standeeid = value!.id;
         // print("idddd----------" + value.id!);
@@ -337,7 +336,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   dpsCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    DpsApi.getData(widget.tid!).then((value) {
+    DpsApi.getData(tid!).then((value) {
       setState(() {
         dpsid = value!.id;
         // print("idddd----------" + value.id!);
@@ -349,7 +348,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   verticalCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VerticalSignageApi.getData(widget.tid!).then((value) {
+    VerticalSignageApi.getData(tid!).then((value) {
       setState(() {
         verticalid = value!.id;
         // print("idddd----------" + value.id!);
@@ -361,7 +360,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   onewayCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    OnewayApi.getData(widget.tid!).then((value) {
+    OnewayApi.getData(tid!).then((value) {
       setState(() {
         onewayid = value!.id;
         // print("idddd----------" + value.id!);
@@ -373,7 +372,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   vinylCustom(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(widget.tid!).then((value) {
+    VinylBrandingApi.getData(tid!).then((value) {
       setState(() {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
