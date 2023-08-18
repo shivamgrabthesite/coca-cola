@@ -1,6 +1,11 @@
+
+// import 'package:universal_io/io.dart';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:coca_cola/provider/population_provider.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -78,6 +83,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   String title = '';
   String imgTitle = '';
+
   // String? firstImg, secondImg;
   List<First> first = [];
   List<First> second = [];
@@ -86,19 +92,25 @@ class _PopulationScreenState extends State<PopulationScreen> {
   List<First> five = [];
   List<First> six = [];
   List<Widget> imgsUpload = [];
+
   // File? _image;
   // String imgName = "";
   // String imgPath = "";
   String? dpsid, cooleid, standeeid, verticalid, onewayid, vinylid;
+
   // List<XFile> _pickedImages = [];
   String tid = '';
   String flname = '';
+
   @override
   void initState() {
+
     super.initState();
+
+    getData();
     controller = PageController(initialPage: _currentPage);
     controller2 = PageController(initialPage: _currentPage2);
-    getData();
+
   }
 
   void goBack() {
@@ -134,25 +146,25 @@ class _PopulationScreenState extends State<PopulationScreen> {
   // }
 
   getData() async {
-    print("tid in population:" + widget.tid!);
+
+    PopulationApi.getData("64c6cf53cfd3911994c43484", "1").then((value) {
+      for (var i = 0; i < value!.data!.length; i++) {
+        setState(() {
+          title = value.data![0].title!;
+          first.add(value.data![0].first!);
+          second.add(value.data![0].second!);
+          third.add(value.data![0].third!);
+          four.add(value.data![0].four!);
+          five.add(value.data![0].five!);
+          six.add(value.data![0].six!);
+        });
+      }
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       tid = prefs.getString("tid").toString();
       flname = prefs.getString("flname").toString();
       print("tid----------" + tid);
-    });
-    PopulationApi.getData("64c6cf53cfd3911994c43484", "1").then((value) {
-      for (var i = 0; i < value!.data!.length; i++) {
-        setState(() {
-          title = value.data![i].title!;
-          first.add(value.data![i].first!);
-          second.add(value.data![i].second!);
-          third.add(value.data![i].third!);
-          four.add(value.data![i].four!);
-          five.add(value.data![i].five!);
-          six.add(value.data![i].six!);
-        });
-      }
     });
   }
 
@@ -163,20 +175,40 @@ class _PopulationScreenState extends State<PopulationScreen> {
         cooleid = value!.id;
         print("cooler----------" + value.id!);
       });
-    }).whenComplete(() {
-      CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {});
+    }).whenComplete(() async {
+      // CoolerAvailable.setImage(cooleid!, provider.cooler!).then((value) {});
+
+      setState(() {
+        if (provider.coolerList != null) {
+          //passing file bytes and file name for API call
+          CoolerAvailable.setImage(cooleid!, provider.coolerList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
   dpsUploadImage(BuildContext context) {
     var provider = Provider.of<PopulationProvider>(context, listen: false);
+
     DpsApi.getData(tid!).then((value) {
       setState(() {
         dpsid = value!.id;
       });
     }).whenComplete(() {
-      DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
-        // print("image upload response---------" + value.toString());
+      //   DPsAvailable.setImage(dpsid!, provider.dps!).then((value) {
+      //     print("image upload response---------" + value.toString());
+      //   });
+      // });
+
+      setState(() {
+        if (provider.dpsList != null) {
+          //passing file bytes and file name for API call
+          DPsAvailable.setImage(dpsid!, provider.dpsList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -188,9 +220,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
         standeeid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
-        // print("image upload response---------" + value.toString());
+    }).whenComplete(() async {
+      // StandeeAvailable.setImage(standeeid!, provider.standee!).then((value) {
+      //   // print("image upload response---------" + value.toString());
+      // });
+
+      setState(() {
+        if (provider.standeeList != null) {
+          //passing file bytes and file name for API call
+          StandeeAvailable.setImage(standeeid!, provider.standeeList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -202,9 +243,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         verticalid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
-        // print("image upload response---------" + value.toString());
+    }).whenComplete(() async {
+      // VerticalSignageAvailable.setImage(verticalid!, provider.vertical!).then((value) {
+      //   // print("image upload response---------" + value.toString());
+      // });
+
+      setState(() {
+        if (provider.verticalList != null) {
+          //passing file bytes and file name for API call
+          VerticalSignageAvailable.setImage(verticalid!, provider.verticalList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -216,9 +267,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         onewayid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
-        // print("image upload response---------" + value.toString());
+    }).whenComplete(() async {
+      // OnewayVisionAvailable.setImage(onewayid!, provider.oneway!).then((value) {
+      //   // print("image upload response---------" + value.toString());
+      // });
+
+      setState(() {
+        if (provider.onewayList != null) {
+          //passing file bytes and file name for API call
+          OnewayVisionAvailable.setImage(onewayid!, provider.onewayList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -230,9 +291,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
-        // print("image upload response---------" + value.toString());
+    }).whenComplete(() async {
+      // VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
+      //   // print("image upload response---------" + value.toString());
+      // });
+
+      setState(() {
+        if (provider.vinylList != null) {
+          //passing file bytes and file name for API call
+          VVinylBrandingAvailable.setImage(vinylid!, provider.vinylList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -244,8 +315,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         cooleid = value!.id;
         // print("cooler----------" + value.id!);
       });
-    }).whenComplete(() {
-      CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
+    }).whenComplete(() async {
+      // CoolerNotAvailableApi.setImage(cooleid!, provider.cooler1.text, provider.cooler!);
+
+      setState(() {
+        if (provider.coolerList != null) {
+          //passing file bytes and file name for API call
+          CoolerNotAvailableApi.setImage(
+                  cooleid!, provider.cooler1.text, provider.coolerList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -256,8 +338,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
         dpsid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
+    }).whenComplete(() async {
+      // DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dps!);
+
+      setState(() {
+        if (provider.dpsList != null) {
+          //passing file bytes and file name for API call
+          DpsNotAvailable.setImage(dpsid!, provider.dps1.text, provider.dpsList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -268,8 +360,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         standeeid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
+    }).whenComplete(() async {
+      // StandeeNotAvailable.setImage(standeeid!, provider.standee1.text, provider.standee!);
+
+      setState(() {
+        if (provider.standeeList != null) {
+          //passing file bytes and file name for API call
+          StandeeNotAvailable.setImage(
+                  standeeid!, provider.standee1.text, provider.standeeList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -280,9 +383,20 @@ class _PopulationScreenState extends State<PopulationScreen> {
         verticalid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      VerticalSignageNotAvailable.setImage(
-          verticalid!, provider.vertical1.text, provider.vertical!);
+    }).whenComplete(() async {
+      // VerticalSignageNotAvailable.setImage(
+      //     verticalid!, provider.vertical1.text, provider.vertical!);
+
+      setState(() {
+        if (provider.verticalList != null) {
+          //passing file bytes and file name for API call
+          VerticalSignageNotAvailable.setImage(
+                  verticalid!, provider.vertical1.text, provider.verticalList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -293,8 +407,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         onewayid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
+    }).whenComplete(() async {
+      // OnewayVisionNotAvailable.setImage(onewayid!, provider.oneway1.text, provider.oneway!);
+
+      setState(() {
+        if (provider.onewayList != null) {
+          //passing file bytes and file name for API call
+          OnewayVisionNotAvailable.setImage(
+                  onewayid!, provider.oneway1.text, provider.onewayList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -305,8 +430,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
+    }).whenComplete(() async {
+      // VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
+
+      setState(() {
+        if (provider.vinylList != null) {
+          //passing file bytes and file name for API call
+          VinylBrandingNotAvailable.setImage(
+                  vinylid!, provider.vinyl1.text, provider.vinylList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -317,8 +453,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
         cooleid = value!.id;
         // print("cooler----------" + value.id!);
       });
-    }).whenComplete(() {
-      CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
+    }).whenComplete(() async {
+      // CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.cooler!);
+
+      setState(() {
+        if (provider.coolerList != null) {
+          //passing file bytes and file name for API call
+          CoolerCustom.setImage(cooleid!, provider.cooler2.text, provider.coolerList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -329,8 +475,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         standeeid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
+    }).whenComplete(() async {
+      // StandeeCustom.setImage(standeeid!, provider.standee2.text, provider.standee!);
+
+      setState(() {
+        if (provider.standeeList != null) {
+          //passing file bytes and file name for API call
+          StandeeCustom.setImage(
+                  standeeid!, provider.standee2.text, provider.standeeList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -341,8 +498,18 @@ class _PopulationScreenState extends State<PopulationScreen> {
         dpsid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
+    }).whenComplete(() async {
+      // DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dps!);
+
+      setState(() {
+        if (provider.dpsList != null) {
+          //passing file bytes and file name for API call
+          DpsCustom.setImage(dpsid!, provider.dps2.text, provider.dpsList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -353,8 +520,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         verticalid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
+    }).whenComplete(() async {
+      // VerticalSignageCustom.setImage(verticalid!, provider.vertical2.text, provider.vertical!);
+
+      setState(() {
+        if (provider.verticalList != null) {
+          //passing file bytes and file name for API call
+          StandeeCustom.setImage(
+                  verticalid!, provider.vertical2.text, provider.verticalList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -365,8 +543,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         onewayid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
+    }).whenComplete(() async {
+      // OnewayVisionCustom.setImage(onewayid!, provider.oneway2.text, provider.oneway!);
+
+      setState(() {
+        if (provider.onewayList != null) {
+          //passing file bytes and file name for API call
+          OnewayVisionCustom.setImage(
+                  onewayid!, provider.oneway2.text, provider.onewayList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -377,8 +566,19 @@ class _PopulationScreenState extends State<PopulationScreen> {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() {
-      VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
+    }).whenComplete(() async {
+      // VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
+
+      setState(() {
+        if (provider.vinylList != null) {
+          //passing file bytes and file name for API call
+          VinylBrandingCustom.setImage(
+                  vinylid!, provider.vinyl2.text, provider.vinylList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -541,7 +741,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       },
                       child: Column(
                         children: [
-                          firstProvider.dps == null
+                          firstProvider.dpsList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -552,7 +752,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(firstProvider.dps!,
+                                  child: Image.memory(firstProvider.dpsList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -636,7 +836,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           },
                           child: Column(
                             children: [
-                              firstProvider.dps == null
+                              firstProvider.dpsList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -647,7 +847,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(firstProvider.dps!,
+                                      child: Image.memory(firstProvider.dpsList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -791,7 +991,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  firstProvider.dps == null
+                                  firstProvider.dpsList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -802,7 +1002,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(firstProvider.dps!,
+                                          child: Image.memory(firstProvider.dpsList!.first.bytes!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -860,7 +1060,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || firstProvider.dps == null) {
+                if (selectedOption!.isEmpty || firstProvider.dpsList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -965,7 +1165,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       },
                       child: Column(
                         children: [
-                          secondProvider.cooler == null
+                          secondProvider.coolerList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -976,7 +1176,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(secondProvider.cooler!,
+                                  child: Image.memory(secondProvider.coolerList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -1062,7 +1262,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           },
                           child: Column(
                             children: [
-                              secondProvider.cooler == null
+                              secondProvider.coolerList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1073,7 +1273,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(secondProvider.cooler!,
+                                      child: Image.memory(secondProvider.coolerList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1141,7 +1341,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  secondProvider.cooler == null
+                                  secondProvider.coolerList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1152,8 +1352,11 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(secondProvider.cooler!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              secondProvider.coolerList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -1232,7 +1435,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || secondProvider.cooler == null) {
+                if (selectedOption!.isEmpty || secondProvider.coolerList == null) {
                   setState(() {
                     Fluttertoast.showToast(msg: "select one option");
                   });
@@ -1335,7 +1538,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       },
                       child: Column(
                         children: [
-                          thirdProvider.standee == null
+                          thirdProvider.standeeList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1346,7 +1549,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(thirdProvider.standee!,
+                                  child: Image.memory(thirdProvider.standeeList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -1432,7 +1635,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           },
                           child: Column(
                             children: [
-                              thirdProvider.standee == null
+                              thirdProvider.standeeList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1443,7 +1646,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(thirdProvider.standee!,
+                                      child: Image.memory(thirdProvider.standeeList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1511,7 +1714,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  thirdProvider.standee == null
+                                  thirdProvider.standeeList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1522,8 +1725,11 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(thirdProvider.standee!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              thirdProvider.standeeList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -1602,7 +1808,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || thirdProvider.standee == null) {
+                if (selectedOption!.isEmpty || thirdProvider.standeeList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1715,7 +1921,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       },
                       child: Column(
                         children: [
-                          fourProvider.vertical == null
+                          fourProvider.verticalList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1726,7 +1932,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(fourProvider.vertical!,
+                                  child: Image.memory(fourProvider.verticalList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -1812,7 +2018,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           },
                           child: Column(
                             children: [
-                              fourProvider.vertical == null
+                              fourProvider.verticalList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1823,7 +2029,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(fourProvider.vertical!,
+                                      child: Image.memory(fourProvider.verticalList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1891,7 +2097,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  fourProvider.vertical == null
+                                  fourProvider.verticalList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1902,8 +2108,11 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(fourProvider.vertical!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              fourProvider.verticalList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -1982,7 +2191,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || fourProvider.vertical == null) {
+                if (selectedOption!.isEmpty || fourProvider.verticalList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -2095,7 +2304,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       },
                       child: Column(
                         children: [
-                          fiveProvider.oneway == null
+                          fiveProvider.onewayList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -2106,7 +2315,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(fiveProvider.oneway!,
+                                  child: Image.memory(fiveProvider.onewayList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -2192,7 +2401,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           },
                           child: Column(
                             children: [
-                              fiveProvider.oneway == null
+                              fiveProvider.onewayList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -2203,7 +2412,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(fiveProvider.oneway!,
+                                      child: Image.memory(fiveProvider.onewayList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -2271,7 +2480,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  fiveProvider.oneway == null
+                                  fiveProvider.onewayList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -2282,7 +2491,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(fiveProvider.oneway!,
+                                          child: Image.memory(fiveProvider.onewayList!.first.bytes!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -2362,7 +2571,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || fiveProvider.oneway == null) {
+                if (selectedOption!.isEmpty || fiveProvider.onewayList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -2475,7 +2684,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                       },
                       child: Column(
                         children: [
-                          sixProvider.vinyl == null
+                          sixProvider.vinylList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -2486,7 +2695,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(sixProvider.vinyl!,
+                                  child: Image.memory(sixProvider.vinylList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -2570,7 +2779,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           },
                           child: Column(
                             children: [
-                              sixProvider.vinyl == null
+                              sixProvider.vinylList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -2581,7 +2790,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(sixProvider.vinyl!,
+                                      child: Image.memory(sixProvider.vinylList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -2649,7 +2858,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  sixProvider.vinyl == null
+                                  sixProvider.vinylList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -2660,7 +2869,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(sixProvider.vinyl!,
+                                          child: Image.memory(sixProvider.vinylList!.first.bytes!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -2740,7 +2949,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || sixProvider.vinyl == null) {
+                if (selectedOption!.isEmpty || sixProvider.vinylList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",

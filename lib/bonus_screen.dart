@@ -152,7 +152,7 @@ class _BonusScreenState extends State<BonusScreen> {
   }
 
   ambeintNotAvailable() {
-    AmbientRackNotAvailable.setImage(aid!, second1.text, _image!);
+    // AmbientRackNotAvailable.setImage(aid!, second1.text, _image!);
   }
 
   slideinNotAvailable() {

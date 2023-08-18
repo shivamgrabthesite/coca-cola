@@ -269,6 +269,7 @@ class _ShopPicState extends State<ShopPic> {
                               type: PageTransitionType.fade,
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
+
                               child: PopulationScreen(
                                 tid: widget.tid,
                               )));

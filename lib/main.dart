@@ -33,12 +33,25 @@ import 'package:provider/provider.dart';
 import 'bonus_screen.dart';
 import 'edit_profile.dart';
 import 'onboard0.dart';
+import 'package:universal_io/io.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
+
+  bool kisweb;
+  try{
+    if(Platform.isAndroid||Platform.isIOS) {
+      kisweb=false;
+    } else {
+      kisweb=true;
+    }
+  } catch(e){
+    kisweb=true;
+  }
+
 }
 
 class MyApp extends StatefulWidget {

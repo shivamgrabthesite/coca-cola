@@ -1,3 +1,4 @@
+import 'package:coca_cola/registation/email_otp.dart';
 import 'package:coca_cola/registation/mobile_verify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,7 +47,6 @@ class _EmailVerifyState extends State<EmailVerify> {
           );
         });
       });
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg.toString())));
 
       Navigator.push(
           context,
@@ -54,9 +54,7 @@ class _EmailVerifyState extends State<EmailVerify> {
               type: PageTransitionType.fade,
               curve: Curves.decelerate,
               duration: Duration(seconds: 1),
-              child: MobileVerify(
-                  // authorization: widget.authorization,
-                  )));
+              child: EmailOtp()));
     } else {
       Fluttertoast.showToast(
         msg: "enter email Id",

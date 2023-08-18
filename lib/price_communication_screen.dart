@@ -74,9 +74,10 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
   String flname = '';
   @override
   void initState() {
+    getData();
     super.initState();
     controller = PageController(initialPage: _currentPage);
-    getData();
+
   }
 
   void goBack() {
@@ -127,8 +128,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         brandid = value!.id!;
       });
     }).whenComplete(() {
-      BrandAvailable.setImage(brandid!, provider.brand!).then((value) {
-        print("image upload response---------" + value.toString());
+      // BrandAvailable.setImage(brandid!, provider.brand!).then((value) {
+      //   print("image upload response---------" + value.toString());
+      // });
+      setState(() {
+        if (provider.brandList != null) {
+          //passing file bytes and file name for API call
+          BrandAvailable.setImage(brandid!, provider.brandList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -140,8 +149,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         priceid = value!.id!;
       });
     }).whenComplete(() {
-      PriceStripAvailable.setImage(priceid!, provider.price!).then((value) {
-        print("image upload response---------" + value.toString());
+      // PriceStripAvailable.setImage(priceid!, provider.price!).then((value) {
+      //   print("image upload response---------" + value.toString());
+      // });
+      setState(() {
+        if (provider.priceList != null) {
+          //passing file bytes and file name for API call
+          PriceStripAvailable.setImage(priceid!, provider.priceList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -154,8 +171,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         print("packid-----" + packid);
       });
     }).whenComplete(() {
-      PackAvailable.setImage(packid, provider.pack!).then((value) {
-        print("image upload response---------" + value.toString());
+      // PackAvailable.setImage(packid, provider.pack!).then((value) {
+      //   print("image upload response---------" + value.toString());
+      // });
+      setState(() {
+        if (provider.packList != null) {
+          //passing file bytes and file name for API call
+          PackAvailable.setImage(packid!, provider.packList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -167,7 +192,17 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         brandid = value!.id!;
       });
     }).whenComplete(() {
-      BrandNotAvailable.setImage(brandid!, provider.brand1.text, provider.brand!);
+      // BrandNotAvailable.setImage(brandid!, provider.brand1.text, provider.brand!);
+      setState(() {
+        if (provider.brandList != null) {
+          //passing file bytes and file name for API call
+          BrandNotAvailable.setImage(
+                  brandid!, provider.brand1.text, provider.brandList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -178,7 +213,17 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         priceid = value!.id!;
       });
     }).whenComplete(() {
-      PriceStripNotAvailable.setImage(priceid!, provider.price1.text, provider.price!);
+      // PriceStripNotAvailable.setImage(priceid!, provider.price1.text, provider.price!);
+      setState(() {
+        if (provider.priceList != null) {
+          //passing file bytes and file name for API call
+          PriceStripNotAvailable.setImage(
+                  priceid!, provider.price1.text, provider.priceList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -189,7 +234,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         packid = value!.id!;
       });
     }).whenComplete(() {
-      PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
+      // PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
+      setState(() {
+        if (provider.brandList != null) {
+          //passing file bytes and file name for API call
+          PackNotAvailable.setImage(packid!, provider.pack1.text, provider.packList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -201,7 +255,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         print("brand custom------" + brandid);
       });
     }).whenComplete(() {
-      BrandCustom.setImage(brandid!, provider.brand2.text, provider.brand!);
+      // BrandCustom.setImage(brandid!, provider.brand2.text, provider.brand!);
+      setState(() {
+        if (provider.brandList != null) {
+          //passing file bytes and file name for API call
+          BrandCustom.setImage(brandid!, provider.brand2.text, provider.brandList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -212,7 +275,17 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         priceid = value!.id!;
       });
     }).whenComplete(() {
-      PriceStripCustom.setImage(priceid, provider.price2.text, provider.price!);
+      // PriceStripCustom.setImage(priceid, provider.price2.text, provider.price!);
+      setState(() {
+        if (provider.priceList != null) {
+          //passing file bytes and file name for API call
+          PriceStripCustom.setImage(
+                  priceid!, provider.price2.text, provider.priceList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -223,7 +296,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         packid = value!.id!;
       });
     }).whenComplete(() {
-      PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
+      // PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
+      setState(() {
+        if (provider.brandList != null) {
+          //passing file bytes and file name for API call
+          PackCustom.setImage(packid!, provider.pack2.text, provider.packList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
+      });
     });
   }
 
@@ -387,7 +469,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                       },
                       child: Column(
                         children: [
-                          firstProvider.brand == null
+                          firstProvider.brandList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -398,7 +480,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(firstProvider.brand!,
+                                  child: Image.memory(firstProvider.brandList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -484,7 +566,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           },
                           child: Column(
                             children: [
-                              firstProvider.brand == null
+                              firstProvider.brandList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -495,7 +577,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(firstProvider.brand!,
+                                      child: Image.memory(firstProvider.brandList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -562,7 +644,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  firstProvider.brand == null
+                                  firstProvider.brandList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -573,7 +655,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(firstProvider.brand!,
+                                          child: Image.memory(firstProvider.brandList!.first.bytes!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -631,7 +713,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || firstProvider.brand == null) {
+                if (selectedOption!.isEmpty || firstProvider.brandList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -744,7 +826,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                       },
                       child: Column(
                         children: [
-                          secondProvider.price == null
+                          secondProvider.priceList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -755,7 +837,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(secondProvider.price!,
+                                  child: Image.memory(secondProvider.priceList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -841,7 +923,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           },
                           child: Column(
                             children: [
-                              secondProvider.price == null
+                              secondProvider.priceList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -852,7 +934,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(secondProvider.price!,
+                                      child: Image.memory(secondProvider.priceList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -919,7 +1001,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  secondProvider.price == null
+                                  secondProvider.priceList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -930,8 +1012,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(secondProvider.price!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              secondProvider.priceList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -1012,7 +1097,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || secondProvider.price == null) {
+                if (selectedOption!.isEmpty || secondProvider.priceList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1125,7 +1210,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                       },
                       child: Column(
                         children: [
-                          thirdProvider.pack == null
+                          thirdProvider.packList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1136,7 +1221,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(thirdProvider.pack!,
+                                  child: Image.memory(thirdProvider.packList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -1220,7 +1305,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           },
                           child: Column(
                             children: [
-                              thirdProvider.pack == null
+                              thirdProvider.packList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1231,7 +1316,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(thirdProvider.pack!,
+                                      child: Image.memory(thirdProvider.packList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1298,7 +1383,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                               },
                               child: Column(
                                 children: [
-                                  thirdProvider.pack == null
+                                  thirdProvider.packList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1309,7 +1394,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(thirdProvider.pack!,
+                                          child: Image.memory(thirdProvider.packList!.first.bytes!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -1392,7 +1477,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || thirdProvider.pack == null) {
+                if (selectedOption!.isEmpty || thirdProvider.packList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",

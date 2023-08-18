@@ -31,7 +31,12 @@ import 'apis/incindence apis/aerial_hanger.dart';
 import 'apis/incindence apis/aerial_hanger_available.dart';
 import 'apis/incindence apis/aerial_hanger_custom.dart';
 import 'apis/incindence apis/aerial_hanger_not_available.dart';
+import 'apis/incindence apis/ambient_rack_avaliable.dart';
+import 'apis/incindence apis/ambient_rack_custom.dart';
 import 'apis/incindence apis/ambient_rack_not_available.dart';
+import 'apis/incindence apis/counter_top_available.dart';
+import 'apis/incindence apis/counter_top_custom.dart';
+import 'apis/incindence apis/counter_top_not_available.dart';
 import 'apis/incindence apis/grocery_rack.dart';
 import 'apis/incindence apis/grocery_rack_custom.dart';
 import 'model/incidence_model.dart';
@@ -85,8 +90,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   @override
   void initState() {
     controller = PageController(initialPage: _currentPage);
-    super.initState();
     getData();
+    super.initState();
+
   }
 
   void goBack() {
@@ -157,9 +163,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      GroceryRackCustom.setImage(groceryid, provider.grocery2.text, provider.grocery!)
-          .then((value) {
-        print("custom res----" + value.toString());
+      // GroceryRackCustom.setImage(groceryid, provider.grocery2.text, provider.grocery!)
+      //     .then((value) {
+      //   print("custom res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.groceryList != null) {
+          //passing file bytes and file name for API call
+          GroceryRackCustom.setImage(
+                  groceryid!, provider.grocery2.text, provider.groceryList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -172,8 +188,18 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AmbientCustom.setImage(ambinetid, provider.ambient2.text, provider.ambient!).then((value) {
-        print("custom res----" + value.toString());
+      // AmbientCustom.setImage(ambinetid, provider.ambient2.text, provider.ambient!).then((value) {
+      //   print("custom res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.ambientList != null) {
+          //passing file bytes and file name for API call
+          AmbientRackCustom.setImage(
+                  ambinetid!, provider.ambient2.text, provider.ambientList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -186,8 +212,18 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      CounterCustom.setImage(counterid, provider.counter2.text, provider.counter!).then((value) {
-        print("custom res----" + value.toString());
+      // CounterCustom.setImage(counterid, provider.counter2.text, provider.counter!).then((value) {
+      //   print("custom res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.counterList != null) {
+          //passing file bytes and file name for API call
+          CounterTopCustom.setImage(
+                  counterid!, provider.counter2.text, provider.counterList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -200,8 +236,18 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
-        print("custom res----" + value.toString());
+      // AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
+      //   print("custom res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.arialList != null) {
+          //passing file bytes and file name for API call
+          AerialHangerCustom.setImage(
+                  aerialid!, provider.arial2.text, provider.arialList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -214,8 +260,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AmbientAvailable.setImage(ambinetid, provider.ambient!).then((value) {
-        print("avauilable res----" + value.toString());
+      // AmbientAvailable.setImage(ambinetid, provider.ambient!).then((value) {
+      //   print("avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.ambientList != null) {
+          //passing file bytes and file name for API call
+          AmbientRackAvailable.setImage(ambinetid!, provider.ambientList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -228,8 +283,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      GroceryRackUploadImg.setImage(groceryid, provider.grocery!).then((value) {
-        print("avauilable res----" + value.toString());
+      // GroceryRackUploadImg.setImage(groceryid, provider.grocery!).then((value) {
+      //   print("avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.groceryList != null) {
+          //passing file bytes and file name for API call
+          GroceryRackUploadImg.setImage(groceryid!, provider.groceryList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -242,8 +306,17 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      CounterAvailable.setImage(counterid, provider.counter!).then((value) {
-        print("avauilable res----" + value.toString());
+      // CounterAvailable.setImage(counterid, provider.counter!).then((value) {
+      //   print("avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.counterList != null) {
+          //passing file bytes and file name for API call
+          CounterTopAvailable.setImage(counterid!, provider.counterList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -256,8 +329,16 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
-        print("avauilable res----" + value.toString());
+      // AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
+      //   print("avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.arialList != null) {
+          //passing file bytes and file name for API call
+          AerialHangerAvailable.setImage(aerialid!, provider.arialList!.first.bytes!).then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -270,9 +351,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      GroceryRackNotAvailable.setImage(groceryid, provider.grocery1.text, provider.grocery!)
-          .then((value) {
-        print("not avauilable res----" + value.toString());
+      // GroceryRackNotAvailable.setImage(groceryid, provider.grocery1.text, provider.grocery!)
+      //     .then((value) {
+      //   print("not avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.groceryList != null) {
+          //passing file bytes and file name for API call
+          CounterTopCustom.setImage(
+                  groceryid!, provider.grocery1.text, provider.groceryList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -285,9 +376,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AmbientRackNotAvailable.setImage(ambinetid, provider.ambient1.text, provider.ambient!)
-          .then((value) {
-        print("not avauilable res----" + value.toString());
+      // AmbientRackNotAvailable.setImage(ambinetid, provider.ambient1.text, provider.ambient!)
+      //     .then((value) {
+      //   print("not avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.ambientList != null) {
+          //passing file bytes and file name for API call
+          AmbientRackNotAvailable.setImage(
+                  ambinetid!, provider.ambient1.text, provider.ambientList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -300,9 +401,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      CounterNotAvailable.setImage(counterid, provider.counter1.text, provider.counter!)
-          .then((value) {
-        print("not avauilable res----" + value.toString());
+      // CounterNotAvailable.setImage(counterid, provider.counter1.text, provider.counter!)
+      //     .then((value) {
+      //   print("not avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.counterList != null) {
+          //passing file bytes and file name for API call
+          CounterTopNotAvailable.setImage(
+                  counterid!, provider.counter1.text, provider.counterList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -315,9 +426,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       });
       // print("grocary id -------" + pid);
     }).whenComplete(() {
-      AerialHangerNotAvailable.setImage(aerialid, provider.arial1.text, provider.arial!)
-          .then((value) {
-        print("not avauilable res----" + value.toString());
+      // AerialHangerNotAvailable.setImage(aerialid, provider.arial1.text, provider.arial!)
+      //     .then((value) {
+      //   print("not avauilable res----" + value.toString());
+      // });
+      setState(() {
+        if (provider.counterList != null) {
+          //passing file bytes and file name for API call
+          AerialHangerNotAvailable.setImage(
+                  aerialid!, provider.arial1.text, provider.arialList!.first.bytes!)
+              .then((value) {
+            print("dps res----" + value.toString());
+          });
+        }
       });
     });
   }
@@ -525,7 +646,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       },
                       child: Column(
                         children: [
-                          firstProvider.grocery == null
+                          firstProvider.groceryList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -536,7 +657,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(firstProvider.grocery!,
+                                  child: Image.memory(firstProvider.groceryList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -544,7 +665,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              firstProvider.grocery == null ? 'Upload Image' : imgName,
+                              firstProvider.groceryList == null ? 'Upload Image' : imgName,
                               style: GoogleFonts.inter(
                                 color: Color(0xFF929292),
                                 fontSize: 12,
@@ -620,7 +741,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           },
                           child: Column(
                             children: [
-                              firstProvider.grocery == null
+                              firstProvider.groceryList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -631,7 +752,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(firstProvider.grocery!,
+                                      child: Image.memory(firstProvider.groceryList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -639,7 +760,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               ),
                               Expanded(
                                 child: Text(
-                                  firstProvider.grocery == null ? 'Upload Image' : imgName,
+                                  firstProvider.groceryList == null ? 'Upload Image' : imgName,
                                   style: GoogleFonts.inter(
                                     color: Color(0xFF929292),
                                     fontSize: 12,
@@ -696,7 +817,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               },
                               child: Column(
                                 children: [
-                                  firstProvider.grocery == null
+                                  firstProvider.groceryList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -707,8 +828,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(firstProvider.grocery!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              firstProvider.groceryList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -765,7 +889,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || firstProvider.grocery == null) {
+                if (selectedOption!.isEmpty || firstProvider.groceryList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -878,7 +1002,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       },
                       child: Column(
                         children: [
-                          secondProvider.ambient == null
+                          secondProvider.ambientList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -889,7 +1013,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(secondProvider.ambient!,
+                                  child: Image.memory(secondProvider.ambientList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -975,7 +1099,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           },
                           child: Column(
                             children: [
-                              secondProvider.ambient == null
+                              secondProvider.ambientList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -986,7 +1110,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(secondProvider.ambient!,
+                                      child: Image.memory(secondProvider.ambientList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1053,7 +1177,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               },
                               child: Column(
                                 children: [
-                                  secondProvider.ambient == null
+                                  secondProvider.ambientList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1064,8 +1188,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(secondProvider.ambient!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              secondProvider.ambientList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -1146,7 +1273,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || secondProvider.ambient == null) {
+                if (selectedOption!.isEmpty || secondProvider.ambientList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1259,7 +1386,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       },
                       child: Column(
                         children: [
-                          thirdProvider.counter == null
+                          thirdProvider.counterList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1270,7 +1397,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(thirdProvider.counter!,
+                                  child: Image.memory(thirdProvider.counterList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -1356,7 +1483,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           },
                           child: Column(
                             children: [
-                              thirdProvider.counter == null
+                              thirdProvider.counterList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1367,7 +1494,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(thirdProvider.counter!,
+                                      child: Image.memory(thirdProvider.counterList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1434,7 +1561,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               },
                               child: Column(
                                 children: [
-                                  thirdProvider.counter == null
+                                  thirdProvider.counterList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1445,8 +1572,11 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(thirdProvider.counter!,
-                                              fit: BoxFit.fill, height: 50, width: 50),
+                                          child: Image.memory(
+                                              thirdProvider.counterList!.first.bytes!,
+                                              fit: BoxFit.fill,
+                                              height: 50,
+                                              width: 50),
                                         ),
                                   SizedBox(
                                     height: 10,
@@ -1528,7 +1658,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || thirdProvider.counter == null) {
+                if (selectedOption!.isEmpty || thirdProvider.counterList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
@@ -1641,7 +1771,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                       },
                       child: Column(
                         children: [
-                          fourProvider.arial == null
+                          fourProvider.arialList == null
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: Icon(
@@ -1652,7 +1782,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Image.file(fourProvider.arial!,
+                                  child: Image.memory(fourProvider.arialList!.first.bytes!,
                                       fit: BoxFit.fill, height: 50, width: 50),
                                 ),
                           SizedBox(
@@ -1736,7 +1866,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           },
                           child: Column(
                             children: [
-                              fourProvider.arial == null
+                              fourProvider.arialList == null
                                   ? const Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Icon(
@@ -1747,7 +1877,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                     )
                                   : Padding(
                                       padding: const EdgeInsets.only(top: 10),
-                                      child: Image.file(fourProvider.arial!,
+                                      child: Image.memory(fourProvider.arialList!.first.bytes!,
                                           fit: BoxFit.fill, height: 50, width: 50),
                                     ),
                               SizedBox(
@@ -1814,7 +1944,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                               },
                               child: Column(
                                 children: [
-                                  fourProvider.arial == null
+                                  fourProvider.arialList == null
                                       ? const Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Icon(
@@ -1825,7 +1955,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                                         )
                                       : Padding(
                                           padding: const EdgeInsets.only(top: 10),
-                                          child: Image.file(fourProvider.arial!,
+                                          child: Image.memory(fourProvider.arialList!.first.bytes!,
                                               fit: BoxFit.fill, height: 50, width: 50),
                                         ),
                                   SizedBox(
@@ -1908,7 +2038,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || fourProvider.arial == null) {
+                if (selectedOption!.isEmpty || fourProvider.arialList == null) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",

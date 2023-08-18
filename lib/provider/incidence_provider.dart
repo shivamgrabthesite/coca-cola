@@ -1,4 +1,7 @@
-import 'dart:io';
+// import 'dart:io';
+import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:universal_io/io.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,43 +27,76 @@ class IncidenceProvider extends ChangeNotifier {
   String arialpath = '';
   String arialname = '';
 
+  List<PlatformFile>? groceryList;
+  List<PlatformFile>? ambientList;
+  List<PlatformFile>? counterList;
+  List<PlatformFile>? arialList;
+
   Future groceryImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    groceryname = image!.name;
-    grocery = File(image.path);
-    grocerypath = image.path;
+    groceryList = (await FilePickerWeb.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      onFileLoading: (FilePickerStatus status) => print("status of file-----" + status.toString()),
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    ))
+        ?.files;
+    // var image = await ImagePicker().pickImage(
+    //   source: ImageSource.camera,
+    // );
+    // groceryname = image!.name;
+    // grocery = File(image.path);
+    // grocerypath = image.path;
     notifyListeners();
   }
 
   Future ambientImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    ambientname = image!.name;
-    ambient = File(image.path);
-    ambientpath = image.path;
+    ambientList = (await FilePickerWeb.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      onFileLoading: (FilePickerStatus status) => print("status of file-----" + status.toString()),
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    ))
+        ?.files;
+    // var image = await ImagePicker().pickImage(
+    //   source: ImageSource.camera,
+    // );
+    // ambientname = image!.name;
+    // ambient = File(image.path);
+    // ambientpath = image.path;
     notifyListeners();
   }
 
   Future counterImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    countername = image!.name;
-    counter = File(image.path);
-    counterpath = image.path;
+    counterList = (await FilePickerWeb.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      onFileLoading: (FilePickerStatus status) => print("status of file-----" + status.toString()),
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    ))
+        ?.files;
+    // var image = await ImagePicker().pickImage(
+    //   source: ImageSource.camera,
+    // );
+    // countername = image!.name;
+    // counter = File(image.path);
+    // counterpath = image.path;
     notifyListeners();
   }
 
   Future arialImage() async {
-    var image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    arialname = image!.name;
-    arial = File(image.path);
-    arialpath = image.path;
+    arialList = (await FilePickerWeb.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: false,
+      onFileLoading: (FilePickerStatus status) => print("status of file-----" + status.toString()),
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    ))
+        ?.files;
+    // var image = await ImagePicker().pickImage(
+    //   source: ImageSource.camera,
+    // );
+    // arialname = image!.name;
+    // arial = File(image.path);
+    // arialpath = image.path;
     notifyListeners();
   }
 }

@@ -59,7 +59,7 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
             context,
             controller: _controller,
             resizeToAvoidBottomInset: true,
-            stateManagement: false,
+            stateManagement: true,
             hideNavigationBar: false,
             onItemSelected: (value) {
               // setState.call(

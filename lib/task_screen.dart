@@ -24,6 +24,7 @@ class _TaskScreenState extends State<TaskScreen> {
   String? data;
   String flname = '';
   List channel = [];
+  List tid = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -44,6 +45,7 @@ class _TaskScreenState extends State<TaskScreen> {
       print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value.data!.length!; i++) {
+          tid.add(value.data![i].market!.id!);
           marketData.add(value.data![i].market!.outletName!);
           status.add(value.data![i].status);
           channel.add(value.data![i].market!.channel);
@@ -55,6 +57,12 @@ class _TaskScreenState extends State<TaskScreen> {
         print("status----" + status.toString());
       });
     });
+  }
+
+  getTid(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("tid", tid[index].toString());
+    print("tid in task---"+tid[index].toString());
   }
 
   @override
@@ -118,7 +126,9 @@ class _TaskScreenState extends State<TaskScreen> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
+
                             if (status[index] == "pending") {
+                              getTid(index);
                               Navigator.push(
                                   context,
                                   PageTransition(

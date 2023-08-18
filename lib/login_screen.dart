@@ -13,6 +13,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/login_api.dart';
+import 'forgot password/forgot1.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -76,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (_key.currentState!.validate()) {
         setState(() {
           if (statusCode == true) {
-            Fluttertoast.showToast(msg: msg);
+            Fluttertoast.showToast(msg: msg, webBgColor: Colors.red);
             Navigator.pushReplacement(
                 context,
                 PageTransition(
@@ -102,15 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
             //           child: BottomBar()));
             // }
           } else {
-            Fluttertoast.showToast(
-              msg: "Invalid Credentials",
-            );
+            Fluttertoast.showToast(msg: "Invalid Credentials", webBgColor: Colors.red);
           }
         });
       } else {
-        Fluttertoast.showToast(
-          msg: "enter all details",
-        );
+        Fluttertoast.showToast(msg: "enter all details", webBgColor: Colors.red);
       }
     }).onError((error, stackTrace) {
       // Fluttertoast.showToast(
@@ -310,7 +307,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Spacer(),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.fade,
+                                curve: Curves.decelerate,
+                                duration: Duration(seconds: 1),
+                                child: Forgot1()));
+                      },
                       child: Text(
                         'Forgot Password?',
                         style: GoogleFonts.ibmPlexSans(

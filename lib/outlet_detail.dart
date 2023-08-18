@@ -73,9 +73,6 @@ class _OutletDetailState extends State<OutletDetail> {
       });
       print("tizzzzz---" + tid);
     }).whenComplete(() {
-      // setState(() {
-      //   tid;
-      // });
       prefs.setString("tid", tid).toString();
     });
   }
