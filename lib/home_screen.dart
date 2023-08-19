@@ -137,16 +137,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   getWeek(String weekNo) {
     CustomWeekApi.getData(weekNo, data!).then((value) {
       success = value!.success;
+    }).whenComplete(() {
+      setState(() {
+        removeData(context);
+      });
     });
   }
 
   removeData(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
-    setState(() {
+
       prefs.remove("logintoken");
       prefs.remove("loginstatus");
-    });
-    SystemNavigator.pop();
+    if (prefs.getString("logintoken") == null && prefs.getString("loginstatus") == null) {
+      SystemNavigator.pop();
+    }
+
   }
 
   void showSuccessDialog() {
@@ -162,7 +168,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               TextButton(
                 onPressed: () {
                   getWeek(_selectedWeek);
-                  removeData(context);
                 },
                 child: Text('Okay'),
               ),

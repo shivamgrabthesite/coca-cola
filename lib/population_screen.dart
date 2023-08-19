@@ -134,7 +134,6 @@ class _PopulationScreenState extends State<PopulationScreen> {
   // }
 
   getData() async {
-    print("tid in population:" + widget.tid!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       tid = prefs.getString("tid").toString();

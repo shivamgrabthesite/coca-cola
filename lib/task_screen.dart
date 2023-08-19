@@ -1,14 +1,12 @@
+import 'package:coca_cola/apis/task_api.dart';
 import 'package:coca_cola/shop_pic.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'apis/fetch_task_api.dart';
-import 'apis/market_api.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -24,6 +22,9 @@ class _TaskScreenState extends State<TaskScreen> {
   String? data;
   String flname = '';
   List channel = [];
+  String tid = '';
+  List oid = [];
+  List uid = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -44,6 +45,8 @@ class _TaskScreenState extends State<TaskScreen> {
       print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value.data!.length!; i++) {
+          oid.add(value.data![i].market!.id!);
+          uid.add(value.data![i].market!.uid!);
           marketData.add(value.data![i].market!.outletName!);
           status.add(value.data![i].status);
           channel.add(value.data![i].market!.channel);
@@ -54,6 +57,16 @@ class _TaskScreenState extends State<TaskScreen> {
         print("data----" + marketData.toString());
         print("status----" + status.toString());
       });
+    });
+  }
+
+  getTid(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    TaskApi.getData(uid[index], oid[index]).then((value) {
+      tid = value!.data!.id.toString();
+      print("tizzzzz---" + tid);
+    }).whenComplete(() {
+      prefs.setString("tid", tid);
     });
   }
 
@@ -119,6 +132,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         return InkWell(
                           onTap: () {
                             if (status[index] == "pending") {
+                              getTid(index);
                               Navigator.push(
                                   context,
                                   PageTransition(
