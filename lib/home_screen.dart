@@ -137,7 +137,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       success = value!.success;
       print("custo-week-----" + value!.message!);
     }).whenComplete(() {
-      setState(() {});
+      setState(() {
+        removeData(context);
+      });
     });
   }
 
@@ -167,7 +169,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onPressed: () {
                   print("selected week----" + _selectedWeek);
                   getWeek(_selectedWeek);
-                  removeData(context);
                 },
                 child: Text('Okay'),
               ),
