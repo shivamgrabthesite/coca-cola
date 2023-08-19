@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/fetch_task_api.dart';
 import 'apis/market_api.dart';
+import 'apis/task_api.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -24,7 +25,9 @@ class _TaskScreenState extends State<TaskScreen> {
   String? data;
   String flname = '';
   List channel = [];
-  List tid = [];
+  String tid = '';
+  List oid = [];
+  List uid = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +48,8 @@ class _TaskScreenState extends State<TaskScreen> {
       print("task data-----" + value!.data.toString());
       setState(() {
         for (var i = 0; i < value.data!.length!; i++) {
-          tid.add(value.data![i].market!.id!);
+          oid.add(value.data![i].market!.id!);
+          uid.add(value.data![i].market!.uid!);
           marketData.add(value.data![i].market!.outletName!);
           status.add(value.data![i].status);
           channel.add(value.data![i].market!.channel);
@@ -61,8 +65,12 @@ class _TaskScreenState extends State<TaskScreen> {
 
   getTid(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("tid", tid[index].toString());
-    print("tid in task---"+tid[index].toString());
+    TaskApi.getData(uid[index], oid[index]).then((value) {
+      tid = value!.data!.id.toString();
+      print("tizzzzz---" + tid);
+    }).whenComplete(() {
+      prefs.setString("tid", tid);
+    });
   }
 
   @override
@@ -126,7 +134,6 @@ class _TaskScreenState extends State<TaskScreen> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-
                             if (status[index] == "pending") {
                               getTid(index);
                               Navigator.push(

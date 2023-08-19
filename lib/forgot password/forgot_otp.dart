@@ -1,5 +1,5 @@
-import 'package:coca_cola/apis/email_otp_api.dart';
-import 'package:coca_cola/registation/mobile_verify.dart';
+import 'package:coca_cola/forgot%20password/reset_pass.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,44 +8,49 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../waiting_screen.dart';
+import '../apis/forgot_verify_api.dart';
 
-class EmailOtp extends StatefulWidget {
-  const EmailOtp({super.key});
+class ForgotOtp extends StatefulWidget {
+  const ForgotOtp({super.key});
 
   @override
-  State<EmailOtp> createState() => _EmailOtpState();
+  State<ForgotOtp> createState() => _ForgotOtpState();
 }
 
-class _EmailOtpState extends State<EmailOtp> {
-  String data = '';
-  String otp = '';
-  sendOtp() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    data = prefs.getString("token")!;
+class _ForgotOtpState extends State<ForgotOtp> {
+  String otp='';
+  String data='';
+  String id='';
 
-    EmailOtpApi.setEmail(otp, data).then((value) {
-      if (value!.success! == true) {
-        Fluttertoast.showToast(
-          msg: value.message.toString(),
-          gravity: ToastGravity.BOTTOM,
-        );
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.fade,
-                curve: Curves.decelerate,
-                duration: Duration(seconds: 1),
-                child: MobileVerify()));
-      } else {
-        Fluttertoast.showToast(
-          msg: value.message.toString(),
-          gravity: ToastGravity.BOTTOM,
-        );
-      }
+  verifyOtp()async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    data = prefs.getString("token").toString();
+    id = prefs.getString("forgotId").toString();
+    ForgotVerifyApi.setEmail(otp, id, data).then((value) {
+      if(value!.success==true)
+        {
+          Fluttertoast.showToast(
+            msg: value!.message.toString(),
+            gravity: ToastGravity.BOTTOM,
+          );
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.fade,
+                  curve: Curves.decelerate,
+                  duration: Duration(seconds: 1),
+                  child: ResetPass()));
+        }
+      else
+        {
+          Fluttertoast.showToast(
+            msg: "user not verified, try again",
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,7 +78,7 @@ class _EmailOtpState extends State<EmailOtp> {
                   height: 20,
                 ),
                 Text(
-                  'Join the Coca-Cola Internship Program',
+                  'Verification',
                   style: GoogleFonts.ibmPlexSerif(
                     color: Colors.black,
                     fontSize: 24,
@@ -84,7 +89,7 @@ class _EmailOtpState extends State<EmailOtp> {
                   height: 10,
                 ),
                 Text(
-                  'Unlock new opportunities and gain valuable experience',
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum.',
                   style: GoogleFonts.ibmPlexSans(
                     color: Colors.black,
                     fontSize: 16,
@@ -95,12 +100,10 @@ class _EmailOtpState extends State<EmailOtp> {
                   height: 60,
                 ),
                 OtpTextField(
-
                   onSubmit: (value) {
                     setState(() {
                       otp = value;
                     });
-                    print("otppppp----"+otp);
                   },
                   numberOfFields: 4,
                   hasCustomInputDecoration: true,
@@ -132,7 +135,7 @@ class _EmailOtpState extends State<EmailOtp> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    sendOtp();
+                   verifyOtp();
                   },
                   child: Center(
                     child: Container(

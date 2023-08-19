@@ -40,18 +40,6 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
-
-  bool kisweb;
-  try{
-    if(Platform.isAndroid||Platform.isIOS) {
-      kisweb=false;
-    } else {
-      kisweb=true;
-    }
-  } catch(e){
-    kisweb=true;
-  }
-
 }
 
 class MyApp extends StatefulWidget {

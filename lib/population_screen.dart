@@ -146,7 +146,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
   // }
 
   getData() async {
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      tid = prefs.getString("tid").toString();
+      flname = prefs.getString("flname").toString();
+      print("tid in pop----------" + tid);
+    });
     PopulationApi.getData("64c6cf53cfd3911994c43484", "1").then((value) {
       for (var i = 0; i < value!.data!.length; i++) {
         setState(() {
@@ -159,12 +164,6 @@ class _PopulationScreenState extends State<PopulationScreen> {
           six.add(value.data![0].six!);
         });
       }
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      tid = prefs.getString("tid").toString();
-      flname = prefs.getString("flname").toString();
-      print("tid----------" + tid);
     });
   }
 
@@ -980,7 +979,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           //     itemCount: imgsUpload.length),
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
                                 borderRadius: BorderRadius.circular(10)),

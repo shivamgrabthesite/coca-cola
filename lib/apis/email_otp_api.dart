@@ -1,29 +1,32 @@
 import 'dart:convert';
 import 'package:coca_cola/constant/api.dart';
-import 'package:coca_cola/model/CustomWeekModel.dart';
 import 'package:http/http.dart' as http;
-import '../model/questions_model.dart';
 
-class CustomWeekApi {
-  static Future<CustomWeekModel?> getData(String weekNo,String auth) async {
+import '../model/email_model.dart';
+import '../model/email_otp_model.dart';
+
+class EmailOtpApi {
+  static Future<EmailOtpModel?> setEmail(String otp, String authorization) async {
     try {
-      final url = Uri.parse(apiPath + "week-schedule/custome-week");
+      final url = Uri.parse(apiPath + "signup/verifyOTP");
       Map<String, dynamic> requestBody = {
-        "customeWeek":weekNo
+        "otp": otp,
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json',
-        'Authorization':'Bearer '+auth
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + authorization,
         },
         body: jsonencode,
       );
+      print('Token : ${authorization}');
       print("map-------" + jsonencode);
-      print("scustom  tatus code----" + response.statusCode.toString());
+      print("status code----" + response.statusCode.toString());
       // return response.body;
       if (response.statusCode == 200) {
-        CustomWeekModel getdata = customWeekModelFromJson(response.body);
+        EmailOtpModel getdata = emailOtpModelFromJson(response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

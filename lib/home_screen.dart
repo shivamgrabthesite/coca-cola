@@ -1,20 +1,19 @@
-import 'dart:convert';
-
 import 'package:coca_cola/apis/custom_week_api.dart';
 import 'package:coca_cola/select_outlet.dart';
 import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'apis/header_model_api.dart';
 import 'apis/market_api.dart';
 import 'constant/api.dart';
+import "package:universal_html/html.dart" as html;
 
 // class Event {
 //   final String area;
@@ -84,19 +83,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // }
 
   Future getData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     mon.clear();
     tue.clear();
     wed.clear();
     thu.clear();
     fri.clear();
     sat.clear();
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     data = prefs.getString("logintoken").toString();
     clgName = prefs.getString("clgName").toString();
     week = prefs.getString("week").toString();
     flname = prefs.getString("flname").toString();
-    _selectedWeek = week.toString();
+    _selectedWeek = week;
 
     print("week----" + _selectedWeek);
 
@@ -137,19 +135,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   getWeek(String weekNo) {
     CustomWeekApi.getData(weekNo, data!).then((value) {
       success = value!.success;
+      print("custo-week-----" + value!.message!);
+    }).whenComplete(() {
+      setState(() {});
     });
   }
 
   removeData(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.remove("logintoken");
-      prefs.remove("loginstatus");
-    });
-    SystemNavigator.pop();
+    prefs.remove("logintoken");
+    prefs.remove("loginstatus");
+    if (prefs.getString("logintoken") == null && prefs.getString("loginstatus") == null) {
+      html.window.location.reload();
+    }
+    // SystemNavigator.pop();
+    // window.close();
+    // Restart.restartApp();
   }
 
-  void showSuccessDialog() {
+  void showSuccessDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -161,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             actions: [
               TextButton(
                 onPressed: () {
+                  print("selected week----" + _selectedWeek);
                   getWeek(_selectedWeek);
                   removeData(context);
                 },
@@ -221,7 +226,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     onChanged: (String? newValue) {
                       setState(() {
                         _selectedWeek = newValue!;
-                        showSuccessDialog();
+                        print("selected weeeekkkk---" + _selectedWeek);
+                        showSuccessDialog(context);
                       });
                     },
                     items: _weeks.map<DropdownMenuItem<String>>((String value) {

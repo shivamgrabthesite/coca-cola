@@ -67,14 +67,13 @@ class _OutletDetailState extends State<OutletDetail> {
     print("oidtoken----" + oidtoken);
 
     TaskApi.getData(uidtoken, oidtoken).then((value) {
-      print("task response---------" + value!.data!.id.toString());
-      setState(() {
-        tid = value.data!.id.toString();
-      });
+      tid = value!.data!.id.toString();
       print("tizzzzz---" + tid);
     }).whenComplete(() {
-      prefs.setString("tid", tid).toString();
+      prefs.setString("tid", tid)!;
     });
+    print("getting tid in details----"+prefs.getString("tid").toString());
+
   }
 
   getData() async {
@@ -417,7 +416,7 @@ class _OutletDetailState extends State<OutletDetail> {
                         color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
                     child: Center(
                       child: Text(
-                        'Sumbit Details',
+                        'Submit Details',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.ibmPlexSerif(
                           color: Colors.white,

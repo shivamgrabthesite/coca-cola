@@ -146,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: height / 30,
                 ),
                 Text(
-                  'Join the Coca-Cola Internship Program',
+                  'Join the HCCBPL Internship Program',
                   style: GoogleFonts.ibmPlexSerif(
                     color: Colors.black,
                     fontSize: 30,

@@ -9,8 +9,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'leaderboard_screen.dart';
+import "package:universal_html/html.dart" as html;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -41,15 +43,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   removeData(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.remove("logintoken");
-      prefs.remove("loginstatus");
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-      //   builder: (context) => SplashScreen(),
-      // ));
-    });
-
-    SystemNavigator.pop();
+    prefs.remove("logintoken");
+    prefs.remove("loginstatus");
+    setState(() {});
+    // Restart.restartApp();
+    html.window.location.reload();
   }
 
   @override
