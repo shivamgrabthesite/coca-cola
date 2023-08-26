@@ -34,8 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String emailtoken = '';
   String fname = '';
   String lname = '';
-  String clgName = '';
-  String week = '';
   String id = '';
 
   var _key = GlobalKey<FormState>();
@@ -50,11 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       msg = value.message!;
       statusCode = value.success;
-      print("status----------" + statusCode.toString());
       setState(() {
-        loginToken = value.data!.token.toString();
-        clgName = value.data!.user!.collegeName.toString();
-        week = value.data!.user!.week.toString();
+        loginToken = value.token!.token.toString();
         emailtoken = value.userData!.userEmail.toString();
         fname = value.userData!.firstName.toString();
         lname = value.userData!.lastName.toString();
@@ -63,14 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
       var pref = await SharedPreferences.getInstance();
 
       print("login tojen------" + loginToken.toString());
-      print("cgname---------" + clgName);
-      print("week---------" + week);
       print("email---------" + emailtoken);
       pref.setString("logintoken", loginToken);
       pref.setBool("loginstatus", statusCode!);
       pref.setString("uidtoken", id);
-      pref.setString("clgName", clgName);
-      pref.setString("week", week);
       pref.setString("useremail", emailtoken);
       pref.setString("flname", fname + " " + lname);
     }).whenComplete(() {
@@ -85,23 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     curve: Curves.decelerate,
                     duration: Duration(seconds: 1),
                     child: BottomBar()));
-            // if (clgName == "null") {
-            //   Navigator.push(
-            //       context,
-            //       PageTransition(
-            //           type: PageTransitionType.fade,
-            //           curve: Curves.decelerate,
-            //           duration: Duration(seconds: 1),
-            //           child: WeekScreen()));
-            // } else {
-            //   Navigator.pushReplacement(
-            //       context,
-            //       PageTransition(
-            //           type: PageTransitionType.fade,
-            //           curve: Curves.decelerate,
-            //           duration: Duration(seconds: 1),
-            //           child: BottomBar()));
-            // }
           } else {
             Fluttertoast.showToast(msg: "Invalid Credentials", webBgColor: Colors.red);
           }
@@ -109,10 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         Fluttertoast.showToast(msg: "enter all details", webBgColor: Colors.red);
       }
-    }).onError((error, stackTrace) {
-      // Fluttertoast.showToast(
-      //   msg: error.toString(),
-      // );
     });
   }
 
@@ -335,19 +305,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     getData();
                   },
                   child: Center(
-                    child: Container(
-                      width: 230,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
-                      child: Center(
-                        child: Text(
-                          'Sign In',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.ibmPlexSerif(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
+                    child: Hero(
+                      tag: "cocacola",
+                      child: Container(
+                        width: 230,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFE61D2B), borderRadius: BorderRadius.circular(5)),
+                        child: Center(
+                          child: Text(
+                            'Sign In',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.ibmPlexSerif(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

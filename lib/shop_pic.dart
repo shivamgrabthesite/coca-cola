@@ -12,16 +12,8 @@ import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopPic extends StatefulWidget {
-  String? channel;
-  String? tid;
-  // String? customerGccId, address, priCustomerName, channel;
   ShopPic({
     Key? key,
-    // this.customerGccId,
-    // this.address,
-    // this.priCustomerName,
-    this.tid,
-    this.channel,
   }) : super(key: key);
 
   @override
@@ -34,6 +26,17 @@ class _ShopPicState extends State<ShopPic> {
   String imglink = '';
   String imgId = "";
   String flname = "";
+  String tid = "";
+  String channel = "";
+  bool? vinylCustom;
+  bool? vinylNotAvail;
+  bool? vinylAvail;
+  bool? packAvail;
+  bool? packNotAvail;
+  bool? packCutsom;
+  bool? aerialAvail;
+  bool? aerialNotAvail;
+  bool? aerialCustom;
 
   @override
   void initState() {
@@ -43,9 +46,20 @@ class _ShopPicState extends State<ShopPic> {
   }
 
   getId() async {
-    print("tid in shpo pic:"+widget.tid!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    ImagelinkApi.getData(widget.channel!).then((value) {
+    tid = prefs.getString("tid").toString();
+    channel = prefs.getString("channel").toString();
+    vinylAvail = prefs.getBool("vinylUploadImage");
+    vinylNotAvail = prefs.getBool("vinylNotAvailable");
+    vinylCustom = prefs.getBool("vinylCustom");
+    packAvail = prefs.getBool("packUploadImage");
+    packNotAvail = prefs.getBool("packNotAvailable");
+    packCutsom = prefs.getBool("packCustom");
+    aerialAvail = prefs.getBool("aerialAvailable");
+    aerialNotAvail = prefs.getBool("aerialNotAvailable");
+    aerialCustom = prefs.getBool("arialCustom");
+    print("packkk in shop pic ---" + aerialAvail.toString());
+    ImagelinkApi.getData(channel).then((value) {
       setState(() {
         imgId = value!.data!.id!;
         imglink = value.data!.imageLink!;
@@ -192,7 +206,7 @@ class _ShopPicState extends State<ShopPic> {
                   height: 30,
                 ),
                 Image.network(
-                  widget.channel!.isEmpty ? "NO IMAGE" : imglink,
+                  channel.isEmpty ? "NO IMAGE" : imglink,
                 ),
                 SizedBox(
                   height: 20,
@@ -210,6 +224,12 @@ class _ShopPicState extends State<ShopPic> {
                       },
                     ),
                     Text('Population'),
+                    vinylAvail == true || vinylNotAvail == true || vinylCustom == true
+                        ? Icon(
+                            Icons.done_outline_rounded,
+                            color: Colors.green,
+                          )
+                        : Container()
                   ],
                 ),
                 Row(
@@ -225,6 +245,12 @@ class _ShopPicState extends State<ShopPic> {
                       },
                     ),
                     Text('Incidence'),
+                    aerialAvail == true || aerialNotAvail == true || aerialCustom == true
+                        ? Icon(
+                            Icons.done_outline_rounded,
+                            color: Colors.green,
+                          )
+                        : Container()
                   ],
                 ),
                 Row(
@@ -240,6 +266,12 @@ class _ShopPicState extends State<ShopPic> {
                       },
                     ),
                     Text('Price Communication'),
+                    packAvail == true || packNotAvail == true || packCutsom == true
+                        ? Icon(
+                            Icons.done_outline_rounded,
+                            color: Colors.green,
+                          )
+                        : Container()
                   ],
                 ),
                 // Row(
@@ -269,9 +301,8 @@ class _ShopPicState extends State<ShopPic> {
                               type: PageTransitionType.fade,
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
-
                               child: PopulationScreen(
-                                tid: widget.tid,
+                                tid: tid,
                               )));
                     } else if (_selectedOption == "Incidence") {
                       Navigator.push(
@@ -281,7 +312,7 @@ class _ShopPicState extends State<ShopPic> {
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
                               child: IncidenceScreen(
-                                tid: widget.tid,
+                                tid: tid,
                               )));
                     } else if (_selectedOption == "Price Communication") {
                       Navigator.push(
@@ -291,7 +322,7 @@ class _ShopPicState extends State<ShopPic> {
                               curve: Curves.decelerate,
                               duration: Duration(seconds: 1),
                               child: PriceCommunicationScreen(
-                                tid: widget.tid,
+                                tid: tid,
                               )));
                     }
                     // else {

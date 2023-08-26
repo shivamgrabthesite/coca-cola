@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import '../../constant/api.dart';
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
-import '../../constant/api.dart';
 
 class CoolerNotAvailableApi {
   static var dio = Dio();

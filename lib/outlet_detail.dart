@@ -27,27 +27,8 @@ class _OutletDetailState extends State<OutletDetail> {
       outlet_name = '',
       ring_of_magic_area = '',
       gcc_code = '';
-
-  // String Customer_GCC_ID = '',
-  //     Pri_Customer_Name = '',
-  //     Channel = '',
-  //     RedOutletClass = '',
-  //     MarketArea = '',
-  //     Unit = '',
-  //     City = '',
-  //     CollegeName = '',
-  //     SMName = '',
-  //     ASMName = '',
-  //     STLName = '',
-  //     MGRName = '',
-  //     DistName = '',
-  //     Week = '',
-  //     Day = '',
-  //     mid = '',
-  //     uid = '',
-  //     MOBILE = '';
   String flname = '';
-  String uidtoken = '', midtoken = '', oidtoken = '';
+  String uidtoken = '', oidtoken = '';
   String tid = '';
   @override
   void initState() {
@@ -70,10 +51,9 @@ class _OutletDetailState extends State<OutletDetail> {
       tid = value!.data!.id.toString();
       print("tizzzzz---" + tid);
     }).whenComplete(() {
-      prefs.setString("tid", tid)!;
+      prefs.setString("tid", tid);
+      prefs.setString("channel", channel);
     });
-    print("getting tid in details----"+prefs.getString("tid").toString());
-
   }
 
   getData() async {
@@ -81,7 +61,6 @@ class _OutletDetailState extends State<OutletDetail> {
     setState(() {
       flname = pref.getString("flname").toString();
     });
-    print("widget id ---------" + widget.id);
     OutletDetailApi.getData(widget.id).then((value) {
       gcc_code = value!.data!.gccCode!;
       mgr_contect_no = value.data!.mgrContectNo!;
@@ -91,20 +70,6 @@ class _OutletDetailState extends State<OutletDetail> {
       cooler = value.data!.cooler!;
       channel = value.data!.channel!;
       outlet_name = value.data!.outletName!;
-      // Pri_Customer_Name = value.data.priCustomerName;
-      // Channel = value.data.channel;
-
-      // Unit = value.data.unit;
-      // City = value.data.city;
-      // CollegeName = value.data.collegeName;
-      // SMName = value.data.smName;
-      // ASMName = value.data.asmName;
-      // STLName = value.data.stlName;
-      // DistName = value.data.distName;
-      // Week = value.data.week;
-      // Day = value.data.day;
-      // mid = value.data.mid;
-      // uid = value.data.uid;
     }).whenComplete(() {
       setState(() {});
     });
@@ -400,13 +365,7 @@ class _OutletDetailState extends State<OutletDetail> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic(
-                            channel: channel,
-                            tid: tid,
-                            // address: "P01265 PADMARAO NAGAR_BOIGUDA",
-                            // customerGccId: "G000012245",
-                            // priCustomerName: "VIJAY KIRANA GEN.STORES",
-                          )));
+                          child: ShopPic()));
                 },
                 child: Center(
                   child: Container(

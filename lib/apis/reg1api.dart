@@ -5,13 +5,12 @@ import 'package:http/http.dart' as http;
 import '../model/reg1model.dart';
 
 class Reg1API {
-  static Future<Reg1Model?> getData(String f_name, String l_name, String clg_email) async {
+  static Future<Reg1Model?> getData(String f_name, String l_name) async {
     try {
       final url = Uri.parse(apiPath + "signup/");
       Map<String, dynamic> requestBody = {
         "first_name": f_name,
         "last_name": l_name,
-        "collage_email": clg_email
       };
       var jsonencode = jsonEncode(requestBody);
       var response = await http.post(

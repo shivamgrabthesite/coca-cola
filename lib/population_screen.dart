@@ -1,6 +1,6 @@
-
 // import 'package:universal_io/io.dart';
 import 'dart:io';
+import 'package:coca_cola/shop_pic.dart';
 import 'package:flutter/foundation.dart';
 import 'package:coca_cola/provider/population_provider.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -104,13 +104,11 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
   @override
   void initState() {
-
     super.initState();
 
     getData();
     controller = PageController(initialPage: _currentPage);
     controller2 = PageController(initialPage: _currentPage2);
-
   }
 
   void goBack() {
@@ -228,7 +226,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
         if (provider.standeeList != null) {
           //passing file bytes and file name for API call
           StandeeAvailable.setImage(standeeid!, provider.standeeList!.first.bytes!).then((value) {
-            print("dps res----" + value.toString());
+            print("dps res----" + value['success'].toString());
           });
         }
       });
@@ -294,13 +292,14 @@ class _PopulationScreenState extends State<PopulationScreen> {
       // VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
       //   // print("image upload response---------" + value.toString());
       // });
-
+      var prefs = await SharedPreferences.getInstance();
       setState(() {
         if (provider.vinylList != null) {
           //passing file bytes and file name for API call
           VVinylBrandingAvailable.setImage(vinylid!, provider.vinylList!.first.bytes!)
               .then((value) {
-            print("dps res----" + value.toString());
+            print("dps res----" + value!.success!.toString());
+            prefs.setBool("vinylUploadImage", value!.success!);
           });
         }
       });
@@ -319,7 +318,6 @@ class _PopulationScreenState extends State<PopulationScreen> {
 
       setState(() {
         if (provider.coolerList != null) {
-          //passing file bytes and file name for API call
           CoolerNotAvailableApi.setImage(
                   cooleid!, provider.cooler1.text, provider.coolerList!.first.bytes!)
               .then((value) {
@@ -431,6 +429,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       });
     }).whenComplete(() async {
       // VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
+      var prefs = await SharedPreferences.getInstance();
 
       setState(() {
         if (provider.vinylList != null) {
@@ -439,6 +438,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   vinylid!, provider.vinyl1.text, provider.vinylList!.first.bytes!)
               .then((value) {
             print("dps res----" + value.toString());
+            prefs.setBool("vinylNotAvailable", value!.success!);
           });
         }
       });
@@ -525,7 +525,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       setState(() {
         if (provider.verticalList != null) {
           //passing file bytes and file name for API call
-          StandeeCustom.setImage(
+          VerticalSignageCustom.setImage(
                   verticalid!, provider.vertical2.text, provider.verticalList!.first.bytes!)
               .then((value) {
             print("dps res----" + value.toString());
@@ -567,6 +567,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
       });
     }).whenComplete(() async {
       // VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
+      var prefs = await SharedPreferences.getInstance();
 
       setState(() {
         if (provider.vinylList != null) {
@@ -575,6 +576,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                   vinylid!, provider.vinyl2.text, provider.vinylList!.first.bytes!)
               .then((value) {
             print("dps res----" + value.toString());
+            prefs.setBool("vinylCustom", value!.success!);
           });
         }
       });
@@ -694,7 +696,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(first[0].imageLink!)),
+        Center(
+            child: Image.network(
+          first[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1118,7 +1125,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(second[0].imageLink!)),
+        Center(
+            child: Image.network(
+          second[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1328,7 +1340,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -1434,17 +1446,27 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || secondProvider.coolerList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(msg: "select one option");
                   });
-                } else if (selectedOption!.contains("second1")) {
+                } else if (selectedOption!.contains("second1") &&
+                    secondProvider.coolerList!.isNotEmpty) {
                   coolerUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                } else if (selectedOption!.contains("second2")) {
+                } else if (selectedOption!.contains("second2") &&
+                    secondProvider.cooler1.text.isNotEmpty) {
                   coolerNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                } else {
+                } else if (secondProvider.cooler1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("second3") &&
+                    secondProvider.coolerList!.isNotEmpty &&
+                    secondProvider.cooler2.text.isNotEmpty) {
                   coolerCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                 }
@@ -1491,7 +1513,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(third[0].imageLink!)),
+        Center(
+            child: Image.network(
+          third[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1701,7 +1728,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -1807,24 +1834,34 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || thirdProvider.standeeList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("third1")) {
+                } else if (selectedOption!.contains("third1") &&
+                    thirdProvider.standeeList!.isNotEmpty) {
                   // setAvailable();
                   standeeUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("third2")) {
+                } else if (selectedOption!.contains("third2") &&
+                    thirdProvider.standee1.text.isNotEmpty) {
                   // setNotAvailable();
                   standeeNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
-                } else {
+                } else if (thirdProvider.standee1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("third3") &&
+                    thirdProvider.standee2.text.isNotEmpty &&
+                    thirdProvider.standeeList!.isNotEmpty) {
                   // setCustom();
                   standeeCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -1874,7 +1911,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(four[0].imageLink!)),
+        Center(
+            child: Image.network(
+          four[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -2084,7 +2126,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -2190,24 +2232,33 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || fourProvider.verticalList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("four1")) {
+                } else if (selectedOption!.contains("four1") &&
+                    fourProvider.verticalList!.isNotEmpty) {
                   // setAvailable();
                   verticalUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("four2")) {
-                  // setNotAvailable();
+                } else if (selectedOption!.contains("four2") &&
+                    fourProvider.vertical1.text.isNotEmpty) {
                   verticalNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
-                } else {
+                } else if (fourProvider.vertical1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("four3") &&
+                    fourProvider.vertical2.text.isNotEmpty &&
+                    fourProvider.verticalList!.isNotEmpty) {
                   // setCustom();
                   verticalCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -2257,7 +2308,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(five[0].imageLink!)),
+        Center(
+            child: Image.network(
+          five[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -2467,7 +2523,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -2570,24 +2626,33 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || fiveProvider.onewayList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("five1")) {
-                  // setAvailable();
+                } else if (selectedOption!.contains("five1") &&
+                    fiveProvider.onewayList!.isNotEmpty) {
                   onewayUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("five2")) {
+                } else if (selectedOption!.contains("five2") &&
+                    fiveProvider.oneway1.text.isNotEmpty) {
                   // setNotAvailable();
                   onewayNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
-                } else {
+                } else if (fiveProvider.oneway1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("five3") &&
+                    fiveProvider.onewayList!.isNotEmpty &&
+                    fiveProvider.oneway2.text.isNotEmpty) {
                   // setCustom();
                   onewayCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -2637,7 +2702,12 @@ class _PopulationScreenState extends State<PopulationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(six[0].imageLink!)),
+        Center(
+            child: Image.network(
+          six[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -2948,13 +3018,13 @@ class _PopulationScreenState extends State<PopulationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || sixProvider.vinylList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("six1")) {
+                } else if (selectedOption!.contains("six1") && sixProvider.vinylList!.isNotEmpty) {
                   // setAvailable();
                   vinylUploadImage(context);
                   Navigator.pushReplacement(
@@ -2963,10 +3033,9 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
+                          child: ShopPic()));
                   // removeImage();
-                } else if (selectedOption!.contains("six2")) {
-                  // setNotAvailable();
+                } else if (selectedOption!.contains("six2") && sixProvider.vinyl1.text.isNotEmpty) {
                   vinylNotAvailable(context);
                   Navigator.pushReplacement(
                       context,
@@ -2974,10 +3043,16 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
-                  // removeImage();
-                  // remark1.clear();
-                } else {
+                          child: ShopPic()));
+                } else if (sixProvider.vinyl1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("six3") &&
+                    sixProvider.vinyl2.text.isNotEmpty &&
+                    sixProvider.vinylList!.isNotEmpty) {
                   vinylCustom(context);
                   Navigator.pushReplacement(
                       context,
@@ -2985,7 +3060,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
+                          child: ShopPic()));
                 }
               },
               child: Center(

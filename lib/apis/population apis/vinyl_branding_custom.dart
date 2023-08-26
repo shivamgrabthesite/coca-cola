@@ -8,10 +8,11 @@ import '../../constant/api.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../constant/api.dart';
+import '../../model/res_model.dart';
 
 class VinylBrandingCustom {
   static var dio = Dio();
-  static Future setImage(String pid, String remark, List<int> file) async {
+  static Future<ResModel?> setImage(String pid, String remark, List<int> file) async {
     // try {
     //   print("pid in api------" + pid);
     //   // print("image in api------" + imgPath.toString());
@@ -61,6 +62,7 @@ class VinylBrandingCustom {
       )
     });
     var response = await dio.post(apiPath + "task/vinyl_branding/custom-image", data: formData);
-    return response.data.toString();
+    ResModel data = resModelFromJson(response.data.toString());
+    return data;
   }
 }

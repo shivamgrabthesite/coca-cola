@@ -77,7 +77,6 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     getData();
     super.initState();
     controller = PageController(initialPage: _currentPage);
-
   }
 
   void goBack() {
@@ -170,15 +169,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         packid = value!.id!;
         print("packid-----" + packid);
       });
-    }).whenComplete(() {
+    }).whenComplete(() async {
       // PackAvailable.setImage(packid, provider.pack!).then((value) {
       //   print("image upload response---------" + value.toString());
       // });
+      var prefs = await SharedPreferences.getInstance();
       setState(() {
         if (provider.packList != null) {
-          //passing file bytes and file name for API call
           PackAvailable.setImage(packid!, provider.packList!.first.bytes!).then((value) {
-            print("dps res----" + value.toString());
+            print("packk res----" + value!.success!.toString());
+            prefs.setBool("packUploadImage", value!.success!);
           });
         }
       });
@@ -233,14 +233,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       setState(() {
         packid = value!.id!;
       });
-    }).whenComplete(() {
+    }).whenComplete(() async {
       // PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
+      var prefs = await SharedPreferences.getInstance();
       setState(() {
         if (provider.brandList != null) {
           //passing file bytes and file name for API call
           PackNotAvailable.setImage(packid!, provider.pack1.text, provider.packList!.first.bytes!)
               .then((value) {
-            print("dps res----" + value.toString());
+            print("packk res----" + value!.success!.toString());
+            prefs.setBool("packNotAvailable", value!.success!);
           });
         }
       });
@@ -295,14 +297,16 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       setState(() {
         packid = value!.id!;
       });
-    }).whenComplete(() {
+    }).whenComplete(() async {
       // PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
+      var prefs = await SharedPreferences.getInstance();
       setState(() {
-        if (provider.brandList != null) {
+        if (provider.packList != null) {
           //passing file bytes and file name for API call
           PackCustom.setImage(packid!, provider.pack2.text, provider.packList!.first.bytes!)
               .then((value) {
-            print("dps res----" + value.toString());
+            print("packk res----" + value!.success!.toString());
+            prefs.setBool("packCustom", value!.success!);
           });
         }
       });
@@ -423,7 +427,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(first[0].imageLink!)),
+        Center(
+            child: Image.network(
+          first[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -633,7 +642,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
                                 borderRadius: BorderRadius.circular(10)),
@@ -713,24 +722,34 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || firstProvider.brandList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("first1")) {
+                } else if (selectedOption!.contains("first1") &&
+                    firstProvider.brandList!.isNotEmpty) {
                   // setAvailable();
                   brandUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("first2")) {
+                } else if (selectedOption!.contains("first2") &&
+                    firstProvider.brand1.text.isNotEmpty) {
                   // setNotAvailable();
                   brandNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
-                } else {
+                } else if (firstProvider.brand1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("first3") &&
+                    firstProvider.brand2.text.isNotEmpty &&
+                    firstProvider.brandList!.isNotEmpty) {
                   // setCustom();
                   brandCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -780,7 +799,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(second[0].imageLink!)),
+        Center(
+            child: Image.network(
+          second[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -990,7 +1014,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
                                 borderRadius: BorderRadius.circular(10)),
@@ -1097,24 +1121,34 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || secondProvider.priceList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("second1")) {
+                } else if (selectedOption!.contains("second1") &&
+                    secondProvider.priceList!.isNotEmpty) {
                   // setAvailable();
                   priceUploadImage(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("second2")) {
+                } else if (selectedOption!.contains("second2") &&
+                    secondProvider.price1.text.isNotEmpty) {
                   // setNotAvailable();
                   priceNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
-                } else {
+                } else if (secondProvider.price1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("second3") &&
+                    secondProvider.priceList!.isNotEmpty &&
+                    secondProvider.price2.text.isNotEmpty) {
                   // setCustom();
                   priceCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -1164,7 +1198,12 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(third[0].imageLink!)),
+        Center(
+            child: Image.network(
+          third[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1372,7 +1411,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                         children: [
                           Container(
                             height: 90,
-                            width: width / 1.1,
+                            width: width / 1,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
                                 borderRadius: BorderRadius.circular(10)),
@@ -1477,16 +1516,17 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || thirdProvider.packList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("third1")) {
+                } else if (selectedOption!.contains("third1") &&
+                    thirdProvider.packList!.isNotEmpty) {
                   // setAvailable();
                   packUploadImage(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
@@ -1494,10 +1534,11 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           duration: Duration(seconds: 1),
                           child: TransactionScreen()));
                   // removeImage();
-                } else if (selectedOption!.contains("third2")) {
+                } else if (selectedOption!.contains("third2") &&
+                    thirdProvider.pack1.text.isNotEmpty) {
                   // setNotAvailable();
                   packNotAvailable(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
@@ -1506,10 +1547,18 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
                           child: TransactionScreen()));
                   // removeImage();
                   // third1.clear();
-                } else {
+                } else if (thirdProvider.pack1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("third3") &&
+                    thirdProvider.packList!.isNotEmpty &&
+                    thirdProvider.pack2.text.isNotEmpty) {
                   // setCustom();
                   packCustom(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,

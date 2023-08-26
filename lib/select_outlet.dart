@@ -1,26 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-
-import 'package:coca_cola/shop_pic.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'apis/outlet_api.dart';
-import 'model/outlet_model.dart';
 import 'outlet_detail.dart';
 
 class SelectOutlet extends StatefulWidget {
   String areaName = '';
-  String day = '';
-  String idz = '';
   SelectOutlet({
     Key? key,
     required this.areaName,
-    required this.day,
-    required this.idz,
   }) : super(key: key);
 
   @override
@@ -45,12 +36,8 @@ class _SelectOutletState extends State<SelectOutlet> {
   getOutlet() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     loginToken = prefs.getString("logintoken")!;
-    prefs.setString("midtoken", widget.idz);
-    Future.delayed(Duration(milliseconds: 500));
-    OutletApi.getData(widget.areaName, widget.day, loginToken).then((value) {
-      print("json-------" + value!.data.toString());
-
-      for (var i = 0; i < value.data!.length; i++) {
+    OutletApi.getData(widget.areaName, loginToken).then((value) {
+      for (var i = 0; i < value!.data!.length; i++) {
         setState(() {
           priCustomerName.add(value.data![i].priCustomerName);
           address.add(value.data![i].address);
@@ -60,7 +47,6 @@ class _SelectOutletState extends State<SelectOutlet> {
           id.add(value.data![i].id);
         });
       }
-
       print("idzzz----" + id.toString());
     });
     flname = prefs.getString("flname").toString();

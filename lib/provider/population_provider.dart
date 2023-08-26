@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-// import 'dart:io';
 import 'package:universal_io/io.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,14 +43,11 @@ class PopulationProvider extends ChangeNotifier {
   List<PlatformFile>? vinylList;
 
   Future dpsImage() async {
-    bool kisweb;
-
-    print('OS-----: ${Platform.operatingSystem}');
     dpsList = (await FilePickerWeb.platform.pickFiles(
-      type: FileType.image,
+      type: FileType.custom,
       allowMultiple: false,
       onFileLoading: (FilePickerStatus status) => print("status of file-----" + status.toString()),
-      // allowedExtensions: ['png', 'jpg', 'jpeg'],
+      allowedExtensions: ['png', 'jpg', 'jpeg', 'heic'],
     ))
         ?.files;
     // var image = await ImagePicker().pickImage(

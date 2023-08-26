@@ -22,14 +22,13 @@ class _RegScreen1State extends State<RegScreen1> {
   var _key = GlobalKey<FormState>();
   TextEditingController f_name = TextEditingController();
   TextEditingController l_name = TextEditingController();
-  TextEditingController clg_email = TextEditingController();
   String authorization = "";
   String msgs = '';
 
   getData() async {
     if (_key.currentState!.validate()) {
       var prefs = await SharedPreferences.getInstance();
-      Reg1API.getData(f_name.text, l_name.text, clg_email.text).then((value) {
+      Reg1API.getData(f_name.text, l_name.text).then((value) {
         print("msg--------" + value!.data.toString());
         setState(() {
           authorization = value.data;
@@ -50,9 +49,6 @@ class _RegScreen1State extends State<RegScreen1> {
       }).catchError((err) {
         print("catch error----- " + err);
       });
-
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg.toString())));
-
       Navigator.push(
           context,
           PageTransition(
@@ -105,7 +101,7 @@ class _RegScreen1State extends State<RegScreen1> {
                     height: height / 30,
                   ),
                   Text(
-                    'Join the Coca-Cola Internship Program',
+                    'Join the HCCBPL Internship Program',
                     style: GoogleFonts.ibmPlexSerif(
                       color: Colors.black,
                       fontSize: 24,
@@ -216,50 +212,6 @@ class _RegScreen1State extends State<RegScreen1> {
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  CustomLabel(label: "College E-mail ID"),
-                  Container(
-                    width: width / 1,
-                    height: 40,
-                    margin: const EdgeInsets.only(top: 10),
-                    child: TextFormField(
-                      controller: clg_email,
-                      onChanged: (value) {
-                        setState(() {
-                          value = clg_email.text;
-                        });
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Email ID";
-                        }
-                      },
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8),
-                        prefixIcon: const Icon(
-                          IconlyLight.message,
-                          color: Colors.black,
-                        ),
-                        errorStyle: TextStyle(fontSize: 0, height: 2),
-                        hintText: 'Eg.alex@gmail.com',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black)),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
                   ),
                   InkWell(
                     onTap: () {

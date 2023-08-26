@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:coca_cola/shop_pic.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -92,7 +93,6 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     controller = PageController(initialPage: _currentPage);
     getData();
     super.initState();
-
   }
 
   void goBack() {
@@ -235,17 +235,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         aerialid = value!.id!;
       });
       // print("grocary id -------" + pid);
-    }).whenComplete(() {
+    }).whenComplete(() async {
       // AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
       //   print("custom res----" + value.toString());
       // });
+      var prefs = await SharedPreferences.getInstance();
       setState(() {
         if (provider.arialList != null) {
           //passing file bytes and file name for API call
           AerialHangerCustom.setImage(
                   aerialid!, provider.arial2.text, provider.arialList!.first.bytes!)
               .then((value) {
-            print("dps res----" + value.toString());
+            print("areal res----" + value!.success!.toString());
+            prefs.setBool("arialCustom", value!.success!);
           });
         }
       });
@@ -321,7 +323,8 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
   }
 
-  aerialAvailable(BuildContext context) {
+  aerialAvailable(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AerialHanger.getData(tid!).then((value) {
       setState(() {
@@ -332,14 +335,14 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       // AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
       //   print("avauilable res----" + value.toString());
       // });
-      setState(() {
-        if (provider.arialList != null) {
-          //passing file bytes and file name for API call
-          AerialHangerAvailable.setImage(aerialid!, provider.arialList!.first.bytes!).then((value) {
-            print("dps res----" + value.toString());
-          });
-        }
-      });
+
+      if (provider.arialList != null) {
+        //passing file bytes and file name for API call
+        AerialHangerAvailable.setImage(aerialid!, provider.arialList!.first.bytes!).then((value) {
+          print("areal res----" + value!.success!.toString());
+          prefs.setBool("aerialAvailable", value!.success!);
+        });
+      }
     });
   }
 
@@ -358,7 +361,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
       setState(() {
         if (provider.groceryList != null) {
           //passing file bytes and file name for API call
-          CounterTopCustom.setImage(
+          GroceryRackNotAvailable.setImage(
                   groceryid!, provider.grocery1.text, provider.groceryList!.first.bytes!)
               .then((value) {
             print("dps res----" + value.toString());
@@ -425,18 +428,20 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         aerialid = value!.id!;
       });
       // print("grocary id -------" + pid);
-    }).whenComplete(() {
+    }).whenComplete(() async {
       // AerialHangerNotAvailable.setImage(aerialid, provider.arial1.text, provider.arial!)
       //     .then((value) {
       //   print("not avauilable res----" + value.toString());
       // });
+      var prefs = await SharedPreferences.getInstance();
       setState(() {
         if (provider.counterList != null) {
           //passing file bytes and file name for API call
           AerialHangerNotAvailable.setImage(
                   aerialid!, provider.arial1.text, provider.arialList!.first.bytes!)
               .then((value) {
-            print("dps res----" + value.toString());
+            print("areal res----" + value!.success!.toString());
+            prefs.setBool("aerialNotAvailable", value!.success!);
           });
         }
       });
@@ -600,7 +605,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(first[0].imageLink!)),
+        Center(
+            child: Image.network(
+          first[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -806,6 +816,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         children: [
                           Container(
                             height: 90,
+                            width: width,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -889,24 +900,34 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || firstProvider.groceryList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("first1")) {
+                } else if (selectedOption!.contains("first1") &&
+                    firstProvider.groceryList!.isNotEmpty) {
                   // setAvailable();
                   groceryAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("first2")) {
+                } else if (selectedOption!.contains("first2") &&
+                    firstProvider.grocery1.text.isNotEmpty) {
                   // setNotAvailable();
                   groceryNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // first1.clear();
-                } else {
+                } else if (firstProvider.grocery1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("first3") &&
+                    firstProvider.groceryList!.isNotEmpty &&
+                    firstProvider.grocery2.text.isNotEmpty) {
                   // setCustom();
                   groceryCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -956,7 +977,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(second[0].imageLink!)),
+        Center(
+            child: Image.network(
+          second[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1166,6 +1192,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         children: [
                           Container(
                             height: 90,
+                            width: width,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -1273,24 +1300,34 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || secondProvider.ambientList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("second1")) {
+                } else if (selectedOption!.contains("second1") &&
+                    secondProvider.ambientList!.isNotEmpty) {
                   // setAvailable();
                   ambientAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("second2")) {
+                } else if (selectedOption!.contains("second2") &&
+                    secondProvider.ambient1.text.isNotEmpty) {
                   // setNotAvailable();
                   ambientNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // second1.clear();
-                } else {
+                } else if (secondProvider.ambient1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("second3") &&
+                    secondProvider.ambientList!.isNotEmpty &&
+                    secondProvider.ambient2.text.isNotEmpty) {
                   // setCustom();
                   ambientCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -1340,7 +1377,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(third[0].imageLink!)),
+        Center(
+            child: Image.network(
+          third[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1550,6 +1592,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         children: [
                           Container(
                             height: 90,
+                            width: width,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -1658,24 +1701,29 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || thirdProvider.counterList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("third1")) {
+                } else if (selectedOption!.contains("third1") &&
+                    thirdProvider.counterList!.isNotEmpty) {
                   // setAvailable();
                   counterAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
-                } else if (selectedOption!.contains("third2")) {
+                } else if (selectedOption!.contains("third2") &&
+                    thirdProvider.counter1.text.isNotEmpty) {
                   // setNotAvailable();
                   counterNotAvailable(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
                   // removeImage();
                   // third1.clear();
-                } else {
+                } else if (thirdProvider.counter1.text.isEmpty) {
+                } else if (selectedOption!.contains("third3") &&
+                    thirdProvider.counterList!.isNotEmpty &&
+                    thirdProvider.counter2.text.isNotEmpty) {
                   // setCustom();
                   counterCustom(context);
                   controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
@@ -1725,7 +1773,12 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
         SizedBox(
           height: 26,
         ),
-        Center(child: Image.network(four[0].imageLink!)),
+        Center(
+            child: Image.network(
+          four[0].imageLink!,
+          height: 200,
+          width: 200,
+        )),
         SizedBox(
           height: 30,
         ),
@@ -1933,6 +1986,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                         children: [
                           Container(
                             height: 90,
+                            width: width,
                             // margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
@@ -2038,13 +2092,14 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty || fourProvider.arialList == null) {
+                if (selectedOption!.isEmpty) {
                   setState(() {
                     Fluttertoast.showToast(
                       msg: "select one option",
                     );
                   });
-                } else if (selectedOption!.contains("four1")) {
+                } else if (selectedOption!.contains("four1") &&
+                    fourProvider.arialList!.isNotEmpty) {
                   // setAvailable();
                   aerialAvailable(context);
                   Navigator.pushReplacement(
@@ -2053,8 +2108,9 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
-                } else if (selectedOption!.contains("four2")) {
+                          child: ShopPic()));
+                } else if (selectedOption!.contains("four2") &&
+                    fourProvider.arial1.text.isNotEmpty) {
                   // setNotAvailable();
                   aerialNotAvailable(context);
                   Navigator.pushReplacement(
@@ -2063,8 +2119,16 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
-                } else {
+                          child: ShopPic()));
+                } else if (fourProvider.arial1.text.isEmpty) {
+                  Fluttertoast.showToast(
+                    msg: "enter remark",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                  );
+                } else if (selectedOption!.contains("four3") &&
+                    fourProvider.arialList!.isNotEmpty &&
+                    fourProvider.arial2.text.isNotEmpty) {
                   // setCustom();
                   arialCustom(context);
                   Navigator.pushReplacement(
@@ -2073,7 +2137,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
+                          child: ShopPic()));
                 }
               },
               child: Center(

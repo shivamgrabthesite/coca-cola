@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:coca_cola/constant/api.dart';
 import 'package:http/http.dart' as http;
-
 import '../model/market_model.dart';
 
 class MarketApi {
@@ -17,6 +15,7 @@ class MarketApi {
       );
       print('Token : ${authorization}');
       print("status code----" + response.statusCode.toString());
+      print("marketr response----" + response.body.toString());
       if (response.statusCode == 200) {
         MarketModel getdata = marketModelFromJson(response.body);
         return getdata;

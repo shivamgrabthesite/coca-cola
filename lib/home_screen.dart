@@ -1,29 +1,10 @@
-import 'package:coca_cola/apis/custom_week_api.dart';
 import 'package:coca_cola/select_outlet.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:http/http.dart' as http;
-import 'apis/header_model_api.dart';
 import 'apis/market_api.dart';
-import 'constant/api.dart';
-import "package:universal_html/html.dart" as html;
-
-// class Event {
-//   final String area;
-
-//   Event(this.area);
-//   @override
-//   String toString() {
-//     return '$area';
-//   }
-// }
+import 'model/market_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,42 +15,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   DateTime now = DateTime.now();
-  TabController? tabcontroller;
-  List<String> days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
+  // TabController? tabcontroller;
+  // List<String> days = [
+  //   'Monday',
+  //   'Tuesday',
+  //   'Wednesday',
+  //   'Thursday',
+  //   'Friday',
+  //   'Saturday',
+  // ];
   // String data = '';
-  List mon = [];
-  List tue = [];
-  List wed = [];
-  List thu = [];
-  List fri = [];
-  List sat = [];
+  // List mon = [];
+  // List tue = [];
+  // List wed = [];
+  // List thu = [];
+  // List fri = [];
+  // List sat = [];
   String headerData = '';
-  List monid = [];
-  List tueid = [];
-  List wedid = [];
-  List thuid = [];
-  List fridi = [];
-  List sarid = [];
-  String clgName = '';
-  String week = '';
+  // List monid = [];
+  // List tueid = [];
+  // List wedid = [];
+  // List thuid = [];
+  // List fridi = [];
+  // List sarid = [];
+  List areaName = [];
   String flname = '';
   String data = '';
   bool? success;
-  String _selectedWeek = "1";
+  // String _selectedWeek = "1";
 
-  List<String> _weeks = ["1", "2", "3", "4", "5", "6"];
+  // List<String> _weeks = ["1", "2", "3", "4", "5", "6"];
   @override
   void initState() {
-    getData();
     super.initState();
-    tabcontroller = TabController(length: days.length, vsync: this);
+    getData();
+    // tabcontroller = TabController(length: days.length, vsync: this);
   }
 
   // getTime() async {
@@ -83,48 +63,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // }
 
   Future getData() async {
-    mon.clear();
-    tue.clear();
-    wed.clear();
-    thu.clear();
-    fri.clear();
-    sat.clear();
+    areaName.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     data = prefs.getString("logintoken").toString();
-    clgName = prefs.getString("clgName").toString();
-    week = prefs.getString("week").toString();
     flname = prefs.getString("flname").toString();
-    _selectedWeek = week;
+    print("login tokem----" + data);
 
-    print("week----" + _selectedWeek);
-
-    MarketApi.getData(data!).then((value) {
-      print("value----" + value!.data.toString());
-
+    MarketApi.getData(data).then((value) {
       setState(() {
-        for (var j = 0; j < value.data![0].count!; j++) {
-          mon.add(value.data![0].monday![j].area);
-          monid.add(value.data![0].monday![j].id);
-        }
-        for (var k = 0; k < value.data![1].tuesdayCount!; k++) {
-          tue.add(value.data![1].tuesday![k].area);
-          tueid.add(value.data![1].tuesday![k].id);
-        }
-        for (var k = 0; k < value.data![2].wednesdayCount!; k++) {
-          wed.add(value.data![2].wednesday![k].area);
-          wedid.add(value.data![2].wednesday![k].id);
-        }
-        for (var k = 0; k < value.data![3].thursdayCount!; k++) {
-          thu.add(value.data![3].thursday![k].area);
-          thuid.add(value.data![3].thursday![k].id);
-        }
-        for (var k = 0; k < value.data![4].fridayCount!; k++) {
-          fri.add(value.data![4].friday![k].area);
-          fridi.add(value.data![4].friday![k].id);
-        }
-        for (var k = 0; k < value.data![5].saturdayCount!; k++) {
-          sat.add(value.data![5].saturday![k].area);
-          sarid.add(value.data![5].saturday![k].id);
+        for (var i = 0; i < value!.data!.length; i++) {
+          areaName.add(value.data![i].ringOfMagicArea!);
         }
       });
     }).whenComplete(() {
@@ -132,58 +80,58 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  getWeek(String weekNo) {
-    CustomWeekApi.getData(weekNo, data!).then((value) {
-      success = value!.success;
-      print("custo-week-----" + value!.message!);
-    }).whenComplete(() {
-      setState(() {
-        removeData(context);
-      });
-    });
-  }
+  // getWeek(String weekNo) {
+  //   CustomWeekApi.getData(weekNo, data!).then((value) {
+  //     success = value!.success;
+  //     print("custo-week-----" + value!.message!);
+  //   }).whenComplete(() {
+  //     setState(() {
+  //       removeData(context);
+  //     });
+  //   });
+  // }
 
-  removeData(BuildContext context) async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.remove("logintoken");
-    prefs.remove("loginstatus");
-    if (prefs.getString("logintoken") == null && prefs.getString("loginstatus") == null) {
-      html.window.location.reload();
-    }
-    // SystemNavigator.pop();
-    // window.close();
-    // Restart.restartApp();
-  }
+  // removeData(BuildContext context) async {
+  //   var prefs = await SharedPreferences.getInstance();
+  //   prefs.remove("logintoken");
+  //   prefs.remove("loginstatus");
+  //   if (prefs.getString("logintoken") == null && prefs.getString("loginstatus") == null) {
+  //     html.window.location.reload();
+  //   }
+  //   // SystemNavigator.pop();
+  //   // window.close();
+  //   // Restart.restartApp();
+  // }
 
-  void showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) => AlertDialog(
-            title: Text('Success'),
-            content:
-                Text('Click Okay to Change Week and Please Restart the App to see the Changes'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  print("selected week----" + _selectedWeek);
-                  getWeek(_selectedWeek);
-                },
-                child: Text('Okay'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cancel'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // void showSuccessDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return StatefulBuilder(
+  //         builder: (context, setState) => AlertDialog(
+  //           title: Text('Success'),
+  //           content:
+  //               Text('Click Okay to Change Week and Please Restart the App to see the Changes'),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () {
+  //                 print("selected week----" + _selectedWeek);
+  //                 getWeek(_selectedWeek);
+  //               },
+  //               child: Text('Okay'),
+  //             ),
+  //             TextButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //               child: Text('Cancel'),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -212,51 +160,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               SizedBox(
                 height: 20,
               ),
-              StatefulBuilder(
-                builder: (context, setState) => Container(
-                  width: 150,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownButton<String>(
-                    underline: null,
-                    focusColor: Colors.black,
-                    value: _selectedWeek,
-                    alignment: Alignment.center,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedWeek = newValue!;
-                        print("selected weeeekkkk---" + _selectedWeek);
-                        showSuccessDialog(context);
-                      });
-                    },
-                    items: _weeks.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value.toString(),
-                        child: Text("Week " + value.toString()),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  clgName + "\nWEEK " + week,
-                  style: GoogleFonts.ibmPlexSerif(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
+              // StatefulBuilder(
+              //   builder: (context, setState) => Container(
+              //     width: 150,
+              //     alignment: Alignment.center,
+              //     decoration: BoxDecoration(
+              //         border: Border.all(color: Colors.black),
+              //         borderRadius: BorderRadius.circular(10)),
+              //     child: DropdownButton<String>(
+              //       underline: null,
+              //       focusColor: Colors.black,
+              //       value: _selectedWeek,
+              //       alignment: Alignment.center,
+              //       onChanged: (String? newValue) {
+              //         setState(() {
+              //           _selectedWeek = newValue!;
+              //           print("selected weeeekkkk---" + _selectedWeek);
+              //           // showSuccessDialog(context);
+              //         });
+              //       },
+              //       items: _weeks.map<DropdownMenuItem<String>>((String value) {
+              //         return DropdownMenuItem<String>(
+              //           value: value.toString(),
+              //           child: Text("Week " + value.toString()),
+              //         );
+              //       }).toList(),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -285,510 +220,601 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               SizedBox(
                 height: 30,
               ),
-              TabBar(
-                controller: tabcontroller,
-                isScrollable: true,
-                onTap: (value) {
-                  setState(() {});
-                },
-                tabs: days.map((day) => Tab(text: day)).toList(),
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Colors.black,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 500,
-                child: TabBarView(
-                  controller: tabcontroller,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: tabcontroller!.index == 0
-                      ? days
-                          .map(
-                            (e) => ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: mon.length,
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          curve: Curves.decelerate,
-                                          duration: Duration(seconds: 1),
-                                          child: SelectOutlet(
-                                            idz: monid[index],
-                                            areaName: mon[index],
-                                            day: "Monday",
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration:
-                                          BoxDecoration(border: Border.all(color: Colors.black)),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset("assets/images/reddot.png"),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                '10:00-13:00',
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.ibmPlexSerif(
-                                                  color: Color(0xFF8F9BB3),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                              Spacer(),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            mon[index],
-                                            style: GoogleFonts.ibmPlexSerif(
-                                              color: Color(0xFF222B45),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            'Check the boarding',
-                                            style: GoogleFonts.ibmPlexSans(
-                                              color: Color(0xFF8F9BB3),
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => SizedBox(height: 10),
+                itemCount: areaName.length,
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: SelectOutlet(
+                              areaName: areaName[index],
                             ),
-                          )
-                          .toList()
-                      : tabcontroller!.index == 1
-                          ? days
-                              .map(
-                                (e) => ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: tue.length,
-                                  itemBuilder: (context, index) => Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              curve: Curves.decelerate,
-                                              duration: Duration(seconds: 1),
-                                              child: SelectOutlet(
-                                                idz: tueid[index],
-                                                areaName: tue[index],
-                                                day: "Tuesday",
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(color: Colors.black)),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Image.asset("assets/images/reddot.png"),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    '10:00-13:00',
-                                                    textAlign: TextAlign.center,
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Color(0xFF8F9BB3),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                tue[index],
-                                                style: GoogleFonts.ibmPlexSerif(
-                                                  color: Color(0xFF222B45),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                'Check the boarding',
-                                                style: GoogleFonts.ibmPlexSans(
-                                                  color: Color(0xFF8F9BB3),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset("assets/images/reddot.png"),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '10:00-13:00',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.ibmPlexSerif(
+                                    color: Color(0xFF8F9BB3),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                              )
-                              .toList()
-                          : tabcontroller!.index == 2
-                              ? days
-                                  .map(
-                                    (e) => ListView.builder(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: wed.length,
-                                      itemBuilder: (context, index) => Column(
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                PageTransition(
-                                                  type: PageTransitionType.fade,
-                                                  curve: Curves.decelerate,
-                                                  duration: Duration(seconds: 1),
-                                                  child: SelectOutlet(
-                                                    idz: wedid[index],
-                                                    areaName: wed[index],
-                                                    day: "Wednesday",
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: Colors.black)),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Image.asset("assets/images/reddot.png"),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        '10:00-13:00',
-                                                        textAlign: TextAlign.center,
-                                                        style: GoogleFonts.ibmPlexSerif(
-                                                          color: Color(0xFF8F9BB3),
-                                                          fontSize: 12,
-                                                          fontWeight: FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    wed[index],
-                                                    style: GoogleFonts.ibmPlexSerif(
-                                                      color: Color(0xFF222B45),
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w500,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Text(
-                                                    'Check the boarding',
-                                                    style: GoogleFonts.ibmPlexSans(
-                                                      color: Color(0xFF8F9BB3),
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList()
-                              : tabcontroller!.index == 3
-                                  ? days
-                                      .map(
-                                        (e) => ListView.builder(
-                                          physics: NeverScrollableScrollPhysics(),
-                                          itemCount: thu.length,
-                                          itemBuilder: (context, index) => Column(
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType.fade,
-                                                      curve: Curves.decelerate,
-                                                      duration: Duration(seconds: 1),
-                                                      child: SelectOutlet(
-                                                        idz: thuid[index],
-                                                        areaName: thu[index],
-                                                        day: "Thursday",
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.black)),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Image.asset("assets/images/reddot.png"),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(
-                                                            '10:00-13:00',
-                                                            textAlign: TextAlign.center,
-                                                            style: GoogleFonts.ibmPlexSerif(
-                                                              color: Color(0xFF8F9BB3),
-                                                              fontSize: 12,
-                                                              fontWeight: FontWeight.w400,
-                                                            ),
-                                                          ),
-                                                          Spacer(),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        thu[index],
-                                                        style: GoogleFonts.ibmPlexSerif(
-                                                          color: Color(0xFF222B45),
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        'Check the boarding',
-                                                        style: GoogleFonts.ibmPlexSans(
-                                                          color: Color(0xFF8F9BB3),
-                                                          fontSize: 12,
-                                                          fontWeight: FontWeight.w400,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                      .toList()
-                                  : tabcontroller!.index == 4
-                                      ? days
-                                          .map(
-                                            (e) => ListView.builder(
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: fri.length,
-                                              itemBuilder: (context, index) => Column(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                          type: PageTransitionType.fade,
-                                                          curve: Curves.decelerate,
-                                                          duration: Duration(seconds: 1),
-                                                          child: SelectOutlet(
-                                                            idz: fridi[index],
-                                                            areaName: fri[index],
-                                                            day: "Friday",
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(8),
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(color: Colors.black)),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Image.asset(
-                                                                  "assets/images/reddot.png"),
-                                                              SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              Text(
-                                                                '10:00-13:00',
-                                                                textAlign: TextAlign.center,
-                                                                style: GoogleFonts.ibmPlexSerif(
-                                                                  color: Color(0xFF8F9BB3),
-                                                                  fontSize: 12,
-                                                                  fontWeight: FontWeight.w400,
-                                                                ),
-                                                              ),
-                                                              Spacer(),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Text(
-                                                            fri[index],
-                                                            style: GoogleFonts.ibmPlexSerif(
-                                                              color: Color(0xFF222B45),
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.w500,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Text(
-                                                            'Check the boarding',
-                                                            style: GoogleFonts.ibmPlexSans(
-                                                              color: Color(0xFF8F9BB3),
-                                                              fontSize: 12,
-                                                              fontWeight: FontWeight.w400,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                          .toList()
-                                      : days
-                                          .map(
-                                            (e) => ListView.builder(
-                                              physics: NeverScrollableScrollPhysics(),
-                                              itemCount: sat.length,
-                                              itemBuilder: (context, index) => Column(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                          type: PageTransitionType.fade,
-                                                          curve: Curves.decelerate,
-                                                          duration: Duration(seconds: 1),
-                                                          child: SelectOutlet(
-                                                            idz: sarid[index],
-                                                            areaName: sat[index],
-                                                            day: "Saturday",
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(8),
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(color: Colors.black)),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Image.asset(
-                                                                  "assets/images/reddot.png"),
-                                                              SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              Text(
-                                                                '10:00-13:00',
-                                                                textAlign: TextAlign.center,
-                                                                style: GoogleFonts.ibmPlexSerif(
-                                                                  color: Color(0xFF8F9BB3),
-                                                                  fontSize: 12,
-                                                                  fontWeight: FontWeight.w400,
-                                                                ),
-                                                              ),
-                                                              Spacer(),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Text(
-                                                            sat[index],
-                                                            style: GoogleFonts.ibmPlexSerif(
-                                                              color: Color(0xFF222B45),
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.w500,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Text(
-                                                            'Check the boarding',
-                                                            style: GoogleFonts.ibmPlexSans(
-                                                              color: Color(0xFF8F9BB3),
-                                                              fontSize: 12,
-                                                              fontWeight: FontWeight.w400,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              areaName[index],
+                              style: GoogleFonts.ibmPlexSerif(
+                                color: Color(0xFF222B45),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Check the boarding',
+                              style: GoogleFonts.ibmPlexSans(
+                                color: Color(0xFF8F9BB3),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              // TabBar(
+              //   controller: tabcontroller,
+              //   isScrollable: true,
+              //   onTap: (value) {
+              //     setState(() {});
+              //   },
+              //   tabs: days.map((day) => Tab(text: day)).toList(),
+              //   labelColor: Colors.black,
+              //   unselectedLabelColor: Colors.grey,
+              //   indicatorColor: Colors.black,
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   height: 500,
+              //   child: TabBarView(
+              //     controller: tabcontroller,
+              //     physics: NeverScrollableScrollPhysics(),
+              //     children: tabcontroller!.index == 0
+              //         ? days
+              //             .map(
+              //               (e) => ListView.builder(
+              //                 physics: NeverScrollableScrollPhysics(),
+              //                 itemCount: mon.length,
+              //                 itemBuilder: (context, index) => Column(
+              //                   children: [
+              //                     InkWell(
+              //                       onTap: () {
+              //                         Navigator.push(
+              //                           context,
+              //                           PageTransition(
+              //                             type: PageTransitionType.fade,
+              //                             curve: Curves.decelerate,
+              //                             duration: Duration(seconds: 1),
+              //                             child: SelectOutlet(
+              //                               idz: monid[index],
+              //                               areaName: mon[index],
+              //                               day: "Monday",
+              //                             ),
+              //                           ),
+              //                         );
+              //                       },
+              //                       child: Container(
+              //                         padding: EdgeInsets.all(8),
+              //                         decoration:
+              //                             BoxDecoration(border: Border.all(color: Colors.black)),
+              //                         child: Column(
+              //                           crossAxisAlignment: CrossAxisAlignment.start,
+              //                           children: [
+              //                             Row(
+              //                               children: [
+              //                                 Image.asset("assets/images/reddot.png"),
+              //                                 SizedBox(
+              //                                   width: 5,
+              //                                 ),
+              //                                 Text(
+              //                                   '10:00-13:00',
+              //                                   textAlign: TextAlign.center,
+              //                                   style: GoogleFonts.ibmPlexSerif(
+              //                                     color: Color(0xFF8F9BB3),
+              //                                     fontSize: 12,
+              //                                     fontWeight: FontWeight.w400,
+              //                                   ),
+              //                                 ),
+              //                                 Spacer(),
+              //                               ],
+              //                             ),
+              //                             SizedBox(
+              //                               height: 5,
+              //                             ),
+              //                             Text(
+              //                               mon[index],
+              //                               style: GoogleFonts.ibmPlexSerif(
+              //                                 color: Color(0xFF222B45),
+              //                                 fontSize: 16,
+              //                                 fontWeight: FontWeight.w500,
+              //                               ),
+              //                             ),
+              //                             SizedBox(
+              //                               height: 5,
+              //                             ),
+              //                             Text(
+              //                               'Check the boarding',
+              //                               style: GoogleFonts.ibmPlexSans(
+              //                                 color: Color(0xFF8F9BB3),
+              //                                 fontSize: 12,
+              //                                 fontWeight: FontWeight.w400,
+              //                               ),
+              //                             )
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     SizedBox(
+              //                       height: 10,
+              //                     )
+              //                   ],
+              //                 ),
+              //               ),
+              //             )
+              //             .toList()
+              //         : tabcontroller!.index == 1
+              //             ? days
+              //                 .map(
+              //                   (e) => ListView.builder(
+              //                     physics: NeverScrollableScrollPhysics(),
+              //                     itemCount: tue.length,
+              //                     itemBuilder: (context, index) => Column(
+              //                       children: [
+              //                         InkWell(
+              //                           onTap: () {
+              //                             Navigator.push(
+              //                               context,
+              //                               PageTransition(
+              //                                 type: PageTransitionType.fade,
+              //                                 curve: Curves.decelerate,
+              //                                 duration: Duration(seconds: 1),
+              //                                 child: SelectOutlet(
+              //                                   idz: tueid[index],
+              //                                   areaName: tue[index],
+              //                                   day: "Tuesday",
+              //                                 ),
+              //                               ),
+              //                             );
+              //                           },
+              //                           child: Container(
+              //                             padding: EdgeInsets.all(8),
+              //                             decoration: BoxDecoration(
+              //                                 border: Border.all(color: Colors.black)),
+              //                             child: Column(
+              //                               crossAxisAlignment: CrossAxisAlignment.start,
+              //                               children: [
+              //                                 Row(
+              //                                   children: [
+              //                                     Image.asset("assets/images/reddot.png"),
+              //                                     SizedBox(
+              //                                       width: 5,
+              //                                     ),
+              //                                     Text(
+              //                                       '10:00-13:00',
+              //                                       textAlign: TextAlign.center,
+              //                                       style: GoogleFonts.ibmPlexSerif(
+              //                                         color: Color(0xFF8F9BB3),
+              //                                         fontSize: 12,
+              //                                         fontWeight: FontWeight.w400,
+              //                                       ),
+              //                                     ),
+              //                                     Spacer(),
+              //                                   ],
+              //                                 ),
+              //                                 SizedBox(
+              //                                   height: 5,
+              //                                 ),
+              //                                 Text(
+              //                                   tue[index],
+              //                                   style: GoogleFonts.ibmPlexSerif(
+              //                                     color: Color(0xFF222B45),
+              //                                     fontSize: 16,
+              //                                     fontWeight: FontWeight.w500,
+              //                                   ),
+              //                                 ),
+              //                                 SizedBox(
+              //                                   height: 5,
+              //                                 ),
+              //                                 Text(
+              //                                   'Check the boarding',
+              //                                   style: GoogleFonts.ibmPlexSans(
+              //                                     color: Color(0xFF8F9BB3),
+              //                                     fontSize: 12,
+              //                                     fontWeight: FontWeight.w400,
+              //                                   ),
+              //                                 )
+              //                               ],
+              //                             ),
+              //                           ),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 10,
+              //                         )
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 )
+              //                 .toList()
+              //             : tabcontroller!.index == 2
+              //                 ? days
+              //                     .map(
+              //                       (e) => ListView.builder(
+              //                         physics: NeverScrollableScrollPhysics(),
+              //                         itemCount: wed.length,
+              //                         itemBuilder: (context, index) => Column(
+              //                           children: [
+              //                             InkWell(
+              //                               onTap: () {
+              //                                 Navigator.push(
+              //                                   context,
+              //                                   PageTransition(
+              //                                     type: PageTransitionType.fade,
+              //                                     curve: Curves.decelerate,
+              //                                     duration: Duration(seconds: 1),
+              //                                     child: SelectOutlet(
+              //                                       idz: wedid[index],
+              //                                       areaName: wed[index],
+              //                                       day: "Wednesday",
+              //                                     ),
+              //                                   ),
+              //                                 );
+              //                               },
+              //                               child: Container(
+              //                                 padding: EdgeInsets.all(8),
+              //                                 decoration: BoxDecoration(
+              //                                     border: Border.all(color: Colors.black)),
+              //                                 child: Column(
+              //                                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     Row(
+              //                                       children: [
+              //                                         Image.asset("assets/images/reddot.png"),
+              //                                         SizedBox(
+              //                                           width: 5,
+              //                                         ),
+              //                                         Text(
+              //                                           '10:00-13:00',
+              //                                           textAlign: TextAlign.center,
+              //                                           style: GoogleFonts.ibmPlexSerif(
+              //                                             color: Color(0xFF8F9BB3),
+              //                                             fontSize: 12,
+              //                                             fontWeight: FontWeight.w400,
+              //                                           ),
+              //                                         ),
+              //                                         Spacer(),
+              //                                       ],
+              //                                     ),
+              //                                     SizedBox(
+              //                                       height: 5,
+              //                                     ),
+              //                                     Text(
+              //                                       wed[index],
+              //                                       style: GoogleFonts.ibmPlexSerif(
+              //                                         color: Color(0xFF222B45),
+              //                                         fontSize: 16,
+              //                                         fontWeight: FontWeight.w500,
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(
+              //                                       height: 5,
+              //                                     ),
+              //                                     Text(
+              //                                       'Check the boarding',
+              //                                       style: GoogleFonts.ibmPlexSans(
+              //                                         color: Color(0xFF8F9BB3),
+              //                                         fontSize: 12,
+              //                                         fontWeight: FontWeight.w400,
+              //                                       ),
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                             SizedBox(
+              //                               height: 10,
+              //                             )
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     )
+              //                     .toList()
+              //                 : tabcontroller!.index == 3
+              //                     ? days
+              //                         .map(
+              //                           (e) => ListView.builder(
+              //                             physics: NeverScrollableScrollPhysics(),
+              //                             itemCount: thu.length,
+              //                             itemBuilder: (context, index) => Column(
+              //                               children: [
+              //                                 InkWell(
+              //                                   onTap: () {
+              //                                     Navigator.push(
+              //                                       context,
+              //                                       PageTransition(
+              //                                         type: PageTransitionType.fade,
+              //                                         curve: Curves.decelerate,
+              //                                         duration: Duration(seconds: 1),
+              //                                         child: SelectOutlet(
+              //                                           idz: thuid[index],
+              //                                           areaName: thu[index],
+              //                                           day: "Thursday",
+              //                                         ),
+              //                                       ),
+              //                                     );
+              //                                   },
+              //                                   child: Container(
+              //                                     padding: EdgeInsets.all(8),
+              //                                     decoration: BoxDecoration(
+              //                                         border: Border.all(color: Colors.black)),
+              //                                     child: Column(
+              //                                       crossAxisAlignment: CrossAxisAlignment.start,
+              //                                       children: [
+              //                                         Row(
+              //                                           children: [
+              //                                             Image.asset("assets/images/reddot.png"),
+              //                                             SizedBox(
+              //                                               width: 5,
+              //                                             ),
+              //                                             Text(
+              //                                               '10:00-13:00',
+              //                                               textAlign: TextAlign.center,
+              //                                               style: GoogleFonts.ibmPlexSerif(
+              //                                                 color: Color(0xFF8F9BB3),
+              //                                                 fontSize: 12,
+              //                                                 fontWeight: FontWeight.w400,
+              //                                               ),
+              //                                             ),
+              //                                             Spacer(),
+              //                                           ],
+              //                                         ),
+              //                                         SizedBox(
+              //                                           height: 5,
+              //                                         ),
+              //                                         Text(
+              //                                           thu[index],
+              //                                           style: GoogleFonts.ibmPlexSerif(
+              //                                             color: Color(0xFF222B45),
+              //                                             fontSize: 16,
+              //                                             fontWeight: FontWeight.w500,
+              //                                           ),
+              //                                         ),
+              //                                         SizedBox(
+              //                                           height: 5,
+              //                                         ),
+              //                                         Text(
+              //                                           'Check the boarding',
+              //                                           style: GoogleFonts.ibmPlexSans(
+              //                                             color: Color(0xFF8F9BB3),
+              //                                             fontSize: 12,
+              //                                             fontWeight: FontWeight.w400,
+              //                                           ),
+              //                                         )
+              //                                       ],
+              //                                     ),
+              //                                   ),
+              //                                 ),
+              //                                 SizedBox(
+              //                                   height: 10,
+              //                                 )
+              //                               ],
+              //                             ),
+              //                           ),
+              //                         )
+              //                         .toList()
+              //                     : tabcontroller!.index == 4
+              //                         ? days
+              //                             .map(
+              //                               (e) => ListView.builder(
+              //                                 physics: NeverScrollableScrollPhysics(),
+              //                                 itemCount: fri.length,
+              //                                 itemBuilder: (context, index) => Column(
+              //                                   children: [
+              //                                     InkWell(
+              //                                       onTap: () {
+              //                                         Navigator.push(
+              //                                           context,
+              //                                           PageTransition(
+              //                                             type: PageTransitionType.fade,
+              //                                             curve: Curves.decelerate,
+              //                                             duration: Duration(seconds: 1),
+              //                                             child: SelectOutlet(
+              //                                               idz: fridi[index],
+              //                                               areaName: fri[index],
+              //                                               day: "Friday",
+              //                                             ),
+              //                                           ),
+              //                                         );
+              //                                       },
+              //                                       child: Container(
+              //                                         padding: EdgeInsets.all(8),
+              //                                         decoration: BoxDecoration(
+              //                                             border: Border.all(color: Colors.black)),
+              //                                         child: Column(
+              //                                           crossAxisAlignment:
+              //                                               CrossAxisAlignment.start,
+              //                                           children: [
+              //                                             Row(
+              //                                               children: [
+              //                                                 Image.asset(
+              //                                                     "assets/images/reddot.png"),
+              //                                                 SizedBox(
+              //                                                   width: 5,
+              //                                                 ),
+              //                                                 Text(
+              //                                                   '10:00-13:00',
+              //                                                   textAlign: TextAlign.center,
+              //                                                   style: GoogleFonts.ibmPlexSerif(
+              //                                                     color: Color(0xFF8F9BB3),
+              //                                                     fontSize: 12,
+              //                                                     fontWeight: FontWeight.w400,
+              //                                                   ),
+              //                                                 ),
+              //                                                 Spacer(),
+              //                                               ],
+              //                                             ),
+              //                                             SizedBox(
+              //                                               height: 5,
+              //                                             ),
+              //                                             Text(
+              //                                               fri[index],
+              //                                               style: GoogleFonts.ibmPlexSerif(
+              //                                                 color: Color(0xFF222B45),
+              //                                                 fontSize: 16,
+              //                                                 fontWeight: FontWeight.w500,
+              //                                               ),
+              //                                             ),
+              //                                             SizedBox(
+              //                                               height: 5,
+              //                                             ),
+              //                                             Text(
+              //                                               'Check the boarding',
+              //                                               style: GoogleFonts.ibmPlexSans(
+              //                                                 color: Color(0xFF8F9BB3),
+              //                                                 fontSize: 12,
+              //                                                 fontWeight: FontWeight.w400,
+              //                                               ),
+              //                                             )
+              //                                           ],
+              //                                         ),
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(
+              //                                       height: 10,
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             )
+              //                             .toList()
+              //                         : days
+              //                             .map(
+              //                               (e) => ListView.builder(
+              //                                 physics: NeverScrollableScrollPhysics(),
+              //                                 itemCount: sat.length,
+              //                                 itemBuilder: (context, index) => Column(
+              //                                   children: [
+              //                                     InkWell(
+              //                                       onTap: () {
+              //                                         Navigator.push(
+              //                                           context,
+              //                                           PageTransition(
+              //                                             type: PageTransitionType.fade,
+              //                                             curve: Curves.decelerate,
+              //                                             duration: Duration(seconds: 1),
+              //                                             child: SelectOutlet(
+              //                                               idz: sarid[index],
+              //                                               areaName: sat[index],
+              //                                               day: "saturday",
+              //                                             ),
+              //                                           ),
+              //                                         );
+              //                                       },
+              //                                       child: Container(
+              //                                         padding: EdgeInsets.all(8),
+              //                                         decoration: BoxDecoration(
+              //                                             border: Border.all(color: Colors.black)),
+              //                                         child: Column(
+              //                                           crossAxisAlignment:
+              //                                               CrossAxisAlignment.start,
+              //                                           children: [
+              //                                             Row(
+              //                                               children: [
+              //                                                 Image.asset(
+              //                                                     "assets/images/reddot.png"),
+              //                                                 SizedBox(
+              //                                                   width: 5,
+              //                                                 ),
+              //                                                 Text(
+              //                                                   '10:00-13:00',
+              //                                                   textAlign: TextAlign.center,
+              //                                                   style: GoogleFonts.ibmPlexSerif(
+              //                                                     color: Color(0xFF8F9BB3),
+              //                                                     fontSize: 12,
+              //                                                     fontWeight: FontWeight.w400,
+              //                                                   ),
+              //                                                 ),
+              //                                                 Spacer(),
+              //                                               ],
+              //                                             ),
+              //                                             SizedBox(
+              //                                               height: 5,
+              //                                             ),
+              //                                             Text(
+              //                                               sat[index],
+              //                                               style: GoogleFonts.ibmPlexSerif(
+              //                                                 color: Color(0xFF222B45),
+              //                                                 fontSize: 16,
+              //                                                 fontWeight: FontWeight.w500,
+              //                                               ),
+              //                                             ),
+              //                                             SizedBox(
+              //                                               height: 5,
+              //                                             ),
+              //                                             Text(
+              //                                               'Check the boarding',
+              //                                               style: GoogleFonts.ibmPlexSans(
+              //                                                 color: Color(0xFF8F9BB3),
+              //                                                 fontSize: 12,
+              //                                                 fontWeight: FontWeight.w400,
+              //                                               ),
+              //                                             )
+              //                                           ],
+              //                                         ),
+              //                                       ),
+              //                                     ),
+              //                                     SizedBox(
+              //                                       height: 10,
+              //                                     )
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             )
+              //                             .toList(),
+              //   ),
+              // ),
               // Container(
               //   padding: const EdgeInsets.all(8),
               //   decoration:
@@ -1036,28 +1062,3 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 }
-
-List<Map<String, dynamic>> apiData = [
-  {
-    "success": true,
-    "data": [
-      {
-        "monday": [
-          {"area": "Market Area 1", "id": "64c24df6abf3850f1bdc7d0a"},
-          {"area": "Market Area 1", "id": "64c24df6abf3850f1bdc7d0a"}
-        ],
-        "count": 2
-      },
-      {
-        "tuesday": [
-          {"area": "Market Area 7", "id": "64c24df6abf3850f1bdc7d10"}
-        ],
-        "tuesdayCount": 1
-      },
-      {"Wednesday": [], "WednesdayCount": 0},
-      {"Thursday": [], "ThursdayCount": 0},
-      {"Friday": [], "FridayCount": 0},
-      {"saturday": [], "saturdayCount": 0}
-    ]
-  }
-];

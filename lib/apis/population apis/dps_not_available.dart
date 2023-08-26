@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import '../../constant/api.dart';
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
-import '../../constant/api.dart';
 
 class DpsNotAvailable {
   static var dio = Dio();
@@ -56,8 +53,9 @@ class DpsNotAvailable {
         contentType: MediaType("image", "png"),
       )
     });
-    print("dps map----"+formData.toString());
+    print("dps map----" + formData.toString());
     var response = await dio.post(apiPath + "task/dps/upload-image/not-available", data: formData);
+    print("dps not avaolbalr-----" + response.data.toString());
     return response.data.toString();
   }
 }

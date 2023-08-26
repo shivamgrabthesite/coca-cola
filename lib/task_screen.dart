@@ -70,6 +70,7 @@ class _TaskScreenState extends State<TaskScreen> {
       print("tizzzzz---" + tid);
     }).whenComplete(() {
       prefs.setString("tid", tid);
+      prefs.setString("channel", channel[index]);
     });
   }
 
@@ -142,9 +143,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                       type: PageTransitionType.fade,
                                       curve: Curves.decelerate,
                                       duration: Duration(seconds: 1),
-                                      child: ShopPic(
-                                        channel: channel[index],
-                                      )));
+                                      child: ShopPic()));
                             }
                           },
                           child: Container(

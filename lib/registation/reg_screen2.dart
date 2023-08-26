@@ -104,7 +104,7 @@ class _RegScreen2State extends State<RegScreen2> {
                     height: 20,
                   ),
                   Text(
-                    'Join the Coca-Cola Internship Program',
+                    'Join the HCCBPL Internship Program',
                     style: GoogleFonts.ibmPlexSerif(
                       color: Colors.black,
                       fontSize: 24,

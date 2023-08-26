@@ -55,89 +55,92 @@ class _BottomBarState extends State<BottomBar> with SingleTickerProviderStateMix
             ),
           ),
         ),
-        body:PersistentTabView(
-            context,
-            controller: _controller,
-            resizeToAvoidBottomInset: true,
-            stateManagement: true,
-            hideNavigationBar: false,
-            onItemSelected: (value) {
-              // setState.call(
-              //   () {
-              //     widget.index = value;
-              //   },
-              // );
-              // setState(() {
-              //   switch (value) {
-              //     case 0:
-              //       _controller.index = 0;
-              //       _controller.dispose();
-              //       break;
-              //     case 1:
-              //       _controller.index = 1;
-              //       _controller.dispose();
-              //       break;
-              //     case 2:
-              //       _controller.index = 2;
-              //       _controller.dispose();
-              //       break;
-              //     case 3:
-              //       _controller.index = 3;
-              //       _controller.dispose();
-              //       break;
-              //     default:
-              //   }
-              // });
-            },
-            hideNavigationBarWhenKeyboardShows: true,
-            popActionScreens: PopActionScreensType.all,
-            backgroundColor: Colors.white.withOpacity(.85),
-            screenTransitionAnimation: const ScreenTransitionAnimation(
-                animateTabTransition: true,
-                curve: Curves.linear,
-                duration: Duration(milliseconds: 500)),
-            screens: const [
-              HomeScreen(),
-              TaskScreen(),
-              StarterkitScreen(),
-              ProfileScreen(),
-            ],
-            decoration: const NavBarDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Colors.black,
-                ),
+        body: PersistentTabView(
+          context,
+          controller: _controller,
+          resizeToAvoidBottomInset: true,
+          stateManagement: true,
+          hideNavigationBar: false,
+          onItemSelected: (value) {
+            // setState.call(
+            //   () {
+            //     widget.index = value;
+            //   },
+            // );
+            // setState(() {
+            //   switch (value) {
+            //     case 0:
+            //       _controller.index = 0;
+            //       _controller.dispose();
+            //       break;
+            //     case 1:
+            //       _controller.index = 1;
+            //       _controller.dispose();
+            //       break;
+            //     case 2:
+            //       _controller.index = 2;
+            //       _controller.dispose();
+            //       break;
+            //     case 3:
+            //       _controller.index = 3;
+            //       _controller.dispose();
+            //       break;
+            //     default:
+            //   }
+            // });
+          },
+          hideNavigationBarWhenKeyboardShows: true,
+          popActionScreens: PopActionScreensType.all,
+          backgroundColor: Colors.white.withOpacity(.85),
+          screenTransitionAnimation: const ScreenTransitionAnimation(
+              animateTabTransition: true,
+              curve: Curves.linear,
+              duration: Duration(milliseconds: 500)),
+          screens: const [
+            HomeScreen(),
+            TaskScreen(),
+            StarterkitScreen(),
+            ProfileScreen(),
+          ],
+          decoration: const NavBarDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.black,
               ),
             ),
-            items: [
-              PersistentBottomNavBarItem(
-                  icon: SvgPicture.asset("assets/images/Home.svg"),
-                  activeColorPrimary: Colors.red,
-                  inactiveColorPrimary: Colors.grey,
-                  title: "HOME"),
-              PersistentBottomNavBarItem(
-                  icon: SvgPicture.asset("assets/images/Card.svg"),
-                  activeColorPrimary: Colors.red,
-                  inactiveColorPrimary: Colors.grey,
-                  title: "TASK"),
-              PersistentBottomNavBarItem(
-                  icon: SvgPicture.asset("assets/images/Money.svg"),
-                  activeColorPrimary: Colors.red,
-                  inactiveColorPrimary: Colors.grey,
-                  title: "STARTERKIT"),
-              PersistentBottomNavBarItem(
-                  icon: const Icon(
-                    IconlyLight.profile,
-                    color: Colors.black,
-                  ),
-                  activeColorPrimary: Colors.red,
-                  inactiveColorPrimary: Colors.grey,
-                  title: "PROFILE")
-            ],
-            navBarStyle: NavBarStyle.style12,
           ),
+          items: [
+            PersistentBottomNavBarItem(
+                icon: SvgPicture.asset("assets/images/Home.svg"),
+                textStyle: TextStyle(fontSize: 10),
+                activeColorPrimary: Colors.red,
+                inactiveColorPrimary: Colors.black,
+                title: "HOME"),
+            PersistentBottomNavBarItem(
+                icon: SvgPicture.asset("assets/images/Card.svg"),
+                textStyle: TextStyle(fontSize: 10),
+                activeColorPrimary: Colors.red,
+                inactiveColorPrimary: Colors.black,
+                title: "TASK"),
+            PersistentBottomNavBarItem(
+                icon: SvgPicture.asset("assets/images/Money.svg"),
+                textStyle: TextStyle(fontSize: 10),
+                activeColorPrimary: Colors.red,
+                inactiveColorPrimary: Colors.black,
+                title: "STARTERKIT"),
+            PersistentBottomNavBarItem(
+                icon: const Icon(
+                  IconlyLight.profile,
+                  color: Colors.black,
+                ),
+                textStyle: TextStyle(fontSize: 10),
+                activeColorPrimary: Colors.red,
+                inactiveColorPrimary: Colors.black,
+                title: "PROFILE")
+          ],
+          navBarStyle: NavBarStyle.simple,
         ),
-
+      ),
     );
   }
 }

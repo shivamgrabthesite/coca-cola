@@ -40,7 +40,7 @@ class _MobileOtpState extends State<MobileOtp> {
                   height: 20,
                 ),
                 Text(
-                  'Join the Coca-Cola Internship Program',
+                  'Join the HCCBPL Internship Program',
                   style: GoogleFonts.ibmPlexSerif(
                     color: Colors.black,
                     fontSize: 24,

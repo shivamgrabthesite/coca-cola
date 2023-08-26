@@ -9,9 +9,11 @@ import 'package:http_parser/http_parser.dart';
 import '../../constant/api.dart';
 import 'package:dio/dio.dart';
 
+import '../../model/res_model.dart';
+
 class AerialHangerAvailable {
   static var dio = Dio();
-  static Future setImage(String pid, List<int> file) async {
+  static Future<ResModel?> setImage(String pid, List<int> file) async {
     // try {
     //   print("pid in api------" + pid);
     //   print("image in api------" + imgPath.toString());
@@ -55,7 +57,8 @@ class AerialHangerAvailable {
       )
     });
     var response = await dio.post(apiPath + "task/aerial_hanger/upload-image", data: formData);
-    print("aerial_hanger res-----"+response.data.toString());
-    return response.data.toString();
+    print("aerial_hanger res-----" + response.data.toString());
+    ResModel data = resModelFromJson(response.data);
+    return data;
   }
 }

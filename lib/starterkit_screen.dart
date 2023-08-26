@@ -1,11 +1,11 @@
 import 'package:coca_cola/question_screen.dart';
-import 'package:coca_cola/widgets/custom_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class StarterkitScreen extends StatefulWidget {
   const StarterkitScreen({super.key});
@@ -17,10 +17,20 @@ class StarterkitScreen extends StatefulWidget {
 class _StarterkitScreenState extends State<StarterkitScreen> {
   final controller = PageController(keepPage: true, viewportFraction: 1);
   String flname = '';
+  // late YoutubePlayerController ytcontroller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    // ytcontroller = YoutubePlayerController.fromVideoId(
+    //   videoId: 'ZhqeEyXrXES6nrf1',
+    //   autoPlay: true,
+    //   params: const YoutubePlayerParams(
+    //     showFullscreenButton: true,
+    //   ),
+    // );
+
     getData();
   }
 
@@ -35,6 +45,7 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height;
+    var width = size.width;
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -92,7 +103,7 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                             height: 8,
                           ),
                           Text(
-                            'Welcome to the \nCoca-Cola Internship',
+                            'Welcome to the \nHCCBPL Internship',
                             style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
                               fontSize: 22,
@@ -123,7 +134,7 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                             height: 8,
                           ),
                           Text(
-                            'Welcome to the \nCoca-Cola Internship',
+                            'Welcome to the \nHCCBPL Internship',
                             style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
                               fontSize: 22,
@@ -160,7 +171,7 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                             height: 8,
                           ),
                           Text(
-                            'Welcome to the \nCoca-Cola Internship',
+                            'Welcome to the \nHCCBPL Internship',
                             style: GoogleFonts.ibmPlexSerif(
                               color: Colors.black,
                               fontSize: 22,
@@ -179,7 +190,15 @@ class _StarterkitScreenState extends State<StarterkitScreen> {
                             ),
                           )
                         ],
-                      )
+                      ),
+                      // Container(
+                      //   height: 300,
+                      //   width: width,
+                      //   child: YoutubePlayer(
+                      //     aspectRatio: 16 / 9,
+                      //     controller: ytcontroller,
+                      //   ),
+                      // )
                     ],
                   ),
                 ),

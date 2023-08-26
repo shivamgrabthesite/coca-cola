@@ -21,8 +21,6 @@ class LoginApi {
       );
       print("map-------" + jsonencode);
       print("status code----" + response.statusCode.toString());
-      // return response.body;
-
       if (response.statusCode == 200) {
         print("logindata--------" + response.body);
         LoginModel getdata = loginModelFromJson(response.body);

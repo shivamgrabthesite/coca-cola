@@ -6,7 +6,7 @@ import '../../constant/api.dart';
 
 class DPsAvailable {
   static var dio = Dio();
-  static Future<String> setImage(String pid, List<int> file) async {
+  static Future setImage(String pid, List<int> file) async {
     // try {
     //   print("pid in api------" + pid);
     //   print("image in api------" + imgPath.toString());

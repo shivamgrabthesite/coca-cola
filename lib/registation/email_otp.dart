@@ -73,7 +73,7 @@ class _EmailOtpState extends State<EmailOtp> {
                   height: 20,
                 ),
                 Text(
-                  'Join the Coca-Cola Internship Program',
+                  'Join the HCCBPL Internship Program',
                   style: GoogleFonts.ibmPlexSerif(
                     color: Colors.black,
                     fontSize: 24,
@@ -95,12 +95,11 @@ class _EmailOtpState extends State<EmailOtp> {
                   height: 60,
                 ),
                 OtpTextField(
-
                   onSubmit: (value) {
                     setState(() {
                       otp = value;
                     });
-                    print("otppppp----"+otp);
+                    print("otppppp----" + otp);
                   },
                   numberOfFields: 4,
                   hasCustomInputDecoration: true,

@@ -29,93 +29,125 @@ class MarketModel {
 }
 
 class Datum {
-  List<Day>? monday;
-  int? count;
-  List<Day>? tuesday;
-  int? tuesdayCount;
-  List<Day>? wednesday;
-  int? wednesdayCount;
-  List<Day>? thursday;
-  int? thursdayCount;
-  List<Day>? friday;
-  int? fridayCount;
-  List<Day>? saturday;
-  int? saturdayCount;
+  String? status;
+  String? id;
+  String? studentName;
+  String? studentEmail;
+  String? studentPhone;
+  String? scheduleWeek;
+  String? day;
+  String? collegeName;
+  String? ringOfMagicArea;
+  String? town;
+  String? gccCode;
+  String? outletName;
+  String? fullOutletAddress;
+  String? outletMobileNumber;
+  String? mgrPresellerName;
+  String? mgrContectNo;
+  String? moeName;
+  String? moeContact;
+  String? channelManager;
+  String? stlName;
+  String? asmName;
+  String? distributor;
+  String? channel;
+  String? redOlClass;
+  String? cooler;
+  String? actions;
+  String? uid;
+  DateTime? updatedAt;
 
   Datum({
-    this.monday,
-    this.count,
-    this.tuesday,
-    this.tuesdayCount,
-    this.wednesday,
-    this.wednesdayCount,
-    this.thursday,
-    this.thursdayCount,
-    this.friday,
-    this.fridayCount,
-    this.saturday,
-    this.saturdayCount,
+    this.status,
+    this.id,
+    this.studentName,
+    this.studentEmail,
+    this.studentPhone,
+    this.scheduleWeek,
+    this.day,
+    this.collegeName,
+    this.ringOfMagicArea,
+    this.town,
+    this.gccCode,
+    this.outletName,
+    this.fullOutletAddress,
+    this.outletMobileNumber,
+    this.mgrPresellerName,
+    this.mgrContectNo,
+    this.moeName,
+    this.moeContact,
+    this.channelManager,
+    this.stlName,
+    this.asmName,
+    this.distributor,
+    this.channel,
+    this.redOlClass,
+    this.cooler,
+    this.actions,
+    this.uid,
+    this.updatedAt,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        monday: json["Monday"] == null
-            ? []
-            : List<Day>.from(json["Monday"]!.map((x) => Day.fromJson(x))),
-        count: json["count"],
-        tuesday: json["Tuesday"] == null
-            ? []
-            : List<Day>.from(json["Tuesday"]!.map((x) => Day.fromJson(x))),
-        tuesdayCount: json["tuesdayCount"],
-        wednesday: json["Wednesday"] == null
-            ? []
-            : List<Day>.from(json["Wednesday"]!.map((x) => Day.fromJson(x))),
-        wednesdayCount: json["WednesdayCount"],
-        thursday: json["Thursday"] == null
-            ? []
-            : List<Day>.from(json["Thursday"]!.map((x) => Day.fromJson(x))),
-        thursdayCount: json["ThursdayCount"],
-        friday: json["Friday"] == null
-            ? []
-            : List<Day>.from(json["Friday"]!.map((x) => Day.fromJson(x))),
-        fridayCount: json["FridayCount"],
-        saturday: json["saturday"] == null
-            ? []
-            : List<Day>.from(json["saturday"]!.map((x) => Day.fromJson(x))),
-        saturdayCount: json["saturdayCount"],
+        status: json["status"],
+        id: json["_id"],
+        studentName: json["student_name"],
+        studentEmail: json["student_email"],
+        studentPhone: json["student_phone"],
+        scheduleWeek: json["schedule_week"],
+        day: json["day"],
+        collegeName: json["college_name"],
+        ringOfMagicArea: json["ring_of_magic_area"],
+        town: json["town"],
+        gccCode: json["gcc_code"],
+        outletName: json["outlet_name"],
+        fullOutletAddress: json["full_outlet_address"],
+        outletMobileNumber: json["outlet_mobile_number"],
+        mgrPresellerName: json["mgr_preseller_name"],
+        mgrContectNo: json["mgr_contect_no"],
+        moeName: json["moe_name"],
+        moeContact: json["moe_contact"],
+        channelManager: json["channel_manager"],
+        stlName: json["stl_name"],
+        asmName: json["asm_name"],
+        distributor: json["distributor"],
+        channel: json["channel"],
+        redOlClass: json["red_ol_class"],
+        cooler: json["cooler"],
+        actions: json["actions"],
+        uid: json["uid"],
+        updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "Monday": monday == null ? [] : List<dynamic>.from(monday!.map((x) => x.toJson())),
-        "count": count,
-        "Tuesday": tuesday == null ? [] : List<dynamic>.from(tuesday!.map((x) => x.toJson())),
-        "tuesdayCount": tuesdayCount,
-        "Wednesday": wednesday == null ? [] : List<dynamic>.from(wednesday!.map((x) => x.toJson())),
-        "WednesdayCount": wednesdayCount,
-        "Thursday": thursday == null ? [] : List<dynamic>.from(thursday!.map((x) => x.toJson())),
-        "ThursdayCount": thursdayCount,
-        "Friday": friday == null ? [] : List<dynamic>.from(friday!.map((x) => x.toJson())),
-        "FridayCount": fridayCount,
-        "saturday": saturday == null ? [] : List<dynamic>.from(saturday!.map((x) => x.toJson())),
-        "saturdayCount": saturdayCount,
-      };
-}
-
-class Day {
-  String? area;
-  String? id;
-
-  Day({
-    this.area,
-    this.id,
-  });
-
-  factory Day.fromJson(Map<String, dynamic> json) => Day(
-        area: json["area"],
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "area": area,
-        "id": id,
+        "status": status,
+        "_id": id,
+        "student_name": studentName,
+        "student_email": studentEmail,
+        "student_phone": studentPhone,
+        "schedule_week": scheduleWeek,
+        "day": day,
+        "college_name": collegeName,
+        "ring_of_magic_area": ringOfMagicArea,
+        "town": town,
+        "gcc_code": gccCode,
+        "outlet_name": outletName,
+        "full_outlet_address": fullOutletAddress,
+        "outlet_mobile_number": outletMobileNumber,
+        "mgr_preseller_name": mgrPresellerName,
+        "mgr_contect_no": mgrContectNo,
+        "moe_name": moeName,
+        "moe_contact": moeContact,
+        "channel_manager": channelManager,
+        "stl_name": stlName,
+        "asm_name": asmName,
+        "distributor": distributor,
+        "channel": channel,
+        "red_ol_class": redOlClass,
+        "cooler": cooler,
+        "actions": actions,
+        "uid": uid,
+        "updatedAt": updatedAt!.toIso8601String(),
       };
 }

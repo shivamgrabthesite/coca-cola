@@ -24,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   }
 
   getData() async {
-    print("usertoken-------");
     var prefs = await SharedPreferences.getInstance();
     userToken = prefs.getBool("loginstatus");
     print("usertoken-------" + userToken.toString());
