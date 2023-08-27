@@ -40,7 +40,9 @@ import 'apis/incindence apis/counter_top_custom.dart';
 import 'apis/incindence apis/counter_top_not_available.dart';
 import 'apis/incindence apis/grocery_rack.dart';
 import 'apis/incindence apis/grocery_rack_custom.dart';
+import 'constant/flag.dart';
 import 'model/incidence_model.dart';
+import 'outlet_detail.dart';
 
 class IncidenceScreen extends StatefulWidget {
   String? tid;
@@ -228,26 +230,22 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
   }
 
-  arialCustom(BuildContext context) {
+  arialCustom(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AerialHanger.getData(tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
-      // print("grocary id -------" + pid);
-    }).whenComplete(() async {
-      // AerialHangerCustom.setImage(aerialid, provider.arial2.text, provider.arial!).then((value) {
-      //   print("custom res----" + value.toString());
-      // });
-      var prefs = await SharedPreferences.getInstance();
+      prefs.setString("aerialid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.arialList != null) {
-          //passing file bytes and file name for API call
           AerialHangerCustom.setImage(
-                  aerialid!, provider.arial2.text, provider.arialList!.first.bytes!)
+                  aerialid, provider.arial2.text, provider.arialList!.first.bytes!)
               .then((value) {
             print("areal res----" + value!.success!.toString());
-            prefs.setBool("arialCustom", value!.success!);
           });
         }
       });
@@ -326,23 +324,19 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
   aerialAvailable(BuildContext context) async {
     var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
-    AerialHanger.getData(tid!).then((value) {
+    AerialHanger.getData(tid).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
-      // print("grocary id -------" + pid);
+      prefs.setString("aerialid" + value!.tid!, value!.tid!);
     }).whenComplete(() {
-      // AerialHangerAvailable.setImage(aerialid, provider.arial!).then((value) {
-      //   print("avauilable res----" + value.toString());
-      // });
-
-      if (provider.arialList != null) {
-        //passing file bytes and file name for API call
-        AerialHangerAvailable.setImage(aerialid!, provider.arialList!.first.bytes!).then((value) {
-          print("areal res----" + value!.success!.toString());
-          prefs.setBool("aerialAvailable", value!.success!);
-        });
-      }
+      flagNumber = 1;
+      setState(() {
+        if (provider.arialList != null) {
+          AerialHangerAvailable.setImage(aerialid, provider.arialList!.first.bytes!)
+              .then((value) {});
+        }
+      });
     });
   }
 
@@ -421,27 +415,22 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
     });
   }
 
-  aerialNotAvailable(BuildContext context) {
+  aerialNotAvailable(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<IncidenceProvider>(context, listen: false);
     AerialHanger.getData(tid!).then((value) {
       setState(() {
         aerialid = value!.id!;
       });
-      // print("grocary id -------" + pid);
-    }).whenComplete(() async {
-      // AerialHangerNotAvailable.setImage(aerialid, provider.arial1.text, provider.arial!)
-      //     .then((value) {
-      //   print("not avauilable res----" + value.toString());
-      // });
-      var prefs = await SharedPreferences.getInstance();
+      prefs.setString("aerialid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.counterList != null) {
-          //passing file bytes and file name for API call
           AerialHangerNotAvailable.setImage(
-                  aerialid!, provider.arial1.text, provider.arialList!.first.bytes!)
+                  aerialid, provider.arial1.text, provider.arialList!.first.bytes!)
               .then((value) {
             print("areal res----" + value!.success!.toString());
-            prefs.setBool("aerialNotAvailable", value!.success!);
           });
         }
       });
@@ -2108,7 +2097,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic()));
+                          child: OutletDetail()));
                 } else if (selectedOption!.contains("four2") &&
                     fourProvider.arial1.text.isNotEmpty) {
                   // setNotAvailable();
@@ -2119,7 +2108,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic()));
+                          child: OutletDetail()));
                 } else if (fourProvider.arial1.text.isEmpty) {
                   Fluttertoast.showToast(
                     msg: "enter remark",
@@ -2137,7 +2126,7 @@ class _IncidenceScreenState extends State<IncidenceScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic()));
+                          child: OutletDetail()));
                 }
               },
               child: Center(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/api.dart';
 import 'package:http_parser/http_parser.dart';
@@ -9,11 +10,9 @@ import 'package:http_parser/http_parser.dart';
 import '../../constant/api.dart';
 import 'package:dio/dio.dart';
 
-import '../../model/res_model.dart';
-
 class AerialHangerAvailable {
   static var dio = Dio();
-  static Future<ResModel?> setImage(String pid, List<int> file) async {
+  static Future setImage(String pid, List<int> file) async {
     // try {
     //   print("pid in api------" + pid);
     //   print("image in api------" + imgPath.toString());
@@ -48,6 +47,7 @@ class AerialHangerAvailable {
     // } catch (e) {
     //   print('Error while making API request: $e');
     // }
+    var prefs = await SharedPreferences.getInstance();
     FormData formData = FormData.fromMap({
       "pid": pid,
       "image": MultipartFile.fromBytes(
@@ -57,8 +57,9 @@ class AerialHangerAvailable {
       )
     });
     var response = await dio.post(apiPath + "task/aerial_hanger/upload-image", data: formData);
-    print("aerial_hanger res-----" + response.data.toString());
-    ResModel data = resModelFromJson(response.data);
-    return data;
+    print("aerial_hanger res-----" + response.data['success'].toString());
+
+    prefs.setBool("aerialAvailable", response.data['success']);
+    return response.data;
   }
 }

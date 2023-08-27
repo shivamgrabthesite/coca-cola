@@ -1,3 +1,4 @@
+import 'package:coca_cola/constant/flag.dart';
 import 'package:coca_cola/shop_pic.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,10 +9,10 @@ import 'apis/outlet_detail_api.dart';
 import 'apis/task_api.dart';
 
 class OutletDetail extends StatefulWidget {
-  String id = '';
+  // String id = '';
   OutletDetail({
     Key? key,
-    required this.id,
+    // required this.id,
   }) : super(key: key);
 
   @override
@@ -37,9 +38,15 @@ class _OutletDetailState extends State<OutletDetail> {
     getData();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   setTask() async {
     var prefs = await SharedPreferences.getInstance();
     setState(() {
+      flagNumber = 0;
       uidtoken = prefs.getString("uidtoken").toString();
       oidtoken = prefs.getString("oidtoken").toString();
     });
@@ -60,18 +67,29 @@ class _OutletDetailState extends State<OutletDetail> {
     var pref = await SharedPreferences.getInstance();
     setState(() {
       flname = pref.getString("flname").toString();
+      oidtoken = pref.getString("oidtoken").toString();
     });
-    OutletDetailApi.getData(widget.id).then((value) {
-      gcc_code = value!.data!.gccCode!;
-      mgr_contect_no = value.data!.mgrContectNo!;
-      MGRName = value.data!.mgrPresellerName!;
-      red_ol_class = value.data!.redOlClass!;
-      ring_of_magic_area = value.data!.ringOfMagicArea!;
-      cooler = value.data!.cooler!;
-      channel = value.data!.channel!;
-      outlet_name = value.data!.outletName!;
+    OutletDetailApi.getData(oidtoken).then((value) {
+      setState(() {
+        gcc_code = value!.data!.gccCode!;
+        mgr_contect_no = value.data!.mgrContectNo!;
+        MGRName = value.data!.mgrPresellerName!;
+        red_ol_class = value.data!.redOlClass!;
+        ring_of_magic_area = value.data!.ringOfMagicArea!;
+        cooler = value.data!.cooler!;
+        channel = value.data!.channel!;
+        outlet_name = value.data!.outletName!;
+      });
     }).whenComplete(() {
-      setState(() {});
+      if (flagNumber != 0) {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.fade,
+                curve: Curves.decelerate,
+                duration: Duration(seconds: 1),
+                child: ShopPic()));
+      }
     });
   }
 

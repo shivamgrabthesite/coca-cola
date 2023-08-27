@@ -31,6 +31,7 @@ import 'apis/price apis/price_strip_api.dart';
 import 'apis/price apis/price_strip_available.dart';
 import 'apis/price apis/price_strip_not_available.dart';
 import 'apis/price_communication_api.dart';
+import 'constant/flag.dart';
 import 'model/price_communication_model.dart';
 
 class PriceCommunicationScreen extends StatefulWidget {
@@ -162,23 +163,23 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     });
   }
 
-  packUploadImage(BuildContext context) {
+  packUploadImage(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PackCutoutApi.getData(tid!).then((value) {
       setState(() {
         packid = value!.id!;
+
         print("packid-----" + packid);
       });
-    }).whenComplete(() async {
-      // PackAvailable.setImage(packid, provider.pack!).then((value) {
-      //   print("image upload response---------" + value.toString());
-      // });
-      var prefs = await SharedPreferences.getInstance();
+      prefs.setString("packid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.packList != null) {
           PackAvailable.setImage(packid!, provider.packList!.first.bytes!).then((value) {
-            print("packk res----" + value!.success!.toString());
-            prefs.setBool("packUploadImage", value!.success!);
+            print("packk res----" + value['success'].toString());
+            prefs.setBool("packCustom", value['success']);
           });
         }
       });
@@ -227,22 +228,22 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     });
   }
 
-  packNotAvailable(BuildContext context) {
+  packNotAvailable(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PackCutoutApi.getData(tid!).then((value) {
       setState(() {
         packid = value!.id!;
       });
-    }).whenComplete(() async {
-      // PackNotAvailable.setImage(packid!, provider.pack1.text, provider.pack!);
-      var prefs = await SharedPreferences.getInstance();
+      prefs.setString("packid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.brandList != null) {
           //passing file bytes and file name for API call
           PackNotAvailable.setImage(packid!, provider.pack1.text, provider.packList!.first.bytes!)
               .then((value) {
             print("packk res----" + value!.success!.toString());
-            prefs.setBool("packNotAvailable", value!.success!);
           });
         }
       });
@@ -291,22 +292,22 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
     });
   }
 
-  packCustom(BuildContext context) {
+  packCustom(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<PriceProvider>(context, listen: false);
     PackCutoutApi.getData(tid!).then((value) {
       setState(() {
         packid = value!.id!;
       });
-    }).whenComplete(() async {
-      // PackCustom.setImage(packid!, provider.pack2.text, provider.pack!);
-      var prefs = await SharedPreferences.getInstance();
+      prefs.setString("packid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.packList != null) {
           //passing file bytes and file name for API call
           PackCustom.setImage(packid!, provider.pack2.text, provider.packList!.first.bytes!)
               .then((value) {
             print("packk res----" + value!.success!.toString());
-            prefs.setBool("packCustom", value!.success!);
           });
         }
       });

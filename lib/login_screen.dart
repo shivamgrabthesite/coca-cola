@@ -44,9 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       passStr = password.text.toString();
     });
     LoginApi.setData(emailStr!, passStr!).then((value) async {
-      print(value!);
-
-      msg = value.message!;
+      msg = value!.message!;
       statusCode = value.success;
       setState(() {
         loginToken = value.token!.token.toString();
@@ -57,8 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       var pref = await SharedPreferences.getInstance();
 
-      print("login tojen------" + loginToken.toString());
-      print("email---------" + emailtoken);
       pref.setString("logintoken", loginToken);
       pref.setBool("loginstatus", statusCode!);
       pref.setString("uidtoken", id);

@@ -15,7 +15,6 @@ class MarketApi {
       );
       print('Token : ${authorization}');
       print("status code----" + response.statusCode.toString());
-      print("marketr response----" + response.body.toString());
       if (response.statusCode == 200) {
         MarketModel getdata = marketModelFromJson(response.body);
         return getdata;

@@ -3,16 +3,16 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant/api.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../constant/api.dart';
-import '../../model/res_model.dart';
 
 class VinylBrandingCustom {
   static var dio = Dio();
-  static Future<ResModel?> setImage(String pid, String remark, List<int> file) async {
+  static Future setImage(String pid, String remark, List<int> file) async {
     // try {
     //   print("pid in api------" + pid);
     //   // print("image in api------" + imgPath.toString());
@@ -52,6 +52,7 @@ class VinylBrandingCustom {
     // } catch (e) {
     //   print('Error while making API request: $e');
     // }
+    var prefs = await SharedPreferences.getInstance();
     FormData formData = FormData.fromMap({
       "pid": pid,
       "vinyl_branding_remark": remark,
@@ -62,7 +63,8 @@ class VinylBrandingCustom {
       )
     });
     var response = await dio.post(apiPath + "task/vinyl_branding/custom-image", data: formData);
-    ResModel data = resModelFromJson(response.data.toString());
-    return data;
+    print("vinyl res-----" + response.data['success'].toString());
+    prefs.setBool("vinylCustom", response.data['success']);
+    return response.data;
   }
 }

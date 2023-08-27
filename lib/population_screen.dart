@@ -1,5 +1,6 @@
 // import 'package:universal_io/io.dart';
 import 'dart:io';
+import 'package:coca_cola/outlet_detail.dart';
 import 'package:coca_cola/shop_pic.dart';
 import 'package:flutter/foundation.dart';
 import 'package:coca_cola/provider/population_provider.dart';
@@ -45,6 +46,7 @@ import 'apis/population apis/vinyl_branding_available.dart';
 import 'apis/population apis/vinyl_branding_custom.dart';
 import 'apis/population apis/vinyl_branding_not_available.dart';
 import 'apis/population_api.dart';
+import 'constant/flag.dart';
 import 'model/population_model.dart';
 
 class PopulationScreen extends StatefulWidget {
@@ -281,25 +283,23 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
-  vinylUploadImage(BuildContext context) {
+  vinylUploadImage(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<PopulationProvider>(context, listen: false);
     VinylBrandingApi.getData(tid!).then((value) {
       setState(() {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() async {
-      // VVinylBrandingAvailable.setImage(vinylid!, provider.vinyl!).then((value) {
-      //   // print("image upload response---------" + value.toString());
-      // });
-      var prefs = await SharedPreferences.getInstance();
+      prefs.setString("vinylid" + value!.tid!, value!.tid!!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.vinylList != null) {
           //passing file bytes and file name for API call
           VVinylBrandingAvailable.setImage(vinylid!, provider.vinylList!.first.bytes!)
               .then((value) {
             print("dps res----" + value!.success!.toString());
-            prefs.setBool("vinylUploadImage", value!.success!);
           });
         }
       });
@@ -420,25 +420,23 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
-  vinylNotAvailable(BuildContext context) {
+  vinylNotAvailable(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<PopulationProvider>(context, listen: false);
     VinylBrandingApi.getData(tid!).then((value) {
       setState(() {
-        vinylid = value!.id;
-        // print("idddd----------" + value.id!);
+        vinylid = value!.id!;
       });
-    }).whenComplete(() async {
-      // VinylBrandingNotAvailable.setImage(vinylid!, provider.vinyl1.text, provider.vinyl!);
-      var prefs = await SharedPreferences.getInstance();
-
+      prefs.setString("vinylid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.vinylList != null) {
           //passing file bytes and file name for API call
           VinylBrandingNotAvailable.setImage(
                   vinylid!, provider.vinyl1.text, provider.vinylList!.first.bytes!)
               .then((value) {
             print("dps res----" + value.toString());
-            prefs.setBool("vinylNotAvailable", value!.success!);
           });
         }
       });
@@ -558,25 +556,24 @@ class _PopulationScreenState extends State<PopulationScreen> {
     });
   }
 
-  vinylCustom(BuildContext context) {
+  vinylCustom(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
     var provider = Provider.of<PopulationProvider>(context, listen: false);
-    VinylBrandingApi.getData(tid!).then((value) {
+    VinylBrandingApi.getData(tid).then((value) {
       setState(() {
         vinylid = value!.id;
         // print("idddd----------" + value.id!);
       });
-    }).whenComplete(() async {
-      // VinylBrandingCustom.setImage(vinylid!, provider.vinyl2.text, provider.vinyl!);
-      var prefs = await SharedPreferences.getInstance();
-
+      prefs.setString("vinylid" + value!.tid!, value!.tid!);
+    }).whenComplete(() {
       setState(() {
+        flagNumber = 1;
         if (provider.vinylList != null) {
           //passing file bytes and file name for API call
           VinylBrandingCustom.setImage(
                   vinylid!, provider.vinyl2.text, provider.vinylList!.first.bytes!)
               .then((value) {
             print("dps res----" + value.toString());
-            prefs.setBool("vinylCustom", value!.success!);
           });
         }
       });
@@ -3033,7 +3030,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic()));
+                          child: OutletDetail()));
                   // removeImage();
                 } else if (selectedOption!.contains("six2") && sixProvider.vinyl1.text.isNotEmpty) {
                   vinylNotAvailable(context);
@@ -3043,7 +3040,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic()));
+                          child: OutletDetail()));
                 } else if (sixProvider.vinyl1.text.isEmpty) {
                   Fluttertoast.showToast(
                     msg: "enter remark",
@@ -3060,7 +3057,7 @@ class _PopulationScreenState extends State<PopulationScreen> {
                           type: PageTransitionType.fade,
                           curve: Curves.decelerate,
                           duration: Duration(seconds: 1),
-                          child: ShopPic()));
+                          child: OutletDetail()));
                 }
               },
               child: Center(
