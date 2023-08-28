@@ -21,8 +21,6 @@ class OutletDetailApi {
       // return response.body;
       if (response.statusCode == 200) {
         OutletDetailModel getdata = outletDetailModelFromJson(response.body);
-        print("fetch data=====" + getdata.data.toString());
-        print("fatch response----" + response.body);
         return getdata;
       } else {
         print("-------------no data found---------");

@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<IncidenceProvider>(create: (context) => IncidenceProvider()),
         ChangeNotifierProvider<PriceProvider>(create: (context) => PriceProvider()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         // routes: {
         //   "/": (context) => SplashScreen(),
         //   "/onBoarding": (context) => Onboard0(),

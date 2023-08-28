@@ -30,6 +30,10 @@ class OutletDetailModel {
 }
 
 class Data {
+  String? populationStatus;
+  String? incidenceStatus;
+  String? priceCommunicationStatus;
+  String? status;
   String? id;
   String? studentName;
   String? studentEmail;
@@ -54,10 +58,15 @@ class Data {
   String? channel;
   String? redOlClass;
   String? cooler;
+  String? actions;
   String? uid;
   DateTime? updatedAt;
 
   Data({
+    this.populationStatus,
+    this.incidenceStatus,
+    this.priceCommunicationStatus,
+    this.status,
     this.id,
     this.studentName,
     this.studentEmail,
@@ -82,11 +91,16 @@ class Data {
     this.channel,
     this.redOlClass,
     this.cooler,
+    this.actions,
     this.uid,
     this.updatedAt,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
+        populationStatus: json["population_status"],
+        incidenceStatus: json["incidence_status"],
+        priceCommunicationStatus: json["price_communication_status"],
+        status: json["status"],
         id: json["_id"],
         studentName: json["student_name"],
         studentEmail: json["student_email"],
@@ -111,11 +125,16 @@ class Data {
         channel: json["channel"],
         redOlClass: json["red_ol_class"],
         cooler: json["cooler"],
+        actions: json["actions"],
         uid: json["uid"],
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
 
   Map<String, dynamic> toJson() => {
+        "population_status": populationStatus,
+        "incidence_status": incidenceStatus,
+        "price_communication_status": priceCommunicationStatus,
+        "status": status,
         "_id": id,
         "student_name": studentName,
         "student_email": studentEmail,
@@ -140,6 +159,7 @@ class Data {
         "channel": channel,
         "red_ol_class": redOlClass,
         "cooler": cooler,
+        "actions": actions,
         "uid": uid,
         "updatedAt": updatedAt!.toIso8601String(),
       };

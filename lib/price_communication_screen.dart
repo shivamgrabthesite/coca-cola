@@ -172,14 +172,13 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
 
         print("packid-----" + packid);
       });
-      prefs.setString("packid" + value!.tid!, value!.tid!);
+      prefs.setString("packid", value!.tid!);
     }).whenComplete(() {
       setState(() {
         flagNumber = 1;
         if (provider.packList != null) {
           PackAvailable.setImage(packid!, provider.packList!.first.bytes!).then((value) {
             print("packk res----" + value['success'].toString());
-            prefs.setBool("packCustom", value['success']);
           });
         }
       });
@@ -235,7 +234,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       setState(() {
         packid = value!.id!;
       });
-      prefs.setString("packid" + value!.tid!, value!.tid!);
+      prefs.setString("packid", value!.tid!);
     }).whenComplete(() {
       setState(() {
         flagNumber = 1;
@@ -299,7 +298,7 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
       setState(() {
         packid = value!.id!;
       });
-      prefs.setString("packid" + value!.tid!, value!.tid!);
+      prefs.setString("packid", value!.tid!);
     }).whenComplete(() {
       setState(() {
         flagNumber = 1;
@@ -723,39 +722,43 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty) {
-                  setState(() {
-                    Fluttertoast.showToast(
-                      msg: "select one option",
-                    );
-                  });
-                } else if (selectedOption!.contains("first1") &&
-                    firstProvider.brandList!.isNotEmpty) {
-                  // setAvailable();
-                  brandUploadImage(context);
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                } else if (selectedOption!.contains("first2") &&
-                    firstProvider.brand1.text.isNotEmpty) {
-                  // setNotAvailable();
-                  brandNotAvailable(context);
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // first1.clear();
-                } else if (firstProvider.brand1.text.isEmpty) {
+                if (selectedOption == null) {
                   Fluttertoast.showToast(
-                    msg: "enter remark",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
+                    msg: "select one option",
                   );
-                } else if (selectedOption!.contains("first3") &&
-                    firstProvider.brand2.text.isNotEmpty &&
-                    firstProvider.brandList!.isNotEmpty) {
-                  // setCustom();
-                  brandCustom(context);
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // first2.clear();
+                } else if (selectedOption!.contains("first1")) {
+                  if (firstProvider.brandList != null) {
+                    brandUploadImage(context);
+                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter image",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                } else if (selectedOption!.contains("first2")) {
+                  if (firstProvider.brand1.text.isNotEmpty) {
+                    brandNotAvailable(context);
+                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter remark",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                } else if (selectedOption!.contains("first3")) {
+                  if (firstProvider.brand2.text.isNotEmpty && firstProvider.brandList != null) {
+                    brandCustom(context);
+                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter remark and image",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
                 }
               },
               child: Center(
@@ -1122,39 +1125,43 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty) {
-                  setState(() {
-                    Fluttertoast.showToast(
-                      msg: "select one option",
-                    );
-                  });
-                } else if (selectedOption!.contains("second1") &&
-                    secondProvider.priceList!.isNotEmpty) {
-                  // setAvailable();
-                  priceUploadImage(context);
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                } else if (selectedOption!.contains("second2") &&
-                    secondProvider.price1.text.isNotEmpty) {
-                  // setNotAvailable();
-                  priceNotAvailable(context);
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // second1.clear();
-                } else if (secondProvider.price1.text.isEmpty) {
+                if (selectedOption == null) {
                   Fluttertoast.showToast(
-                    msg: "enter remark",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
+                    msg: "select one option",
                   );
-                } else if (selectedOption!.contains("second3") &&
-                    secondProvider.priceList!.isNotEmpty &&
-                    secondProvider.price2.text.isNotEmpty) {
-                  // setCustom();
-                  priceCustom(context);
-                  controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
-                  // removeImage();
-                  // second2.clear();
+                } else if (selectedOption!.contains("second1")) {
+                  if (secondProvider.priceList != null) {
+                    priceUploadImage(context);
+                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter image",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                } else if (selectedOption!.contains("second2")) {
+                  if (secondProvider.price1.text.isNotEmpty) {
+                    priceNotAvailable(context);
+                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter remark",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                } else if (selectedOption!.contains("second3")) {
+                  if (secondProvider.priceList != null && secondProvider.price2.text.isNotEmpty) {
+                    priceCustom(context);
+                    controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.ease);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter remark and image",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
                 }
               },
               child: Center(
@@ -1517,57 +1524,61 @@ class _PriceCommunicationScreenState extends State<PriceCommunicationScreen> {
             ),
             GestureDetector(
               onTap: () {
-                if (selectedOption!.isEmpty) {
-                  setState(() {
-                    Fluttertoast.showToast(
-                      msg: "select one option",
-                    );
-                  });
-                } else if (selectedOption!.contains("third1") &&
-                    thirdProvider.packList!.isNotEmpty) {
-                  // setAvailable();
-                  packUploadImage(context);
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          curve: Curves.decelerate,
-                          duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
-                  // removeImage();
-                } else if (selectedOption!.contains("third2") &&
-                    thirdProvider.pack1.text.isNotEmpty) {
-                  // setNotAvailable();
-                  packNotAvailable(context);
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          curve: Curves.decelerate,
-                          duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
-                  // removeImage();
-                  // third1.clear();
-                } else if (thirdProvider.pack1.text.isEmpty) {
+                if (selectedOption == null) {
                   Fluttertoast.showToast(
-                    msg: "enter remark",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
+                    msg: "select one option",
                   );
-                } else if (selectedOption!.contains("third3") &&
-                    thirdProvider.packList!.isNotEmpty &&
-                    thirdProvider.pack2.text.isNotEmpty) {
-                  // setCustom();
-                  packCustom(context);
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          curve: Curves.decelerate,
-                          duration: Duration(seconds: 1),
-                          child: TransactionScreen()));
-                  // removeImage();
-                  // third2.clear();
+                } else if (selectedOption!.contains("third1")) {
+                  if (thirdProvider.packList != null) {
+                    packUploadImage(context);
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: TransactionScreen()));
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter image",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                } else if (selectedOption!.contains("third2")) {
+                  if (thirdProvider.pack1.text.isNotEmpty) {
+                    packNotAvailable(context);
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: TransactionScreen()));
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter remark",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
+                } else if (selectedOption!.contains("third3")) {
+                  if (thirdProvider.packList != null && thirdProvider.pack2.text.isNotEmpty) {
+                    packCustom(context);
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.decelerate,
+                            duration: Duration(seconds: 1),
+                            child: TransactionScreen()));
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "enter remark and image",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                    );
+                  }
                 }
               },
               child: Center(

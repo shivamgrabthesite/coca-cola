@@ -27,18 +27,21 @@ class _ShopPicState extends State<ShopPic> {
   String flname = "";
   String tid = "";
   String channel = "";
-  bool? vinylCustom;
-  bool? vinylNotAvail;
-  bool? vinylAvail;
-  bool? packAvail;
-  bool? packNotAvail;
-  bool? packCutsom;
-  bool? aerialAvail;
-  bool? aerialNotAvail;
-  bool? aerialCustom;
-  String aerialid = '';
-  String packid = '';
-  String vinylid = '';
+  // bool? vinylCustom;
+  // bool? vinylNotAvail;
+  // bool? vinylAvail;
+  // bool? packAvail;
+  // bool? packNotAvail;
+  // bool? packCutsom;
+  // bool? aerialAvail;
+  // bool? aerialNotAvail;
+  // bool? aerialCustom;
+  // String aerialid = '';
+  // String packid = '';
+  // String vinylid = '';
+  String population = '';
+  String incidence = '';
+  String price = '';
 
   @override
   void initState() {
@@ -47,35 +50,22 @@ class _ShopPicState extends State<ShopPic> {
   }
 
   getId() async {
+    flagNumber = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      flagNumber = 0;
-    });
-
     setState(() {
       _selectedOption = "Population";
       tid = prefs.getString("tid").toString();
       channel = prefs.getString("channel").toString();
       flname = prefs.getString("flname").toString();
-      aerialid = prefs.getString("aerialid" + tid).toString();
-      packid = prefs.getString("packid" + tid).toString();
-      vinylid = prefs.getString("vinylid" + tid).toString();
     });
-    setState(() {
-      vinylAvail = prefs.getBool("vinylUploadImage");
-      vinylNotAvail = prefs.getBool("vinylNotAvailable");
-      vinylCustom = prefs.getBool("vinylCustom");
-      packAvail = prefs.getBool("packUploadImage");
-      packNotAvail = prefs.getBool("packNotAvailable");
-      packCutsom = prefs.getBool("packCustom");
-      aerialAvail = prefs.getBool("aerialAvailable");
-      aerialNotAvail = prefs.getBool("aerialNotAvailable");
-      aerialCustom = prefs.getBool("arialCustom");
-    });
+    population = prefs.getString("populationStatus").toString();
+    incidence = prefs.getString("incidenceStatus").toString();
+    price = prefs.getString("priceCommunicationStatus").toString();
+    setState(() {});
     print("tid in pic----" + tid);
-    print("tid in aerialid----" + aerialid);
-    print("tid in vinylid----" + vinylid);
-    print("tid in packid----" + packid);
+    print("populationStatus----" + population);
+    print("incidenceStatusc----" + incidence);
+    print("priceCommunicationStatus----" + price);
 
     ImagelinkApi.getData(channel).then((value) {
       imgId = value!.data!.id!;
@@ -238,14 +228,12 @@ class _ShopPicState extends State<ShopPic> {
                         },
                       ),
                       Text('Population'),
-                      vinylid == tid
-                          ? vinylAvail == true || vinylNotAvail == true || vinylCustom == true
-                              ? Icon(
-                                  Icons.done_outline_rounded,
-                                  color: Colors.green,
-                                )
-                              : Container()
-                          : Container()
+                      population == "pending"
+                          ? Container()
+                          : Icon(
+                              Icons.done_outline_rounded,
+                              color: Colors.green,
+                            )
                     ],
                   ),
                   Row(
@@ -261,14 +249,12 @@ class _ShopPicState extends State<ShopPic> {
                         },
                       ),
                       Text('Incidence'),
-                      aerialid == tid
-                          ? aerialAvail == true || aerialNotAvail == true || aerialCustom == true
-                              ? Icon(
-                                  Icons.done_outline_rounded,
-                                  color: Colors.green,
-                                )
-                              : Container()
-                          : Container()
+                      incidence == "pending"
+                          ? Container()
+                          : Icon(
+                              Icons.done_outline_rounded,
+                              color: Colors.green,
+                            )
                     ],
                   ),
                   Row(
@@ -284,14 +270,12 @@ class _ShopPicState extends State<ShopPic> {
                         },
                       ),
                       Text('Price Communication'),
-                      packid == tid
-                          ? packAvail == true || packNotAvail == true || packCutsom == true
-                              ? Icon(
-                                  Icons.done_outline_rounded,
-                                  color: Colors.green,
-                                )
-                              : Container()
-                          : Container()
+                      price == "pending"
+                          ? Container()
+                          : Icon(
+                              Icons.done_outline_rounded,
+                              color: Colors.green,
+                            )
                     ],
                   ),
                   // Row(

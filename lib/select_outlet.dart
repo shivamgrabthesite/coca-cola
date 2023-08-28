@@ -55,7 +55,6 @@ class _SelectOutletState extends State<SelectOutlet> {
   getOid(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("oidtoken", id[index]);
-
     if (status[index] != "completed") {
       Navigator.push(
           context,

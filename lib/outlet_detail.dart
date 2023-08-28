@@ -33,7 +33,6 @@ class _OutletDetailState extends State<OutletDetail> {
   String tid = '';
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
@@ -50,7 +49,6 @@ class _OutletDetailState extends State<OutletDetail> {
       uidtoken = prefs.getString("uidtoken").toString();
       oidtoken = prefs.getString("oidtoken").toString();
     });
-
     print("uidtoken----" + uidtoken);
     print("oidtoken----" + oidtoken);
 
@@ -79,9 +77,16 @@ class _OutletDetailState extends State<OutletDetail> {
         cooler = value.data!.cooler!;
         channel = value.data!.channel!;
         outlet_name = value.data!.outletName!;
+        print("populationStatus---------" + value.data!.populationStatus!);
+        print("incidenceStatus---------" + value.data!.incidenceStatus!);
+        print("priceCommunicationStatus---------" + value.data!.priceCommunicationStatus!);
+        pref.setString("populationStatus", value.data!.populationStatus!);
+        pref.setString("incidenceStatus", value.data!.incidenceStatus!);
+        pref.setString("priceCommunicationStatus", value.data!.priceCommunicationStatus!);
       });
     }).whenComplete(() {
-      if (flagNumber != 0) {
+      if (flagNumber == 1) {
+        setTask();
         Navigator.push(
             context,
             PageTransition(
